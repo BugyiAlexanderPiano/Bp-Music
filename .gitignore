@@ -1,0 +1,22 @@
+# Fordítási kimenetek
+build/
+bin/
+*.exe
+*.obj
+*.o
+
+# Az ALS_Inditas.bat által letöltött eszközök
+tools/
+third_party/
+
+# Flutter
+flutter_app/.dart_tool/
+flutter_app/build/
+flutter_app/.flutter-plugins*
+flutter_app/pubspec.lock
+
+# Szerkesztők, rendszer
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

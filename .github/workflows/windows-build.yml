@@ -1,0 +1,92 @@
+# Minden feltöltés után a GitHub saját Windows-gépén lefordítja és teszteli a programot,
+# majd a kész csomagot (als_cli.exe + indító) közzéteszi a Releases oldalon "latest" néven.
+name: Windows build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  # 1) CMake + Visual Studio fordítás (a fejlesztői út ellenőrzése)
+  msvc:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Konfigurálás (CMake, RtMidi letöltéssel)
+        run: cmake -S . -B build -A x64
+
+      - name: Fordítás
+        run: cmake --build build --config Release
+
+      - name: Demó futtatása
+        run: build\Release\als_cli.exe demo
+
+      - name: Sample-vágó teszt
+        shell: pwsh
+        run: |
+          python -c "import wave,math,struct; sr=44100; s=[0]*2205+[int(26000*math.sin(2*math.pi*220*i/sr)*math.exp(-6*i/sr)) for i in range(int(0.8*sr))]+[0]*13230; w=wave.open('test.wav','wb'); w.setnchannels(1); w.setsampwidth(2); w.setframerate(sr); w.writeframes(struct.pack('<%dh'%len(s),*s)); w.close()"
+          build\Release\als_cli.exe trim test.wav test_vagott.wav
+          if (-not (Test-Path test_vagott.wav)) { throw "A vágott fájl nem jött létre" }
+
+  # 2) Az egykattintásos indító (ALS_Inditas.bat) valódi tesztje: letölti a w64devkit
+  #    fordítót és az RtMidi-t, lefordítja a programot, majd a menüből kilép.
+  launcher:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: ALS_Inditas.bat futtatása (menü → 0 = kilépés)
+        shell: cmd
+        run: echo 0| ALS_Inditas.bat
+
+      - name: Ellenőrzés és demó
+        shell: cmd
+        run: |
+          if not exist bin\als_cli.exe exit /b 1
+          bin\als_cli.exe demo
+
+      - name: WAV ráhúzás teszt (a .bat paramétereként)
+        shell: pwsh
+        run: |
+          python -c "import wave,math,struct; sr=44100; s=[0]*2205+[int(26000*math.sin(2*math.pi*220*i/sr)*math.exp(-6*i/sr)) for i in range(int(0.8*sr))]+[0]*13230; w=wave.open('minta.wav','wb'); w.setnchannels(1); w.setsampwidth(2); w.setframerate(sr); w.writeframes(struct.pack('<%dh'%len(s),*s)); w.close()"
+          cmd /c "echo.| ALS_Inditas.bat minta.wav"
+          if (-not (Test-Path minta_vagott.wav)) { throw "A ráhúzott WAV nem lett levágva" }
+
+      - name: Csomag összeállítása
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path package\bin | Out-Null
+          Copy-Item bin\als_cli.exe package\bin\
+          Copy-Item ALS_Inditas.bat, README.md package\
+          Compress-Archive -Path package\* -DestinationPath ALS-Windows.zip -Force
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ALS-Windows
+          path: ALS-Windows.zip
+
+  # 3) Közzététel a Releases oldalon (csak a main ágon)
+  release:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [msvc, launcher]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: ALS-Windows
+
+      - name: "Release frissítése: latest"
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh release delete latest --yes --cleanup-tag || true
+          gh release create latest ALS-Windows.zip \
+            --target "${{ github.sha }}" \
+            --title "ALS – legfrissebb Windows build" \
+            --notes "Csomagold ki, majd kattints duplán az ALS_Inditas.bat fájlra. Nem kell semmit telepíteni. Commit: ${{ github.sha }}"
