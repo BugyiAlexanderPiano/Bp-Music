@@ -1,18 +1,16 @@
 name: als_stage
-description: ALS Stage / Studio felület (Flutter) a C++ maghoz
+description: ALS – Yamaha Arranger Live Suite grafikus felület (Flutter) a C++ maghoz
 publish_to: none
-version: 0.1.0
+version: 0.2.0
 
 environment:
-  sdk: ">=3.3.0 <4.0.0"   # NativeCallable.listener és rekord-minták miatt
-  flutter: ">=3.19.0"
+  sdk: ">=3.4.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   ffi: ^2.1.0
   crypto: ^3.0.3
-  path_provider: ^2.1.2
 
 flutter:
   uses-material-design: true

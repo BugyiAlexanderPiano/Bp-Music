@@ -68,10 +68,78 @@ jobs:
           name: ALS-Windows
           path: ALS-Windows.zip
 
-  # 3) Közzététel a Releases oldalon (csak a main ágon)
+  # 3) A grafikus program (Flutter) + a zenei mag DLL-je
+  gui:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Zenei mag (als_core_ffi.dll)
+        run: |
+          cmake -S . -B build -A x64
+          cmake --build build --config Release --target als_core_ffi
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Flutter projekt előkészítése
+        working-directory: flutter_app
+        shell: pwsh
+        run: |
+          flutter config --enable-windows-desktop
+          flutter create --platforms=windows --project-name als_stage --org hu.bpmusic .
+          if (Test-Path test) { Remove-Item -Recurse -Force test }
+          # Ablak címe és mérete
+          $f = 'windows\runner\main.cpp'
+          $c = Get-Content $f -Raw
+          $c = $c -replace 'L"als_stage"', 'L"ALS - Yamaha Arranger Live Suite"'
+          $c = $c -replace 'Win32Window::Size size\(\d+, \d+\)', 'Win32Window::Size size(1400, 860)'
+          Set-Content $f $c -NoNewline
+          flutter pub get
+
+      - name: Kódellenőrzés (flutter analyze)
+        working-directory: flutter_app
+        run: flutter analyze --no-fatal-infos --no-fatal-warnings
+
+      - name: Fordítás (flutter build windows)
+        working-directory: flutter_app
+        run: flutter build windows --release
+
+      - name: Csomag összeállítása
+        shell: pwsh
+        run: |
+          $out = 'flutter_app\build\windows\x64\runner\Release'
+          Copy-Item build\Release\als_core_ffi.dll $out\
+          foreach ($d in 'msvcp140.dll','vcruntime140.dll','vcruntime140_1.dll') {
+            Copy-Item "$env:WINDIR\System32\$d" $out\ -ErrorAction SilentlyContinue
+          }
+          Rename-Item "$out\als_stage.exe" 'ALS.exe'
+          New-Item -ItemType Directory -Force -Path gui_pkg\ALS | Out-Null
+          Copy-Item "$out\*" gui_pkg\ALS\ -Recurse
+          Compress-Archive -Path gui_pkg\ALS -DestinationPath ALS-Program-Windows.zip -Force
+
+      - name: Indítási teszt és képernyőkép
+        shell: pwsh
+        run: .github\scripts\screenshot.ps1 -Exe "$PWD\gui_pkg\ALS\ALS.exe" -Out "$PWD\screenshot.png"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: screenshot
+          path: screenshot.png
+          if-no-files-found: ignore
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ALS-Program-Windows
+          path: ALS-Program-Windows.zip
+
+  # 4) Közzététel a Releases oldalon (csak a main ágon)
   release:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: [msvc, launcher]
+    needs: [msvc, launcher, gui]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -80,13 +148,21 @@ jobs:
         with:
           name: ALS-Windows
 
+      - uses: actions/download-artifact@v4
+        with:
+          name: ALS-Program-Windows
+
       - name: "Release frissítése: latest"
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
         run: |
           gh release delete latest --yes --cleanup-tag || true
-          gh release create latest ALS-Windows.zip \
+          gh release create latest ALS-Program-Windows.zip ALS-Windows.zip \
             --target "${{ github.sha }}" \
-            --title "ALS – legfrissebb Windows build" \
-            --notes "Csomagold ki, majd kattints duplán az ALS_Inditas.bat fájlra. Nem kell semmit telepíteni. Commit: ${{ github.sha }}"
+            --title "ALS – legfrissebb Windows program" \
+            --notes "**ALS-Program-Windows.zip** – a grafikus program: csomagold ki, és indítsd az ALS mappában lévő **ALS.exe** fájlt. Telepíteni nem kell.
+
+          ALS-Windows.zip – parancssori segédeszköz (fejlesztőknek, teszteléshez).
+
+          Commit: ${{ github.sha }}"

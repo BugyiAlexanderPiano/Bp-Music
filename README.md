@@ -2,8 +2,14 @@
 
 ## Letöltés (kész Windows program)
 
-A legfrissebb, automatikusan fordított és tesztelt csomag: **[Releases → latest](https://github.com/BugyiAlexanderPiano/Bp-Music/releases/tag/latest)** → `ALS-Windows.zip`.
-Csomagold ki, és kattints duplán az `ALS_Inditas.bat` fájlra. Telepíteni semmit nem kell.
+**[Releases → latest](https://github.com/BugyiAlexanderPiano/Bp-Music/releases/tag/latest)** → `ALS-Program-Windows.zip`.
+Csomagold ki, és indítsd az `ALS` mappában lévő **`ALS.exe`** fájlt. Telepíteni semmit nem kell.
+
+A felület: balra a hangszínek (8 slot, húzd-és-ejtsd hangszín-tár), középen a tempóra görgő dalszöveg,
+jobbra a stílusvezérlés (Start/Stop, Intro, Main A–D, Fill, Break, Ending, tempó), alul a regisztrációk.
+A felső sávban: kapcsolódás a hangszerhez (USB-MIDI), WAV sample-vágó, hangerő-normalizáló.
+
+Az `ALS-Windows.zip` a parancssori segédeszköz (fejlesztéshez, teszteléshez).
 
 A csomagot minden feltöltés után a GitHub Actions készíti el (`.github/workflows/windows-build.yml`).
 

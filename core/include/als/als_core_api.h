@@ -37,7 +37,15 @@ ALS_API int32_t als_set_zone(int32_t slot, int32_t enabled, int32_t low, int32_t
                              int32_t vel_low, int32_t vel_high, int32_t transpose,
                              float vel_curve, int32_t out_channel);
 
-/* Sample-vágás; a riportot JSON-ként írja a report bufferbe. 0 = siker */
+/* Hangszín választása egy csatornán: Bank MSB/LSB + Program Change + hangerő (CC7).
+ * channel 0-alapú (0 = MIDI ch1). */
+ALS_API int32_t als_voice(int32_t channel, int32_t msb, int32_t lsb, int32_t program, int32_t volume);
+
+/* Rendszer fájlmegnyitó ablak (Windows). ext pl. "wav" vagy "txt".
+ * A kiválasztott út UTF-8-ban kerül az out bufferbe. 0 = kiválasztva, 1 = mégse, -1 = nem támogatott */
+ALS_API int32_t als_open_file_dialog(const char* title, const char* ext, char* out, int32_t out_len);
+
+/* Sample-vágás (UTF-8 utakkal); a riportot JSON-ként írja a report bufferbe. 0 = siker */
 ALS_API int32_t als_trim_wav(const char* in_path, const char* out_path,
                              char* report, int32_t report_len);
 

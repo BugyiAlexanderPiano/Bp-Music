@@ -14,6 +14,30 @@
 #include <cstdlib>
 #include <iostream>
 #include <string>
+#include <vector>
+
+#ifdef _WIN32
+#  ifndef NOMINMAX
+#    define NOMINMAX
+#  endif
+#  include <windows.h>
+#  include <shellapi.h>
+// Windowson az argv a régi kódlapon érkezik; az ékezetes WAV-utakhoz UTF-8-ra alakítjuk
+static std::vector<std::string> utf8Args() {
+  std::vector<std::string> out;
+  int n = 0;
+  LPWSTR* w = CommandLineToArgvW(GetCommandLineW(), &n);
+  for (int i = 0; w && i < n; ++i) {
+    const int len = WideCharToMultiByte(CP_UTF8, 0, w[i], -1, nullptr, 0, nullptr, nullptr);
+    std::string s(size_t(len), '\0');
+    WideCharToMultiByte(CP_UTF8, 0, w[i], -1, &s[0], len, nullptr, nullptr);
+    if (!s.empty()) s.pop_back();
+    out.push_back(std::move(s));
+  }
+  if (w) LocalFree(w);
+  return out;
+}
+#endif
 
 using namespace als;
 using yamaha::Section;
@@ -149,6 +173,15 @@ static int cmdNormalize(int argc, char** argv) {
 }
 
 int main(int argc, char** argv) {
+#ifdef _WIN32
+  static std::vector<std::string> wargs = utf8Args();
+  static std::vector<char*> wptrs;
+  if (!wargs.empty()) {
+    for (auto& a : wargs) wptrs.push_back(&a[0]);
+    argc = int(wptrs.size());
+    argv = wptrs.data();
+  }
+#endif
   const std::string cmd = argc > 1 ? argv[1] : "demo";
   try {
     if (cmd == "demo")                    return cmdDemo();

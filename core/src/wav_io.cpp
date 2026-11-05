@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstdint>
 #include <cstring>
+#include <filesystem>
 #include <fstream>
 
 namespace als {
@@ -14,7 +15,7 @@ static uint16_t rd16(const uint8_t* p) { return uint16_t(p[0] | p[1] << 8); }
 
 bool readWav(const std::string& path, WavData& out, std::string* err) {
   auto fail = [&](const char* m) { if (err) *err = m; return false; };
-  std::ifstream f(path, std::ios::binary);
+  std::ifstream f(std::filesystem::u8path(path), std::ios::binary);   // UTF-8 út (ékezetes mappák Windowson)
   if (!f) return fail("A fájl nem nyitható meg");
   std::vector<uint8_t> b((std::istreambuf_iterator<char>(f)), std::istreambuf_iterator<char>());
   if (b.size() < 12 || std::memcmp(b.data(), "RIFF", 4) || std::memcmp(b.data() + 8, "WAVE", 4))
@@ -57,7 +58,7 @@ bool readWav(const std::string& path, WavData& out, std::string* err) {
 }
 
 bool writeWav(const std::string& path, const WavData& w, std::string* err) {
-  std::ofstream f(path, std::ios::binary);
+  std::ofstream f(std::filesystem::u8path(path), std::ios::binary);
   if (!f) { if (err) *err = "A kimeneti fájl nem írható"; return false; }
   const int bps = w.bitsPerSample / 8;
   const uint32_t dataSize = uint32_t(w.pcm.size() * bps);

@@ -50,6 +50,11 @@ class TeleprompterController extends ChangeNotifier {
   }
 
   void startInternal() { _source = ClockSource.internal; _running = true; }
+  void stop() => _running = false;
+  void reset() { seekToBar(0); _y = 0; _v = 0; }
+  bool get running => _running;
+  double get currentBar => _bar;
+  ClockSource get source => _source;
   void setBpm(double bpm) => _bpm = bpm;
   void seekToBar(double bar) { _bar = bar; _ticks = (bar * 24 * beatsPerBar).round(); }
 
