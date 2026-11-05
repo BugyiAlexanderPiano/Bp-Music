@@ -967,7 +967,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             ),
           const SizedBox(width: 16),
           const Text('Regisztráció', style: TextStyle(fontWeight: FontWeight.w600)),
-          const SizedBox(width: 6),
+          const SizedBox(width: 4),
+          TextButton.icon(
+            onPressed: () => setState(() => saveMode = !saveMode),
+            icon: Icon(Icons.save, color: saveMode ? Colors.orangeAccent : null),
+            label: Text(saveMode ? 'Hová?' : 'Mentés'),
+          ),
           for (var i = 0; i < regs.length; i++)
             Padding(
               padding: const EdgeInsets.only(right: 4),
@@ -987,12 +992,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                         child: Text('${i + 1}')),
               ),
             ),
-          const SizedBox(width: 4),
-          TextButton.icon(
-            onPressed: () => setState(() => saveMode = !saveMode),
-            icon: Icon(Icons.save, color: saveMode ? Colors.orangeAccent : null),
-            label: Text(saveMode ? 'Válassz helyet…' : 'Mentés'),
-          ),
           ]))),
           const SizedBox(width: 12),
           Flexible(
