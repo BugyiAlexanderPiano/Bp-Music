@@ -577,6 +577,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final compact = MediaQuery.sizeOf(context).width < 1300;
     return Scaffold(
       appBar: AppBar(
         title: const Text('ALS – Yamaha Arranger Live Suite'),
@@ -611,11 +612,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           MaterialBanner(content: Text(coreError!), actions: const [SizedBox()]),
         Expanded(
           child: Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-            SizedBox(width: 340, child: _voicesPanel(cs)),
+            SizedBox(width: compact ? 290 : 340, child: _voicesPanel(cs)),
             VerticalDivider(width: 1, color: cs.outlineVariant),
             Expanded(child: _readerPanel(cs)),
             VerticalDivider(width: 1, color: cs.outlineVariant),
-            SizedBox(width: 290, child: _stylePanel(cs)),
+            SizedBox(width: compact ? 250 : 290, child: _stylePanel(cs, compact ? 250 : 290)),
           ]),
         ),
         Divider(height: 1, color: cs.outlineVariant),
@@ -749,16 +750,16 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   // ---- középső sáv: Smart Reader ----
   Widget _readerPanel(ColorScheme cs) => Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-        _panelTitle('Smart Reader', trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-          AnimatedBuilder(
-            animation: reader,
-            builder: (_, __) => Text(
-              'Ütem ${(reader.currentBar + 1).floor()}  ·  ${reader.bpm.toStringAsFixed(0)} BPM  ·  '
-              '${reader.source == ClockSource.midi ? 'MIDI Clock' : 'belső óra'}',
-              style: TextStyle(color: cs.onSurfaceVariant),
-            ),
+        _panelTitle('Smart Reader', trailing: AnimatedBuilder(
+          animation: reader,
+          builder: (_, __) => Text(
+            'Ütem ${(reader.currentBar + 1).floor()}  ·  ${reader.bpm.toStringAsFixed(0)} BPM  ·  '
+            '${reader.source == ClockSource.midi ? 'MIDI Clock' : 'belső óra'}',
+            style: TextStyle(color: cs.onSurfaceVariant),
           ),
-          const SizedBox(width: 12),
+        )),
+        Padding(padding: const EdgeInsets.symmetric(horizontal: 8), child: Wrap(crossAxisAlignment: WrapCrossAlignment.center, children: [
+          const SizedBox(width: 6),
           const Text('Ütem/sor:'),
           DropdownButton<int>(
             value: barsPerLine,
@@ -805,6 +806,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             }),
           ),
         ])),
+        Divider(height: 1, color: cs.outlineVariant),
         Expanded(
           child: editLyrics
               ? Padding(
@@ -837,10 +839,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                           alignment: Alignment.centerLeft,
                           padding: const EdgeInsets.symmetric(horizontal: 28),
                           color: isCurrent ? cs.primary.withValues(alpha: 0.16) : null,
-                          child: Text(
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.centerLeft,
+                            child: Text(
                             ls[i],
                             maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               fontSize: isTag ? 18 : 30,
                               fontWeight: isCurrent ? FontWeight.w700 : FontWeight.w400,
@@ -851,6 +855,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                                       : cs.onSurface,
                             ),
                           ),
+                          ),
                         );
                       },
                     );
@@ -860,11 +865,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       ]);
 
   // ---- jobb sáv: ritmus és stílus ----
-  Widget _stylePanel(ColorScheme cs) {
+  Widget _stylePanel(ColorScheme cs, double panelWidth) {
+    final btnW = (panelWidth - 28 - 8) / 2;
     Widget sectionBtn(Section s) {
       final sel = lastSection == s.code || (s.code == currentMain && lastSection == null);
       return SizedBox(
-        width: 124,
+        width: btnW,
         child: sel
             ? FilledButton(onPressed: () => _section(s), child: Text(s.label))
             : OutlinedButton(onPressed: () => _section(s), child: Text(s.label)),
@@ -927,7 +933,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         child: Wrap(spacing: 8, runSpacing: 8, children: [
           for (final s in intros) sectionBtn(s),
           for (final s in mains) sectionBtn(s),
-          SizedBox(width: 124, child: OutlinedButton(onPressed: _fill, child: const Text('Fill In'))),
+          SizedBox(width: btnW, child: OutlinedButton(onPressed: _fill, child: const Text('Fill In'))),
           sectionBtn(const Section('Break', 0x18)),
           for (final s in endings) sectionBtn(s),
         ]),
@@ -948,6 +954,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         color: cs.surfaceContainerHigh,
         padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
         child: Row(children: [
+          Flexible(flex: 4, child: SingleChildScrollView(scrollDirection: Axis.horizontal, child: Row(children: [
           const Text('OTS', style: TextStyle(fontWeight: FontWeight.w600)),
           const SizedBox(width: 6),
           for (var i = 1; i <= 4; i++)
@@ -986,8 +993,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             icon: Icon(Icons.save, color: saveMode ? Colors.orangeAccent : null),
             label: Text(saveMode ? 'Válassz helyet…' : 'Mentés'),
           ),
+          ]))),
           const SizedBox(width: 12),
-          Expanded(
+          Flexible(
             child: Text(logLines.last,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.right,

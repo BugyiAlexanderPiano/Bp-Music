@@ -95,8 +95,11 @@ jobs:
           $f = 'windows\runner\main.cpp'
           $c = Get-Content $f -Raw
           $c = $c -replace 'L"als_stage"', 'L"ALS - Yamaha Arranger Live Suite"'
-          $c = $c -replace 'Win32Window::Size size\(\d+, \d+\)', 'Win32Window::Size size(1400, 860)'
+          $c = $c -replace 'Win32Window::Size size\(\d+, \d+\)', 'Win32Window::Size size(1280, 780)'
           Set-Content $f $c -NoNewline
+          # Teljes képernyős (maximalizált) indulás, hogy kis kijelzőn se lógjon ki semmi
+          $w = 'windows\runner\win32_window.cpp'
+          (Get-Content $w -Raw) -replace 'SW_SHOWNORMAL', 'SW_SHOWMAXIMIZED' | Set-Content $w -NoNewline
           flutter pub get
 
       - name: Kódellenőrzés (flutter analyze)
