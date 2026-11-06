@@ -106,6 +106,18 @@ class AlsButton extends StatelessWidget {
     final showText = (!(it?.imageOnly ?? false) || img == null) && text.isNotEmpty;
     final enabled = editMode || onTap != null;
 
+    final labelText = Text(
+      text,
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+      style: TextStyle(
+        color: fg,
+        fontSize: ps.fontSize * scale,
+        fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+        shadows: img != null ? const [Shadow(blurRadius: 4, color: Colors.black)] : null,
+      ),
+    );
+
     final content = child ??
         Row(
           mainAxisSize: MainAxisSize.min,
@@ -115,21 +127,9 @@ class AlsButton extends StatelessWidget {
               Icon(icon, size: 18 * scale, color: fg),
               if (showText) const SizedBox(width: 8),
             ],
-            if (showText)
-              Flexible(
-                child: Text(
-                  text,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: fg,
-                    fontSize: ps.fontSize * scale,
-                    fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
-                    shadows: img != null ? const [Shadow(blurRadius: 4, color: Colors.black)] : null,
-                  ),
-                ),
-              ),
-            if (trailing != null) ...[const Spacer(), trailing!],
+            if (showText && trailing != null) Expanded(child: labelText),
+            if (showText && trailing == null) Flexible(child: labelText),
+            if (trailing != null) ...[if (!showText) const Spacer(), trailing!],
           ],
         );
 

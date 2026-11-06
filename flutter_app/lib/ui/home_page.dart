@@ -742,13 +742,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           Positioned.fill(child: child),
           if (editLayout)
             Positioned(
-              right: 6,
-              top: 6,
-              child: FilledButton.tonalIcon(
-                style: FilledButton.styleFrom(visualDensity: VisualDensity.compact),
+              right: 4,
+              bottom: 4,
+              child: IconButton.filled(
+                tooltip: 'Sáv stílusa: ${panelNames[key]}',
+                style: IconButton.styleFrom(backgroundColor: Colors.orangeAccent, foregroundColor: Colors.black),
                 onPressed: () => showPanelStyleDialog(context, p, key, () => _changed(theme: true)),
-                icon: const Icon(Icons.format_paint, size: 16),
-                label: const Text('Sáv stílusa'),
+                icon: const Icon(Icons.format_paint, size: 18),
               ),
             ),
         ]),
@@ -943,8 +943,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           const Icon(Icons.dashboard_customize_outlined, size: 18),
           const SizedBox(width: 8),
           const Expanded(
-            child: Text('Felület szerkesztése: kattints bármely gombra a kinézetéhez (kép, felirat, szín, méret), '
-                'a „Sáv stílusa” gombbal a sáv egészét alakítod; a választóvonalak húzhatók.'),
+            child: Text('Felület szerkesztése: kattints bármely gombra a kinézetéhez (kép, felirat, szín, méret); '
+                'a sávok sarkában lévő narancs ecsettel az egész sávot alakítod; a választóvonalak húzhatók.'),
           ),
           TextButton.icon(
             onPressed: () {
@@ -1205,7 +1205,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     final n = p.songs.length;
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       Padding(
-        padding: EdgeInsets.fromLTRB(8, 6, editLayout ? 140 : 8, 2),
+        padding: const EdgeInsets.fromLTRB(8, 6, 8, 2),
         child: Row(children: [
           IconButton(
             tooltip: 'Előző dal',
