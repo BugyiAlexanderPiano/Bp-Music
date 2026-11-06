@@ -54,6 +54,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
   Project get p => widget.project;
+  bool get _compact => MediaQuery.sizeOf(context).width < 1300;
 
   // Hangszer
   AlsCore? core;
@@ -761,25 +762,23 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             ],
           ),
         ),
-        Text('${p.name}${dirty ? ' •' : ''}', style: TextStyle(color: Colors.white.withValues(alpha: 0.7))),
-        const SizedBox(width: 14),
         Icon(Icons.circle, size: 11, color: connected ? (testMode ? Colors.amber : Colors.greenAccent) : Colors.redAccent),
         const SizedBox(width: 6),
         ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 180),
+          constraints: BoxConstraints(maxWidth: _compact ? 90 : 180),
           child: Text(connectionLabel, overflow: TextOverflow.ellipsis),
         ),
         const SizedBox(width: 10),
         OutlinedButton.icon(
           onPressed: core == null ? null : _connectDialog,
           icon: const Icon(Icons.usb, size: 18),
-          label: Text(connected ? 'Újra' : 'Kapcsolódás'),
+          label: Text(connected ? 'Újra' : (_compact ? 'MIDI' : 'Kapcsolódás')),
         ),
         const SizedBox(width: 8),
         FilledButton.icon(
           onPressed: song == null ? null : _syncSong,
           icon: const Icon(Icons.sync, size: 18),
-          label: const Text('Szinkron a hangszerre'),
+          label: Text(_compact ? 'Szinkron' : 'Szinkron a hangszerre'),
         ),
         const SizedBox(width: 6),
       ]),
@@ -1175,21 +1174,33 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       child: Row(children: [
         group(
           'Rétegek (V1–V4)',
-          Row(children: [for (var i = 0; i < p.slots.length; i++) _slotTile(i)]),
+          _compact
+              ? Column(children: [
+                  Row(children: [_slotTile(0), _slotTile(1)]),
+                  const SizedBox(height: 6),
+                  Row(children: [_slotTile(2), _slotTile(3)]),
+                ])
+              : Row(children: [for (var i = 0; i < p.slots.length; i++) _slotTile(i)]),
         ),
         sep(),
         group(
-          'One Touch Settings',
-          Row(children: [
-            for (var i = 1; i <= 4; i++)
-              Padding(
-                padding: const EdgeInsets.only(right: 4),
-                child: Tooltip(
+          _compact ? 'OTS' : 'One Touch Settings',
+          Wrap(
+            direction: Axis.horizontal,
+            spacing: 4,
+            runSpacing: 4,
+            children: [
+              for (var i = 1; i <= 4; i++)
+                Tooltip(
                   message: 'OTS-hívás MIDI-n: a modell Data List-je alapján kerül be',
-                  child: SizedBox(width: 44, height: 44, child: OutlinedButton(onPressed: null, style: OutlinedButton.styleFrom(padding: EdgeInsets.zero), child: Text('$i'))),
+                  child: SizedBox(
+                    width: _compact ? 40 : 44,
+                    height: _compact ? 40 : 44,
+                    child: OutlinedButton(onPressed: null, style: OutlinedButton.styleFrom(padding: EdgeInsets.zero), child: Text('$i')),
+                  ),
                 ),
-              ),
-          ]),
+            ],
+          ).wrapWidth(_compact ? 84 : 200),
         ),
         sep(),
         group(
@@ -1236,7 +1247,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 label: Text(saveMode ? 'Hová?' : 'Mentés'),
               ),
             ]),
-            Row(children: [
+            Wrap(runSpacing: 4, children: [
               for (var i = 0; i < 8; i++)
                 Padding(
                   padding: const EdgeInsets.only(right: 4),
@@ -1263,7 +1274,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                           ),
                   ),
                 ),
-            ]),
+            ]).wrapWidth(_compact ? 176 : 360),
           ]),
         ),
       ]),
@@ -1290,8 +1301,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               _changed();
             }, () => _sendVoice(i)),
             child: SizedBox(
-              width: 148,
-              height: 64,
+              width: _compact ? 140 : 148,
+              height: _compact ? 44 : 64,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(10, 6, 4, 6),
                 child: Row(children: [
@@ -1328,10 +1339,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         padding: const EdgeInsets.symmetric(horizontal: 12),
         alignment: Alignment.centerLeft,
         child: Text(
-          '${logLines.last}${currentPath != null ? '      ·  $currentPath' : ''}',
+          '${p.name}${dirty ? ' •' : ''}   ·   ${logLines.last}${currentPath != null ? '      ·  $currentPath' : ''}',
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.6)),
         ),
       );
+}
+
+extension on Widget {
+  /// Fix szélességű doboz (a Wrap ennyi helyen tördel)
+  Widget wrapWidth(double w) => SizedBox(width: w, child: this);
 }
