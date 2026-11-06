@@ -1,5 +1,5 @@
 # Elindítja a programot, és képernyőképet készít az ablakáról (CI-ellenőrzéshez)
-param([string]$Exe, [string]$Out)
+param([string]$Exe, [string]$Out, [string]$Tag = 'main')
 
 Add-Type -AssemblyName System.Drawing
 Add-Type @"
@@ -46,6 +46,6 @@ $ep = New-Object System.Drawing.Imaging.EncoderParameters 1
 $ep.Param[0] = New-Object System.Drawing.Imaging.EncoderParameter ([System.Drawing.Imaging.Encoder]::Quality), 80L
 $bmp.Save($jpg, $enc, $ep)
 $b64 = [Convert]::ToBase64String([IO.File]::ReadAllBytes($jpg))
-Write-Host "SCREENSHOT-BEGIN"
-for ($k = 0; $k -lt $b64.Length; $k += 3000) { Write-Host ("B64:" + $b64.Substring($k, [Math]::Min(3000, $b64.Length - $k))) }
-Write-Host "SCREENSHOT-END"
+Write-Host "SCREENSHOT-BEGIN:$Tag"
+for ($k = 0; $k -lt $b64.Length; $k += 3000) { Write-Host ("B64:" + $Tag + ":" + $b64.Substring($k, [Math]::Min(3000, $b64.Length - $k))) }
+Write-Host "SCREENSHOT-END:$Tag"

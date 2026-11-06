@@ -261,6 +261,89 @@ class LayoutSettings {
   }
 }
 
+
+// ---------------------------------------------------------------------------
+// Panel- és gombstílusok (csak PC-n szerkeszthető)
+// ---------------------------------------------------------------------------
+enum ButtonShape { rounded, pill, square, circle }
+
+const buttonShapeNames = {
+  ButtonShape.rounded: 'Lekerekített',
+  ButtonShape.pill: 'Kapszula',
+  ButtonShape.square: 'Szögletes',
+  ButtonShape.circle: 'Kör',
+};
+
+Color? _c(dynamic v) => v is int ? Color(v) : null;
+
+/// Egy sáv (bal, jobb, alsó, közép) teljes kinézete
+class PanelStyle {
+  bool useOwn = false;                 // false = a téma panelszínét használja
+  List<Color> background = [const Color(0xFF151B2B)];
+  double opacity = 0.85;
+  double radius = 14;
+  Color border = const Color(0x22FFFFFF);
+  double borderWidth = 1;
+  String? backgroundImage;             // kép azonosító a Project.images-ben
+  double imageOpacity = 0.35;
+  ButtonShape shape = ButtonShape.pill;
+  double buttonScale = 1.0;            // gombok mérete (0.7–1.8)
+  Color? buttonColor;                  // null = téma kiemelőszín
+  Color? buttonText;
+  double fontSize = 14;
+
+  Map<String, dynamic> toJson() => {
+        'useOwn': useOwn,
+        'background': [for (final c in background) c.toARGB32()],
+        'opacity': opacity, 'radius': radius, 'border': border.toARGB32(), 'borderWidth': borderWidth,
+        'backgroundImage': backgroundImage, 'imageOpacity': imageOpacity, 'shape': shape.name,
+        'buttonScale': buttonScale, 'buttonColor': buttonColor?.toARGB32(), 'buttonText': buttonText?.toARGB32(),
+        'fontSize': fontSize,
+      };
+
+  void loadJson(Map<String, dynamic> j) {
+    useOwn = j['useOwn'] as bool? ?? false;
+    final bg = j['background'];
+    if (bg is List && bg.isNotEmpty) background = [for (final v in bg) Color(v as int)];
+    opacity = (j['opacity'] as num? ?? opacity).toDouble();
+    radius = (j['radius'] as num? ?? radius).toDouble();
+    border = _c(j['border']) ?? border;
+    borderWidth = (j['borderWidth'] as num? ?? borderWidth).toDouble();
+    backgroundImage = j['backgroundImage'] as String?;
+    imageOpacity = (j['imageOpacity'] as num? ?? imageOpacity).toDouble();
+    shape = ButtonShape.values.firstWhere((s) => s.name == j['shape'], orElse: () => shape);
+    buttonScale = (j['buttonScale'] as num? ?? buttonScale).toDouble();
+    buttonColor = _c(j['buttonColor']);
+    buttonText = _c(j['buttonText']);
+    fontSize = (j['fontSize'] as num? ?? fontSize).toDouble();
+  }
+}
+
+/// Egy gomb egyedi kinézete (kép, felirat, szín, méret)
+class ItemStyle {
+  String? image;      // kép azonosító
+  String? label;      // egyedi felirat (null = alapértelmezett)
+  Color? color;
+  double scale = 1.0;
+  bool imageOnly = false; // csak a kép látszik, felirat nélkül
+
+  bool get isEmpty => image == null && label == null && color == null && scale == 1.0 && !imageOnly;
+
+  Map<String, dynamic> toJson() => {
+        'image': image, 'label': label, 'color': color?.toARGB32(), 'scale': scale, 'imageOnly': imageOnly,
+      };
+
+  static ItemStyle fromJson(Map<String, dynamic> j) => ItemStyle()
+    ..image = j['image'] as String?
+    ..label = j['label'] as String?
+    ..color = _c(j['color'])
+    ..scale = (j['scale'] as num? ?? 1.0).toDouble()
+    ..imageOnly = j['imageOnly'] as bool? ?? false;
+}
+
+const panelKeys = ['left', 'center', 'right', 'bottom'];
+const panelNames = {'left': 'Hangszínek (bal)', 'center': 'Dalszöveg (közép)', 'right': 'Ritmus (jobb)', 'bottom': 'Alsó vezérlősáv'};
+
 // ---------------------------------------------------------------------------
 // Regisztrációs bank (ALS saját): 8 hely bankonként
 // ---------------------------------------------------------------------------
@@ -296,6 +379,27 @@ class Project {
   final slots = List<VSlot>.generate(4, (i) => VSlot(8 + i));
   final theme = ThemeSettings();
   final layout = LayoutSettings();
+  final panels = {for (final k in panelKeys) k: PanelStyle()};
+  final items = <String, ItemStyle>{};
+  /// Beágyazott képek: azonosító → base64 (PNG/JPG), hogy a csomag egyetlen fájl legyen
+  final images = <String, String>{};
+  /// Fellépő csomag: PC-ről érkezett, a mobilon nem szerkeszthető
+  bool readOnly = false;
+  String? sourceInfo;
+
+  ItemStyle? item(String id) => items[id];
+
+  /// A már nem használt képek törlése (kisebb fájl, gyorsabb átvitel)
+  void pruneImages() {
+    final used = <String>{
+      for (final ps in panels.values)
+        if (ps.backgroundImage != null) ps.backgroundImage!,
+      for (final it in items.values)
+        if (it.image != null) it.image!,
+    };
+    images.removeWhere((k, _) => !used.contains(k));
+  }
+  ItemStyle itemFor(String id) => items.putIfAbsent(id, ItemStyle.new);
 
   Map<String, dynamic> toJson() => {
         'format': 'ALS project', 'version': formatVersion, 'name': name,
@@ -304,6 +408,11 @@ class Project {
         'slots': [for (final s in slots) s.toJson()],
         'theme': theme.toJson(),
         'layout': layout.toJson(),
+        'panels': {for (final e in panels.entries) e.key: e.value.toJson()},
+        'items': {for (final e in items.entries) if (!e.value.isEmpty) e.key: e.value.toJson()},
+        'images': images,
+        'readOnly': readOnly,
+        if (sourceInfo != null) 'sourceInfo': sourceInfo,
       };
 
   factory Project.fromJson(Map<String, dynamic> j) {
@@ -323,6 +432,26 @@ class Project {
     }
     if (j['theme'] is Map<String, dynamic>) p.theme.loadJson(j['theme'] as Map<String, dynamic>);
     if (j['layout'] is Map<String, dynamic>) p.layout.loadJson(j['layout'] as Map<String, dynamic>);
+    final panels = j['panels'];
+    if (panels is Map<String, dynamic>) {
+      for (final e in panels.entries) {
+        if (p.panels.containsKey(e.key)) p.panels[e.key]!.loadJson(e.value as Map<String, dynamic>);
+      }
+    }
+    final items = j['items'];
+    if (items is Map<String, dynamic>) {
+      for (final e in items.entries) {
+        p.items[e.key] = ItemStyle.fromJson(e.value as Map<String, dynamic>);
+      }
+    }
+    final images = j['images'];
+    if (images is Map<String, dynamic>) {
+      for (final e in images.entries) {
+        p.images[e.key] = e.value as String;
+      }
+    }
+    p.readOnly = j['readOnly'] as bool? ?? false;
+    p.sourceInfo = j['sourceInfo'] as String?;
     return p;
   }
 
