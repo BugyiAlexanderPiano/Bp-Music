@@ -1,6 +1,6 @@
 # Minden feltöltés után a GitHub saját Windows-gépén lefordítja és teszteli a programot,
 # majd a kész csomagot (als_cli.exe + indító) közzéteszi a Releases oldalon "latest" néven.
-name: Windows build
+name: Windows + macOS build
 
 on:
   push:
@@ -139,10 +139,75 @@ jobs:
           name: ALS-Program-Windows
           path: ALS-Program-Windows.zip
 
-  # 4) Közzététel a Releases oldalon (csak a main ágon)
+  # 4) macOS program (univerzális: Intel + Apple Silicon, macOS 10.15+ — a 2015-ös MacBookokon is fut)
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Zenei mag (libals_core_ffi.dylib, univerzális)
+        run: |
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET=10.15
+          cmake --build build --target als_core_ffi -j 4
+          lipo -info build/libals_core_ffi.dylib
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Flutter projekt előkészítése
+        working-directory: flutter_app
+        run: |
+          flutter create --platforms=macos --project-name als_stage --org hu.bpmusic .
+          rm -rf test
+          # Alkalmazás neve: ALS; sandbox kikapcsolva (USB-MIDI és fájlok eléréséhez)
+          sed -i '' 's/^PRODUCT_NAME = .*/PRODUCT_NAME = ALS/' macos/Runner/Configs/AppInfo.xcconfig
+          for f in macos/Runner/DebugProfile.entitlements macos/Runner/Release.entitlements; do
+            perl -0pi -e 's|(com.apple.security.app-sandbox</key>\s*)<true/>|${1}<false/>|' "$f"
+          done
+          flutter pub get
+
+      - name: Kódellenőrzés
+        working-directory: flutter_app
+        run: flutter analyze --no-fatal-infos --no-fatal-warnings
+
+      - name: Fordítás (flutter build macos)
+        working-directory: flutter_app
+        run: flutter build macos --release
+
+      - name: Csomag összeállítása
+        run: |
+          APP=flutter_app/build/macos/Build/Products/Release/ALS.app
+          cp build/libals_core_ffi.dylib "$APP/Contents/MacOS/"
+          codesign --force --deep --sign - "$APP"
+          lipo -info "$APP/Contents/MacOS/ALS"
+          plutil -p "$APP/Contents/Info.plist" | grep -i LSMinimumSystemVersion || true
+          ditto -c -k --keepParent "$APP" ALS-Program-macOS.zip
+
+      - name: Indítási teszt
+        run: |
+          APP=flutter_app/build/macos/Build/Products/Release/ALS.app
+          "$APP/Contents/MacOS/ALS" > app.log 2>&1 &
+          PID=$!
+          sleep 20
+          if ! kill -0 $PID 2>/dev/null; then echo "A program kilépett:"; cat app.log; exit 1; fi
+          screencapture -x shot.png || true
+          if [ -f shot.png ]; then
+            sips -s format jpeg -s formatOptions 70 -Z 1400 shot.png --out shot.jpg >/dev/null
+            echo SCREENSHOT-BEGIN; base64 -i shot.jpg | fold -w 3000 | sed 's/^/B64:/'; echo SCREENSHOT-END
+          fi
+          kill $PID
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ALS-Program-macOS
+          path: ALS-Program-macOS.zip
+
+  # 5) Közzététel a Releases oldalon (csak a main ágon)
   release:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: [msvc, launcher, gui]
+    needs: [msvc, launcher, gui, macos]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -155,16 +220,22 @@ jobs:
         with:
           name: ALS-Program-Windows
 
+      - uses: actions/download-artifact@v4
+        with:
+          name: ALS-Program-macOS
+
       - name: "Release frissítése: latest"
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
         run: |
           gh release delete latest --yes --cleanup-tag || true
-          gh release create latest ALS-Program-Windows.zip ALS-Windows.zip \
+          gh release create latest ALS-Program-Windows.zip ALS-Program-macOS.zip ALS-Windows.zip \
             --target "${{ github.sha }}" \
-            --title "ALS – legfrissebb Windows program" \
+            --title "ALS – legfrissebb program (Windows, macOS)" \
             --notes "**ALS-Program-Windows.zip** – a grafikus program: csomagold ki, és indítsd az ALS mappában lévő **ALS.exe** fájlt. Telepíteni nem kell.
+
+          **ALS-Program-macOS.zip** – Mac (Intel és Apple Silicon, macOS 10.15 Catalina vagy újabb). Első indításkor: jobb klikk az ALS alkalmazásra → Megnyitás → Megnyitás.
 
           ALS-Windows.zip – parancssori segédeszköz (fejlesztőknek, teszteléshez).
 
