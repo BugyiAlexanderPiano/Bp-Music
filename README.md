@@ -4,27 +4,36 @@
 
 **[Releases → latest](https://github.com/BugyiAlexanderPiano/Bp-Music/releases/tag/latest)**
 
-| Fájl | Rendszer | Indítás |
-| --- | --- | --- |
-| `ALS-Program-Windows.zip` | Windows 10/11 | Kicsomagolás után az `ALS` mappában az **`ALS.exe`** |
-| `ALS-Program-macOS.zip` | macOS 12 Monterey vagy újabb (Intel és Apple Silicon; a 2015-ös MacBook Pro/Air is) | Első indításkor: jobb klikk az **ALS** alkalmazásra → Megnyitás → Megnyitás |
+| Fájl | Eszköz | Szerep | Indítás |
+| --- | --- | --- | --- |
+| `ALS-Program-Windows.zip` | Windows 10/11 PC | Szerkesztő | Kicsomagolás után az `ALS` mappában az **`ALS.exe`** |
+| `ALS-Program-macOS.zip` | Mac, macOS 12+ (Intel és Apple Silicon; 2015-ös MacBook Pro/Air is) | Szerkesztő | Első indításkor: jobb klikk → Megnyitás → Megnyitás |
+| `ALS-Android.apk` | Android 7.0+ tablet, telefon | Fellépő mód | Másold a készülékre, nyisd meg, engedélyezd az ismeretlen forrásból való telepítést |
+| iPad / iPhone | iOS | Fellépő mód | A kód iOS-re is lefordul; telepítéshez Apple fejlesztői fiók kell (évi 99 USD), ennek beállítása után kerül be a kiadásba |
 
-### A PC-s szerkesztő (1. szakasz) funkciói
+## Munkafolyamat
 
-- **Menüsor:** Fájl (Új, Megnyitás, Mentés, Mentés másként, dalszöveg import), Szerkesztés, Nézet, Hangszer, Eszközök, Súgó
-- **Projektfájl:** `.alsproj` – dalok, regiszter bankok, rétegek, téma és elrendezés egy fájlban; automatikus mentés
-- **Téma:** egyszínű vagy átmenetes (2–4 színű) háttér, beépített színválasztó, kész témák, panel-átlátszóság és sarokkerekítés
-- **Dalszöveg:** betűtípus- és színválasztás, akkordok a szöveg fölött, fejlécben hangnem / tempó / ütem / stílus
-- **Dal-szerkesztő:** `[G]szöveg [D]akkordokkal`, `{Main A}` szakaszjelölők, élő előnézet, transzponálás, dalhoz kötött regisztráció
-- **Szinkron a hangszerre (F5):** tempó, indító szakasz, rétegek és hangszínek egy kattintással
-- **Bal panel:** hangszíncsoportok, kattintásra nyíló alkategóriák; húzd-és-ejtsd a V1–V4 helyekre
-- **Alsó sáv:** V1–V4 rétegek, One Touch Settings, tempó (TAP), regiszter bankok (bankonként 8 hely)
-- **Lapozás:** dalok között húzással vagy nyilakkal; a lakat gomb lezárja az oldalt
-- **Elrendezés-szerkesztés** (Nézet menü): panelek átméretezése húzással, oldalcsere, panelek ki/be
+1. **PC / Mac – szerkesztés.** Dalok, akkordok, tempó, hangnem, rétegek, regiszter bankok, és a teljes kinézet
+   (Nézet → Felület szerkesztése): minden gombra kattintva kép, felirat, szín, méret; a sávok sarkában lévő
+   narancs ecsettel a sáv háttere, átmenete, háttérképe, gombformája, gombmérete, betűi.
+2. **Küldés a mobilra** (Fájl → Küldés tabletre / telefonra):
+   - **Wi-Fi:** „Küldés indítása” → a mobilon „Fogadás PC-ről” (letöltés ikon) → a mobil megtalálja a gépet → 6 jegyű kód → Letöltés.
+     Az átvitel ellenőrzőösszeggel védett; sérült csomag nem kerül mentésre.
+   - **Fájl:** „Csomag mentése (.alsshow)” → USB-kábellel, Bluetooth-on vagy AirDroppal a mobilra → a mobilon „Megnyitás fájlból”.
+3. **Fellépés a mobilról.** A tablet / telefon csak használja a csomagot, szerkeszteni nem lehet rajta.
+   Hangszer-kapcsolat: USB-C / OTG kábel a hangszer **USB TO HOST** aljzatába, vagy Bluetooth MIDI adapter (pl. Yamaha UD-BT01, MD-BT01).
+   A PC-re a fellépéshez nincs szükség.
+
+### Mi kerül a hangszerre?
+
+A Genos / Tyros / PSR-SX az **USB TO HOST** kábelen csak MIDI-t (és hangot) fogad, fájlt nem — tárhelyként nem
+jelenik meg. Ezért a beállítások így kerülnek a hangszerre: a **Szinkron** gomb (F5) MIDI-n elküldi a dal tempóját,
+indító szakaszát, rétegeit és hangszíneit, majd a hangszeren a **MEMORY** gombbal egy regisztrációs helyre mented.
+Fájlt a hangszer csak pendrive-ról (USB TO DEVICE) olvas.
 
 ### Következő szakaszok
 
-2. Tabletes / telefonos fellépő mód (Android, iPad, iPhone) és átvitel a PC-ről (Wi-Fi, USB)
+- ~~2. Tabletes / telefonos fellépő mód és átvitel a PC-ről~~ – kész
 3. Regiszter bank szerkesztő, aktiváló kód és Instrument Info alapú másolásvédelem
 
 Az `ALS-Windows.zip` a parancssori segédeszköz (fejlesztéshez, teszteléshez).
