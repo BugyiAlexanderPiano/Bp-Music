@@ -1,13 +1,31 @@
 # ALS – Yamaha Arranger Live Suite (projektváz)
 
-## Letöltés (kész Windows program)
+## Letöltés
 
-**[Releases → latest](https://github.com/BugyiAlexanderPiano/Bp-Music/releases/tag/latest)** → `ALS-Program-Windows.zip`.
-Csomagold ki, és indítsd az `ALS` mappában lévő **`ALS.exe`** fájlt. Telepíteni semmit nem kell.
+**[Releases → latest](https://github.com/BugyiAlexanderPiano/Bp-Music/releases/tag/latest)**
 
-A felület: balra a hangszínek (8 slot, húzd-és-ejtsd hangszín-tár), középen a tempóra görgő dalszöveg,
-jobbra a stílusvezérlés (Start/Stop, Intro, Main A–D, Fill, Break, Ending, tempó), alul a regisztrációk.
-A felső sávban: kapcsolódás a hangszerhez (USB-MIDI), WAV sample-vágó, hangerő-normalizáló.
+| Fájl | Rendszer | Indítás |
+| --- | --- | --- |
+| `ALS-Program-Windows.zip` | Windows 10/11 | Kicsomagolás után az `ALS` mappában az **`ALS.exe`** |
+| `ALS-Program-macOS.zip` | macOS 12 Monterey vagy újabb (Intel és Apple Silicon; a 2015-ös MacBook Pro/Air is) | Első indításkor: jobb klikk az **ALS** alkalmazásra → Megnyitás → Megnyitás |
+
+### A PC-s szerkesztő (1. szakasz) funkciói
+
+- **Menüsor:** Fájl (Új, Megnyitás, Mentés, Mentés másként, dalszöveg import), Szerkesztés, Nézet, Hangszer, Eszközök, Súgó
+- **Projektfájl:** `.alsproj` – dalok, regiszter bankok, rétegek, téma és elrendezés egy fájlban; automatikus mentés
+- **Téma:** egyszínű vagy átmenetes (2–4 színű) háttér, beépített színválasztó, kész témák, panel-átlátszóság és sarokkerekítés
+- **Dalszöveg:** betűtípus- és színválasztás, akkordok a szöveg fölött, fejlécben hangnem / tempó / ütem / stílus
+- **Dal-szerkesztő:** `[G]szöveg [D]akkordokkal`, `{Main A}` szakaszjelölők, élő előnézet, transzponálás, dalhoz kötött regisztráció
+- **Szinkron a hangszerre (F5):** tempó, indító szakasz, rétegek és hangszínek egy kattintással
+- **Bal panel:** hangszíncsoportok, kattintásra nyíló alkategóriák; húzd-és-ejtsd a V1–V4 helyekre
+- **Alsó sáv:** V1–V4 rétegek, One Touch Settings, tempó (TAP), regiszter bankok (bankonként 8 hely)
+- **Lapozás:** dalok között húzással vagy nyilakkal; a lakat gomb lezárja az oldalt
+- **Elrendezés-szerkesztés** (Nézet menü): panelek átméretezése húzással, oldalcsere, panelek ki/be
+
+### Következő szakaszok
+
+2. Tabletes / telefonos fellépő mód (Android, iPad, iPhone) és átvitel a PC-ről (Wi-Fi, USB)
+3. Regiszter bank szerkesztő, aktiváló kód és Instrument Info alapú másolásvédelem
 
 Az `ALS-Windows.zip` a parancssori segédeszköz (fejlesztéshez, teszteléshez).
 
