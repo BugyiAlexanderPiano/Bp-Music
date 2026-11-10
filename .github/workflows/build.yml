@@ -123,26 +123,35 @@ jobs:
           Copy-Item "$out\*" "gui_pkg\SoundNexus Pro\" -Recurse
           Compress-Archive -Path "gui_pkg\SoundNexus Pro" -DestinationPath SoundNexusPro-Windows.zip -Force
 
-      - name: Indítási teszt és képernyőképek (PC, szerkesztő mód, tablet mód)
+      - name: Indítási teszt és képernyőképek (magyar + angol, minden ablak, PC / tablet / telefon)
         shell: pwsh
         run: |
-          .github\scripts\screenshot.ps1 -Exe "$PWD\gui_pkg\SoundNexus Pro\SoundNexus Pro.exe" -Out "$PWD\screenshot.png" -Tag pc
-          $env:SNX_EDIT_MODE = '1'
-          .github\scripts\screenshot.ps1 -Exe "$PWD\gui_pkg\SoundNexus Pro\SoundNexus Pro.exe" -Out "$PWD\screenshot_edit.png" -Tag edit
-          $env:SNX_EDIT_MODE = ''
-          $env:SNX_OPEN = 'sample'
-          .github\scripts\screenshot.ps1 -Exe "$PWD\gui_pkg\SoundNexus Pro\SoundNexus Pro.exe" -Out "$PWD\screenshot_sample.png" -Tag sample
-          $env:SNX_OPEN = 'voices'
-          .github\scripts\screenshot.ps1 -Exe "$PWD\gui_pkg\SoundNexus Pro\SoundNexus Pro.exe" -Out "$PWD\screenshot_voices.png" -Tag voices
-          $env:SNX_OPEN = ''
-          $env:SNX_FORCE_MOBILE = '1'
-          .github\scripts\screenshot.ps1 -Exe "$PWD\gui_pkg\SoundNexus Pro\SoundNexus Pro.exe" -Out "$PWD\screenshot_tablet.png" -Tag tablet
+          $exe = "$PWD\gui_pkg\SoundNexus Pro\SoundNexus Pro.exe"
+          .github\scripts\screenshot.ps1 -Exe $exe -Out "$PWD\screenshot.png" -Tag pc
+          New-Item -ItemType Directory -Force -Path shots | Out-Null
+          $screens = 'main','edit','sample','loop','voices','rhythm','bottom','song','theme','send','connect','slot','settings','about','tablet','phone'
+          foreach ($lang in 'hu','en') {
+            foreach ($sc in $screens) {
+              $env:SNX_LANG = $lang
+              $env:SNX_EDIT_MODE = ''; $env:SNX_OPEN = ''; $env:SNX_MODE = ''
+              switch ($sc) {
+                'main'   { }
+                'edit'   { $env:SNX_EDIT_MODE = '1' }
+                'tablet' { $env:SNX_MODE = 'tablet' }
+                'phone'  { $env:SNX_MODE = 'phone' }
+                default  { $env:SNX_OPEN = $sc }
+              }
+              .github\scripts\screenshot.ps1 -Exe $exe -Out "$PWD\shots\${lang}_$sc.png" -Tag "${lang}_$sc"
+            }
+          }
 
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: screenshot
-          path: screenshot.png
+          path: |
+            screenshot.png
+            shots/*.png
           if-no-files-found: ignore
 
       - uses: actions/upload-artifact@v4
