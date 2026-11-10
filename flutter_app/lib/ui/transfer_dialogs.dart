@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import '../model/project.dart';
 import '../transfer/transfer.dart';
 
-const _showTypes = [XTypeGroup(label: 'ALS fellépő csomag', extensions: [showExtension])];
+const _showTypes = [XTypeGroup(label: 'SoundNexus Pro fellépő csomag', extensions: [showExtension, ...legacyShowExtensions])];
 
 // ---------------------------------------------------------------------------
 // PC: küldés tabletre / telefonra
@@ -64,7 +64,7 @@ Future<void> showSendDialog(BuildContext context, Project p) async {
             else if (ips == null)
               FilledButton.icon(onPressed: start, icon: const Icon(Icons.wifi_tethering), label: const Text('Küldés indítása'))
             else ...[
-              const Text('A tableten / telefonon: ALS → Fogadás PC-ről, majd add meg ezt a kódot:'),
+              const Text('A tableten / telefonon: SoundNexus Pro → Fogadás PC-ről, majd add meg ezt a kódot:'),
               const SizedBox(height: 8),
               Center(
                 child: SelectableText(
@@ -93,7 +93,7 @@ Future<void> showSendDialog(BuildContext context, Project p) async {
             const Text('Mentsd a csomagot, másold a mobilra (Androidon a Letöltések mappába, iPhone/iPaden a Fájlok appba), '
                 'majd a mobilon: Fogadás → Megnyitás fájlból.'),
             const SizedBox(height: 8),
-            OutlinedButton.icon(onPressed: saveFile, icon: const Icon(Icons.save_alt), label: const Text('Csomag mentése (.alsshow)')),
+            OutlinedButton.icon(onPressed: saveFile, icon: const Icon(Icons.save_alt), label: const Text('Csomag mentése (.snxshow)')),
           ]),
         ),
         actions: [
@@ -200,7 +200,7 @@ Future<Project?> showReceiveDialog(BuildContext context) async {
               ),
               if (status != null) Padding(padding: const EdgeInsets.only(top: 10), child: Text(status!)),
               const SizedBox(height: 14),
-              OutlinedButton.icon(onPressed: fromFile, icon: const Icon(Icons.folder_open), label: const Text('Megnyitás fájlból (.alsshow)')),
+              OutlinedButton.icon(onPressed: fromFile, icon: const Icon(Icons.folder_open), label: const Text('Megnyitás fájlból (.snxshow)')),
             ]),
           ),
         ),

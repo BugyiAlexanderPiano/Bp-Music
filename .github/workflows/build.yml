@@ -1,6 +1,6 @@
 # Minden feltöltés után a GitHub saját Windows-gépén lefordítja és teszteli a programot,
 # majd a kész csomagot (als_cli.exe + indító) közzéteszi a Releases oldalon "latest" néven.
-name: Windows + macOS build
+name: SoundNexus Pro build
 
 on:
   push:
@@ -94,7 +94,7 @@ jobs:
           # Ablak címe és mérete
           $f = 'windows\runner\main.cpp'
           $c = Get-Content $f -Raw
-          $c = $c -replace 'L"als_stage"', 'L"ALS - Yamaha Arranger Live Suite"'
+          $c = $c -replace 'L"als_stage"', 'L"SoundNexus Pro"'
           $c = $c -replace 'Win32Window::Size size\(\d+, \d+\)', 'Win32Window::Size size(1280, 780)'
           Set-Content $f $c -NoNewline
           # Teljes képernyős (maximalizált) indulás, hogy kis kijelzőn se lógjon ki semmi
@@ -118,20 +118,20 @@ jobs:
           foreach ($d in 'msvcp140.dll','vcruntime140.dll','vcruntime140_1.dll') {
             Copy-Item "$env:WINDIR\System32\$d" $out\ -ErrorAction SilentlyContinue
           }
-          Rename-Item "$out\als_stage.exe" 'ALS.exe'
-          New-Item -ItemType Directory -Force -Path gui_pkg\ALS | Out-Null
-          Copy-Item "$out\*" gui_pkg\ALS\ -Recurse
-          Compress-Archive -Path gui_pkg\ALS -DestinationPath ALS-Program-Windows.zip -Force
+          Rename-Item "$out\als_stage.exe" 'SoundNexus Pro.exe'
+          New-Item -ItemType Directory -Force -Path "gui_pkg\SoundNexus Pro" | Out-Null
+          Copy-Item "$out\*" "gui_pkg\SoundNexus Pro\" -Recurse
+          Compress-Archive -Path "gui_pkg\SoundNexus Pro" -DestinationPath SoundNexusPro-Windows.zip -Force
 
       - name: Indítási teszt és képernyőképek (PC, szerkesztő mód, tablet mód)
         shell: pwsh
         run: |
-          .github\scripts\screenshot.ps1 -Exe "$PWD\gui_pkg\ALS\ALS.exe" -Out "$PWD\screenshot.png" -Tag pc
+          .github\scripts\screenshot.ps1 -Exe "$PWD\gui_pkg\SoundNexus Pro\SoundNexus Pro.exe" -Out "$PWD\screenshot.png" -Tag pc
           $env:ALS_EDIT_MODE = '1'
-          .github\scripts\screenshot.ps1 -Exe "$PWD\gui_pkg\ALS\ALS.exe" -Out "$PWD\screenshot_edit.png" -Tag edit
+          .github\scripts\screenshot.ps1 -Exe "$PWD\gui_pkg\SoundNexus Pro\SoundNexus Pro.exe" -Out "$PWD\screenshot_edit.png" -Tag edit
           $env:ALS_EDIT_MODE = ''
           $env:ALS_FORCE_MOBILE = '1'
-          .github\scripts\screenshot.ps1 -Exe "$PWD\gui_pkg\ALS\ALS.exe" -Out "$PWD\screenshot_tablet.png" -Tag tablet
+          .github\scripts\screenshot.ps1 -Exe "$PWD\gui_pkg\SoundNexus Pro\SoundNexus Pro.exe" -Out "$PWD\screenshot_tablet.png" -Tag tablet
 
       - uses: actions/upload-artifact@v4
         if: always()
@@ -142,8 +142,8 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: ALS-Program-Windows
-          path: ALS-Program-Windows.zip
+          name: SoundNexusPro-Windows
+          path: SoundNexusPro-Windows.zip
 
   # 4) macOS program (univerzális: Intel + Apple Silicon, macOS 10.15+ — a 2015-ös MacBookokon is fut)
   macos:
@@ -168,7 +168,7 @@ jobs:
           flutter create --platforms=macos --project-name als_stage --org hu.bpmusic .
           rm -rf test
           # Alkalmazás neve: ALS; sandbox kikapcsolva (USB-MIDI és fájlok eléréséhez)
-          sed -i '' 's/^PRODUCT_NAME = .*/PRODUCT_NAME = ALS/' macos/Runner/Configs/AppInfo.xcconfig
+          sed -i '' 's/^PRODUCT_NAME = .*/PRODUCT_NAME = SoundNexus Pro/' macos/Runner/Configs/AppInfo.xcconfig
           plutil -insert NSBluetoothAlwaysUsageDescription -string "Bluetooth MIDI kapcsolat a hangszerrel" macos/Runner/Info.plist || true
           for f in macos/Runner/DebugProfile.entitlements macos/Runner/Release.entitlements; do
             perl -0pi -e 's|(com.apple.security.app-sandbox</key>\s*)<true/>|${1}<false/>|' "$f"
@@ -185,17 +185,17 @@ jobs:
 
       - name: Csomag összeállítása
         run: |
-          APP=flutter_app/build/macos/Build/Products/Release/ALS.app
+          APP="flutter_app/build/macos/Build/Products/Release/SoundNexus Pro.app"
           cp build/libals_core_ffi.dylib "$APP/Contents/MacOS/"
           codesign --force --deep --sign - "$APP"
-          lipo -info "$APP/Contents/MacOS/ALS"
+          lipo -info "$APP/Contents/MacOS/SoundNexus Pro"
           plutil -p "$APP/Contents/Info.plist" | grep -i LSMinimumSystemVersion || true
-          ditto -c -k --keepParent "$APP" ALS-Program-macOS.zip
+          ditto -c -k --keepParent "$APP" SoundNexusPro-macOS.zip
 
       - name: Indítási teszt
         run: |
-          APP=flutter_app/build/macos/Build/Products/Release/ALS.app
-          "$APP/Contents/MacOS/ALS" > app.log 2>&1 &
+          APP="flutter_app/build/macos/Build/Products/Release/SoundNexus Pro.app"
+          "$APP/Contents/MacOS/SoundNexus Pro" > app.log 2>&1 &
           PID=$!
           sleep 20
           if ! kill -0 $PID 2>/dev/null; then echo "A program kilépett:"; cat app.log; exit 1; fi
@@ -208,8 +208,8 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: ALS-Program-macOS
-          path: ALS-Program-macOS.zip
+          name: SoundNexusPro-macOS
+          path: SoundNexusPro-macOS.zip
 
   # 5) Android (tablet, telefon): APK
   android:
@@ -234,7 +234,7 @@ jobs:
           rm -rf test
           M=android/app/src/main/AndroidManifest.xml
           # Név, internet (Wi-Fi átvitel), helyi HTTP, USB MIDI
-          sed -i 's/android:label="als_stage"/android:label="ALS"/' $M
+          sed -i 's/android:label="als_stage"/android:label="SoundNexus Pro"/' $M
           sed -i 's|<application|<uses-permission android:name="android.permission.INTERNET"/>\n    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>\n    <uses-feature android:name="android.software.midi" android:required="false"/>\n    <uses-feature android:name="android.hardware.usb.host" android:required="false"/>\n    <application android:usesCleartextTraffic="true"|' $M
           G=$(ls android/app/build.gradle* | head -1)
           sed -i -E 's/minSdk(Version)? *=? *flutter\.minSdkVersion/minSdk = 24/' $G
@@ -250,12 +250,12 @@ jobs:
         run: flutter build apk --release
 
       - name: Csomag
-        run: cp flutter_app/build/app/outputs/flutter-apk/app-release.apk ALS-Android.apk
+        run: cp flutter_app/build/app/outputs/flutter-apk/app-release.apk SoundNexusPro-Android.apk
 
       - uses: actions/upload-artifact@v4
         with:
-          name: ALS-Android
-          path: ALS-Android.apk
+          name: SoundNexusPro-Android
+          path: SoundNexusPro-Android.apk
 
   # 6) iOS (iPad, iPhone): fordítási ellenőrzés aláírás nélkül
   #    Telepítéshez Apple fejlesztői fiók kell (évi 99 USD) — lásd README.
@@ -275,7 +275,7 @@ jobs:
           flutter create --platforms=ios --project-name als_stage --org hu.bpmusic .
           rm -rf test
           P=ios/Runner/Info.plist
-          plutil -replace CFBundleDisplayName -string "ALS" $P
+          plutil -replace CFBundleDisplayName -string "SoundNexus Pro" $P
           plutil -insert NSBluetoothAlwaysUsageDescription -string "Bluetooth MIDI kapcsolat a hangszerrel" $P
           plutil -insert NSLocalNetworkUsageDescription -string "A fellépő csomag fogadása a számítógépről Wi-Fi-n" $P
           plutil -insert NSAppTransportSecurity -json '{"NSAllowsLocalNetworking":true}' $P
@@ -301,15 +301,15 @@ jobs:
 
       - uses: actions/download-artifact@v4
         with:
-          name: ALS-Program-Windows
+          name: SoundNexusPro-Windows
 
       - uses: actions/download-artifact@v4
         with:
-          name: ALS-Program-macOS
+          name: SoundNexusPro-macOS
 
       - uses: actions/download-artifact@v4
         with:
-          name: ALS-Android
+          name: SoundNexusPro-Android
 
       - name: "Release frissítése: latest"
         env:
@@ -317,15 +317,15 @@ jobs:
           GH_REPO: ${{ github.repository }}
         run: |
           gh release delete latest --yes --cleanup-tag || true
-          gh release create latest ALS-Program-Windows.zip ALS-Program-macOS.zip ALS-Android.apk ALS-Windows.zip \
+          gh release create latest SoundNexusPro-Windows.zip SoundNexusPro-macOS.zip SoundNexusPro-Android.apk ALS-Windows.zip \
             --target "${{ github.sha }}" \
-            --title "ALS – legfrissebb program (Windows, macOS, Android)" \
-            --notes "**ALS-Program-Windows.zip** – a grafikus program: csomagold ki, és indítsd az ALS mappában lévő **ALS.exe** fájlt. Telepíteni nem kell.
+            --title "SoundNexus Pro – legfrissebb program (Windows, macOS, Android)" \
+            --notes "**SoundNexusPro-Windows.zip** – Windows 10/11 szerkesztő: kicsomagolás után a **SoundNexus Pro.exe**.
 
-          **ALS-Program-macOS.zip** – Mac (Intel és Apple Silicon, macOS 10.15 Catalina vagy újabb). Első indításkor: jobb klikk az ALS alkalmazásra → Megnyitás → Megnyitás.
+          **SoundNexusPro-macOS.zip** – Mac szerkesztő (Intel és Apple Silicon, macOS 12+). Első indításkor: jobb klikk → Megnyitás → Megnyitás.
 
-          **ALS-Android.apk** – tablet és telefon (Android 7.0+), fellépő mód. Telepítés: másold a készülékre és nyisd meg (engedélyezd az ismeretlen forrásból való telepítést).
+          **SoundNexusPro-Android.apk** – tablet és telefon (Android 7.0+), fellépő mód.
 
-          ALS-Windows.zip – parancssori segédeszköz (fejlesztőknek, teszteléshez).
+          ALS-Windows.zip – parancssori segédeszköz (fejlesztőknek).
 
           Commit: ${{ github.sha }}"

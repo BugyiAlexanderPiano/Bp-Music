@@ -150,16 +150,66 @@ int32_t als_open_file_dialog(const char* title, const char* ext, char* out, int3
 #endif
 }
 
-int32_t als_trim_wav(const char* inPath, const char* outPath, char* report, int32_t len) {
+static int32_t trimImpl(const char* inPath, const char* outPath, const als::dsp::TrimParams& p,
+                        char* report, int32_t len) {
   als::WavData w; std::string err;
   if (!als::readWav(inPath, w, &err)) { copyOut("{\"error\":\"" + err + "\"}", report, len); return -1; }
-  const auto r = als::dsp::trim(w.pcm, w.channels, w.sampleRate);
-  if (r.silentFile) { copyOut("{\"error\":\"csak csend\"}", report, len); return -2; }
+  const auto r = als::dsp::trim(w.pcm, w.channels, w.sampleRate, p);
+  if (r.silentFile) { copyOut("{\"error\":\"A fájl csak csendet tartalmaz.\"}", report, len); return -2; }
+  if (w.loopStart >= 0) {   // a meglévő loop pontok eltolása a levágott eleje szerint
+    w.loopStart -= (long long)r.startFrame; w.loopEnd -= (long long)r.startFrame;
+    if (w.loopStart < 0 || w.loopEnd >= (long long)w.frames()) w.loopStart = w.loopEnd = -1;
+  }
   if (!als::writeWav(outPath, w, &err)) { copyOut("{\"error\":\"" + err + "\"}", report, len); return -3; }
-  char json[256];
+  char json[512];
   std::snprintf(json, sizeof json,
-                "{\"cutHeadMs\":%.3f,\"cutTailMs\":%.3f,\"peakDb\":%.2f,\"needsReview\":%s}",
-                r.cutHeadMs, r.cutTailMs, r.peakDb, r.needsReview ? "true" : "false");
+                "{\"cutHeadMs\":%.4f,\"cutTailMs\":%.4f,\"cutHeadSamples\":%zu,\"startFrame\":%zu,\"endFrame\":%zu,"
+                "\"onsetFrame\":%zu,\"peakDb\":%.2f,\"noiseFloorDb\":%.1f,\"fadeMs\":%.2f,\"needsReview\":%s,"
+                "\"sampleRate\":%d,\"channels\":%d,\"bits\":%d,\"float\":%s}",
+                r.cutHeadMs, r.cutTailMs, r.startFrame, r.startFrame, r.endFrame, r.onsetFrame, r.peakDb,
+                r.noiseFloorDb, r.fadeMs, r.needsReview ? "true" : "false", w.sampleRate, w.channels,
+                w.bitsPerSample, w.isFloat ? "true" : "false");
+  copyOut(json, report, len);
+  return 0;
+}
+
+int32_t als_trim_wav(const char* inPath, const char* outPath, char* report, int32_t len) {
+  return trimImpl(inPath, outPath, als::dsp::TrimParams{}, report, len);
+}
+
+int32_t als_trim_wav_ex(const char* inPath, const char* outPath, double startDb, double tailDb,
+                        int32_t trimHead, int32_t trimTail, int32_t fadeTail, char* report, int32_t len) {
+  als::dsp::TrimParams p;
+  p.startThreshDb = startDb;
+  p.tailThreshDb = tailDb;
+  p.trimHead = trimHead != 0;
+  p.trimTail = trimTail != 0;
+  p.fadeTail = fadeTail != 0;
+  return trimImpl(inPath, outPath, p, report, len);
+}
+
+int32_t als_loop_wav(const char* inPath, const char* outPath, double minLoopMs, double crossfadeMs,
+                     int32_t unityNote, char* report, int32_t len) {
+  als::WavData w; std::string err;
+  if (!als::readWav(inPath, w, &err)) { copyOut("{\"error\":\"" + err + "\"}", report, len); return -1; }
+  als::dsp::LoopParams p;
+  p.minLoopMs = minLoopMs;
+  p.crossfadeMs = crossfadeMs;
+  const auto r = als::dsp::findLoop(w.pcm, w.channels, w.sampleRate, p);
+  if (!r.found) {
+    copyOut("{\"error\":\"Nem található megfelelő loop. Rövidebb minimális hosszal vagy hosszabb, kitartott hangmintával próbáld.\"}", report, len);
+    return -2;
+  }
+  w.loopStart = r.loopStart;
+  w.loopEnd = r.loopEnd;
+  w.unityNote = unityNote;
+  if (!als::writeWav(outPath, w, &err)) { copyOut("{\"error\":\"" + err + "\"}", report, len); return -3; }
+  char json[384];
+  std::snprintf(json, sizeof json,
+                "{\"loopStart\":%lld,\"loopEnd\":%lld,\"score\":%.4f,\"levelDiffDb\":%.2f,\"lengthMs\":%.2f,"
+                "\"crossfadeMs\":%.2f,\"sampleRate\":%d,\"channels\":%d,\"bits\":%d}",
+                r.loopStart, r.loopEnd, r.score, r.levelDiffDb, r.lengthMs, r.crossfadeMs, w.sampleRate,
+                w.channels, w.bitsPerSample);
   copyOut(json, report, len);
   return 0;
 }

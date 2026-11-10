@@ -160,6 +160,19 @@ static int cmdTrim(const std::string& in, const std::string& out) {
   return 0;
 }
 
+static int cmdLoop(const std::string& in, const std::string& out, double crossfadeMs) {
+  WavData w; std::string err;
+  if (!readWav(in, w, &err)) { std::fprintf(stderr, "Hiba: %s\n", err.c_str()); return 1; }
+  dsp::LoopParams p; p.crossfadeMs = crossfadeMs;
+  const auto r = dsp::findLoop(w.pcm, w.channels, w.sampleRate, p);
+  if (!r.found) { std::puts("Nem található megfelelő loop."); return 2; }
+  w.loopStart = r.loopStart; w.loopEnd = r.loopEnd;
+  if (!writeWav(out, w, &err)) { std::fprintf(stderr, "Hiba: %s\n", err.c_str()); return 1; }
+  std::printf("Loop: %lld – %lld (%.1f ms), varrat-egyezés: %.4f, szintkülönbség: %.2f dB\n",
+              r.loopStart, r.loopEnd, r.lengthMs, r.score, r.levelDiffDb);
+  return 0;
+}
+
 static int cmdNormalize(int argc, char** argv) {
   const double measured = std::atof(argv[2]);
   std::vector<dsp::PartLevel> parts;
@@ -189,10 +202,11 @@ int main(int argc, char** argv) {
     if (cmd == "live" && argc >= 4)       return cmdLive(std::atoi(argv[2]), std::atoi(argv[3]));
     if (cmd == "trim" && argc >= 4)       return cmdTrim(argv[2], argv[3]);
     if (cmd == "normalize" && argc >= 4)  return cmdNormalize(argc, argv);
+    if (cmd == "loop" && argc >= 4)       return cmdLoop(argv[2], argv[3], argc >= 5 ? std::atof(argv[4]) : 0.0);
   } catch (const std::exception& e) {
     std::fprintf(stderr, "Hiba: %s\n", e.what());
     return 1;
   }
-  std::puts("Használat: als_cli demo | ports | live <in> <out> | trim <be.wav> <ki.wav> | normalize <LUFS> <CC7>...");
+  std::puts("Használat: als_cli demo | ports | live <in> <out> | trim <be.wav> <ki.wav> | loop <be.wav> <ki.wav> [crossfade_ms] | normalize <LUFS> <CC7>...");
   return 1;
 }

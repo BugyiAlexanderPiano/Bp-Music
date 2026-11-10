@@ -15,6 +15,7 @@ add_library(als_core STATIC
   core/src/wav_io.cpp
   core/src/dsp/sample_trimmer.cpp
   core/src/dsp/style_normalizer.cpp
+  core/src/dsp/loop_finder.cpp
 )
 target_include_directories(als_core PUBLIC core/include)
 if(MSVC)

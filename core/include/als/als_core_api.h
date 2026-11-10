@@ -49,6 +49,18 @@ ALS_API int32_t als_open_file_dialog(const char* title, const char* ext, char* o
 ALS_API int32_t als_trim_wav(const char* in_path, const char* out_path,
                              char* report, int32_t report_len);
 
+/* Paraméterezett vágás (Sample Studio). fade_tail/trim_head/trim_tail: 0/1 */
+ALS_API int32_t als_trim_wav_ex(const char* in_path, const char* out_path,
+                                double start_thresh_db, double tail_thresh_db,
+                                int32_t trim_head, int32_t trim_tail, int32_t fade_tail,
+                                char* report, int32_t report_len);
+
+/* Loop-pont keresés (Loop Studio): a kimenet 'smpl' blokkal (loop pontokkal) íródik.
+ * crossfade_ms = 0: a minták érintetlenek maradnak. */
+ALS_API int32_t als_loop_wav(const char* in_path, const char* out_path,
+                             double min_loop_ms, double crossfade_ms, int32_t unity_note,
+                             char* report, int32_t report_len);
+
 #ifdef __cplusplus
 }
 #endif

@@ -19,8 +19,9 @@ class _AlsAppState extends State<AlsApp> {
 
   static Project _loadInitial() {
     try {
-      final f = Project.autosaveFile;
-      if (f.existsSync()) return Project.fromFileString(f.readAsStringSync());
+      for (final f in [Project.autosaveFile, Project.legacyAutosaveFile]) {
+        if (f.existsSync()) return Project.fromFileString(f.readAsStringSync());
+      }
     } catch (_) {}
     return Project.demo();
   }
@@ -29,7 +30,7 @@ class _AlsAppState extends State<AlsApp> {
   Widget build(BuildContext context) {
     final t = project.theme;
     return MaterialApp(
-      title: 'ALS – Yamaha Arranger Live Suite',
+      title: 'SoundNexus Pro',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,

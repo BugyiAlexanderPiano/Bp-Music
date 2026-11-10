@@ -16,7 +16,8 @@ import 'package:path_provider/path_provider.dart';
 
 import '../model/project.dart';
 
-const showExtension = 'alsshow';
+const showExtension = 'snxshow';
+const legacyShowExtensions = ['alsshow'];
 const transferPort = 47800;
 const beaconPort = 47801;
 
@@ -57,7 +58,7 @@ class ShowServer {
     try {
       _beacon = await RawDatagramSocket.bind(InternetAddress.anyIPv4, 0)
         ..broadcastEnabled = true;
-      final msg = utf8.encode('ALS|$transferPort|$name');
+      final msg = utf8.encode('SNX|$transferPort|$name');
       _timer = Timer.periodic(const Duration(seconds: 1), (_) {
         try {
           _beacon?.send(msg, InternetAddress('255.255.255.255'), beaconPort);
@@ -85,7 +86,7 @@ class ShowServer {
       downloads++;
       onDownload?.call(req.connectionInfo?.remoteAddress.address ?? '?');
     } else if (req.uri.path == '/ping') {
-      res.write('ALS');
+      res.write('SNX');
     } else {
       res.statusCode = HttpStatus.forbidden;
       res.write('Hibás kód');
@@ -125,7 +126,7 @@ class PcDiscovery {
         final d = _sock!.receive();
         if (d == null) return;
         final parts = utf8.decode(d.data, allowMalformed: true).split('|');
-        if (parts.length < 3 || parts[0] != 'ALS') return;
+        if (parts.length < 3 || parts[0] != 'SNX') return;
         final pc = FoundPc(d.address.address, int.tryParse(parts[1]) ?? transferPort, parts.sublist(2).join('|'));
         if (!_found.containsKey(pc.address)) {
           _found[pc.address] = pc;

@@ -1,6 +1,6 @@
 @echo off
 rem ===========================================================================
-rem  ALS - Yamaha Arranger Live Suite: egykattintásos indító Windowsra
+rem  SoundNexus Pro - parancssori eszköz: egykattintásos indító Windowsra
 rem  Ingyenes: a w64devkit (MinGW GCC) fordítót és az RtMidi forrást tölti le
 rem  egyszer, a Windows beépített PowerShell-jével. Telepítés és admin jog nem kell.
 rem  Ezt a fájlt az "als" projektmappa gyökerébe tedd (ahol a README.md van).
@@ -8,7 +8,7 @@ rem  Egy WAV fájlt rá is húzhatsz: akkor azonnal levágja.
 rem ===========================================================================
 setlocal EnableExtensions EnableDelayedExpansion
 chcp 65001 >nul
-title ALS - Yamaha Arranger Live Suite
+title SoundNexus Pro - parancssori eszköz
 cd /d "%~dp0"
 
 set "ROOT=%~dp0"
@@ -93,7 +93,7 @@ rem ---------------------------------------------------------------------------
 :menu
 echo.
 echo  ================================================================
-echo    ALS - Yamaha Arranger Live Suite
+echo    SoundNexus Pro - parancssori eszköz
 echo  ================================================================
 echo    1  Bemutató hangszer nélkül (demo)
 echo    2  MIDI portok listája
@@ -171,7 +171,7 @@ goto :eof
 echo.
 echo  Fordítás folyamatban (1-2 perc)...
 if not exist "%BIN%" mkdir "%BIN%"
-set "SRC=app\main.cpp core\src\midi_transport.cpp core\src\rtmidi_transport.cpp core\src\soft_registration.cpp core\src\wav_io.cpp core\src\dsp\sample_trimmer.cpp core\src\dsp\style_normalizer.cpp"
+set "SRC=app\main.cpp core\src\midi_transport.cpp core\src\rtmidi_transport.cpp core\src\soft_registration.cpp core\src\wav_io.cpp core\src\dsp\sample_trimmer.cpp core\src\dsp\style_normalizer.cpp core\src\dsp\loop_finder.cpp"
 set "FLAGS=-std=c++17 -O2 -static -Icore\include -D__USE_MINGW_ANSI_STDIO=1"
 if exist "%RT%\RtMidi.cpp" (
   g++ %FLAGS% -DALS_WITH_RTMIDI -D__WINDOWS_MM__ -I"%RT%" %SRC% "%RT%\RtMidi.cpp" -o "%EXE%" -lwinmm

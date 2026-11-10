@@ -1,4 +1,4 @@
-// lib/model/project.dart — az ALS projekt adatmodellje (.alsproj JSON)
+// lib/model/project.dart — a SoundNexus Pro projekt adatmodellje (.snxproj JSON)
 import 'dart:convert';
 import 'dart:io';
 
@@ -370,7 +370,9 @@ class RegBank {
 class Project {
   Project();
 
-  static const fileExtension = 'alsproj';
+  static const fileExtension = 'snxproj';
+  /// Korábbi (ALS) projektfájlok is megnyithatók
+  static const legacyExtensions = ['alsproj'];
   static const formatVersion = 1;
 
   String name = 'Új projekt';
@@ -402,7 +404,7 @@ class Project {
   ItemStyle itemFor(String id) => items.putIfAbsent(id, ItemStyle.new);
 
   Map<String, dynamic> toJson() => {
-        'format': 'ALS project', 'version': formatVersion, 'name': name,
+        'format': 'SoundNexus Pro project', 'version': formatVersion, 'name': name,
         'songs': [for (final s in songs) s.toJson()],
         'banks': [for (final b in banks) b.toJson()],
         'slots': [for (final s in slots) s.toJson()],
@@ -460,7 +462,7 @@ class Project {
     p.songs.addAll([
       Song(
         title: 'Bemutató dal',
-        artist: 'ALS',
+        artist: 'SoundNexus Pro',
         key: 'G',
         bpm: 96,
         style: '8Beat Pop',
@@ -507,15 +509,29 @@ class Project {
     final env = Platform.environment;
     final String base;
     if (Platform.isWindows) {
-      base = '${env['APPDATA'] ?? env['USERPROFILE'] ?? '.'}\\ALS';
+      base = '${env['APPDATA'] ?? env['USERPROFILE'] ?? '.'}\\SoundNexus Pro';
     } else if (Platform.isMacOS) {
-      base = '${env['HOME'] ?? '.'}/Library/Application Support/ALS';
+      base = '${env['HOME'] ?? '.'}/Library/Application Support/SoundNexus Pro';
     } else {
-      base = '${env['HOME'] ?? '.'}/.als';
+      base = '${env['HOME'] ?? '.'}/.soundnexus';
     }
     return Directory(base);
   }
 
   static File get autosaveFile =>
       File('${appDataDir.path}${Platform.pathSeparator}utolso.$fileExtension');
+
+  /// A korábbi (ALS nevű) verzió automatikus mentése — első indításkor átvesszük
+  static File get legacyAutosaveFile {
+    final env = Platform.environment;
+    final String base;
+    if (Platform.isWindows) {
+      base = '${env['APPDATA'] ?? env['USERPROFILE'] ?? '.'}\\ALS';
+    } else if (Platform.isMacOS) {
+      base = '${env['HOME'] ?? '.'}/Library/Application Support/ALS';
+    } else {
+      base = '${env['HOME'] ?? '.'}/.als';
+    }
+    return File('$base${Platform.pathSeparator}utolso.alsproj');
+  }
 }

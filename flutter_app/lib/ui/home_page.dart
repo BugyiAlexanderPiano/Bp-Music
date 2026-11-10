@@ -1,4 +1,4 @@
-// lib/ui/home_page.dart — az ALS főablaka
+// lib/ui/home_page.dart — a SoundNexus Pro főablaka
 //  PC (Windows, macOS): szerkesztő mód — minden tervezés, stílus és sablon itt készül
 //  Tablet, telefon (Android, iOS): fellépő mód — csak használat, a PC-ről kapott csomaggal
 //
@@ -41,7 +41,9 @@ const intros = [Section('Intro A', 0x00), Section('Intro B', 0x01), Section('Int
 const mains = [Section('Main A', 0x08), Section('Main B', 0x09), Section('Main C', 0x0A), Section('Main D', 0x0B)];
 const endings = [Section('Ending A', 0x20), Section('Ending B', 0x21), Section('Ending C', 0x22)];
 
-const _projectTypes = [XTypeGroup(label: 'ALS projekt', extensions: ['alsproj'])];
+const _projectTypes = [
+  XTypeGroup(label: 'SoundNexus Pro projekt', extensions: [Project.fileExtension, ...Project.legacyExtensions]),
+];
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -99,7 +101,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   bool saveMode = false;
   int? activeReg;
 
-  final logLines = <String>['ALS elindult.'];
+  final logLines = <String>['SoundNexus Pro elindult.'];
 
   // -------------------------------------------------------------------------
   @override
@@ -246,7 +248,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       widget.onProjectReplaced(np);
       log('Megnyitva: ${f.path}');
     } catch (e) {
-      log('A fájl nem ALS projekt vagy sérült: $e');
+      log('A fájl nem SoundNexus Pro projekt vagy sérült: $e');
     }
   }
 
@@ -646,8 +648,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   void _about() => showAboutDialog(
         context: context,
-        applicationName: 'ALS – Yamaha Arranger Live Suite',
-        applicationVersion: '0.3 (1. szakasz: PC-s szerkesztő)',
+        applicationName: 'SoundNexus Pro',
+        applicationVersion: '0.5',
         children: const [
           Text('Szerkesztő és élő vezérlő program Yamaha Genos 2, Genos, Tyros 5, Tyros 4 és PSR-SX hangszerekhez.'),
           SizedBox(height: 8),
