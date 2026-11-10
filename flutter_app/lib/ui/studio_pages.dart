@@ -437,7 +437,7 @@ class _SampleStudioPageState extends State<SampleStudioPage> {
                 _kv(tr('Levágva a végéről'), '${(r['cutTailMs'] as num).toStringAsFixed(2)} ms'),
                 _kv(tr('Csúcsszint'), '${(r['peakDb'] as num).toStringAsFixed(2)} dBFS'),
                 _kv(tr('Zajpadló'), '${(r['noiseFloorDb'] as num).toStringAsFixed(1)} dBFS'),
-                _kv(tr('Lezáró fade'), (r['fadeMs'] as num) > 0 ? '${(r['fadeMs'] as num).toStringAsFixed(2)} ms' : 'nincs'),
+                _kv(tr('Lezáró fade'), (r['fadeMs'] as num) > 0 ? '${(r['fadeMs'] as num).toStringAsFixed(2)} ms' : tr('nincs')),
                 _kv(tr('Minőség'), tr('a megmaradó minták bitre azonosak az eredetivel; nincs újramintavételezés, nincs bitmélység-váltás')),
                 if (r['needsReview'] == true)
                   Padding(

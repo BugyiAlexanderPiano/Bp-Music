@@ -283,6 +283,7 @@ Neon
 Keine Gruppe.
 Keine Songs. Empfange ein Paket vom PC.
 Kein Instrument verbunden – die Einstellung wurde nur im Programm übernommen.
+Nicht verbunden
 Sprache
 Sprache und Anzeigemodus…
 Öffne links ein WAV-Sample.
@@ -309,6 +310,7 @@ PC-Modus: Bearbeiten und Gestalten. Tablet und Handy: Vorschau, genau so, wie es
 Pad / Streicher
 Panel-Transparenz
 Panelfarbe
+Refrain, Zeile {0}
 Registrierungsbänke
 Registrierung
 Rhythmisches Raster (Quantisierung):
@@ -387,24 +389,33 @@ Letzte Farbe löschen
 Nachhall und Rauschen am Ende entfernen
 Nahtübereinstimmung
 Anschlagkurve
+Strophe, Zeile {0}
 Zurück in den PC-Modus
 Zurück zu SoundNexus Pro
 Streicher
 V{0}: {1} gesendet (Kan. {2})
 Schneiden starten
 Warte auf das Mobilgerät…
+Ende
 WAV-Dateien öffnen
 WAV-Sample
 WAV öffnen
 Rauschpegel
 Klavier
+[Am]Das ist schon der zweite [E]Song
+[Am]Blättere durch Wischen nach rechts oder [F]links
+[C]Mit dem Schloss wird die Seite [G]gesperrt
+[Em]Akkorde stehen in eckigen [C]Klammern
+[G]Schreibe hier den [D]Liedtext
 [G]Text [D]mit Akkorden\n{Main A} Abschnitt\n# Kommentar
 die übrigen Samples sind bitgleich mit dem Original; kein Resampling, keine Änderung der Bittiefe
 Anfang −{0} ms · Ende −{1} ms
 Format unverändert ✓
 alle Tasten sind im Panel
+keine
 keiner (Samples unverändert)
 laut Panel
+Refrain
 laut Thema
 Nahtübereinstimmung {0}%
 {0} (Original: {1})
@@ -416,6 +427,7 @@ Nahtübereinstimmung {0}%
 {0} ms ({1} Samples)
 {0} ms langer Loop
 {0} s · {1} Samples · {2}
+{0} Takte
 Sample {0}
 Sample {0} ({1} ms)
 Farbe {0}

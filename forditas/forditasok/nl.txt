@@ -283,6 +283,7 @@ Neon
 Geen groep.
 Geen nummers. Ontvang een pakket van de pc.
 Geen instrument verbonden – de instelling is alleen in het programma toegepast.
+Niet verbonden
 Taal
 Taal en weergavemodus…
 Open links een WAV-sample.
@@ -309,6 +310,7 @@ Pc-modus: bewerken en ontwerpen. Tablet en Telefoon: voorbeeld, precies zoals he
 Pad / strijkers
 Paneeltransparantie
 Paneelkleur
+Refrein, regel {0}
 Registratiebanken
 Registratie
 Ritmisch raster (kwantisatie):
@@ -387,24 +389,33 @@ Laatste kleur verwijderen
 Galm en ruis aan het einde wegknippen
 Naadovereenkomst
 Velocitycurve
+Couplet, regel {0}
 Terug naar pc-modus
 Terug naar SoundNexus Pro
 Strijkers
 V{0}: {1} verzonden (kan. {2})
 Knippen starten
 Wachten op de mobiel…
+Einde
 WAV-bestanden openen
 WAV-sample
 WAV openen
 Ruisvloer
 Piano
+[Am]Dit is al het tweede [E]nummer
+[Am]Veeg naar rechts of [F]links om te bladeren
+[C]Met het slot vergrendel je [G]de pagina
+[Em]Akkoorden staan tussen vierkante [C]haken
+[G]Schrijf hier de [D]songtekst
 [G]Tekst [D]met akkoorden\nsectie {Main A}\n# opmerking
 de overige samples zijn bit-identiek aan het origineel; geen resampling, geen wijziging van bitdiepte
 begin −{0} ms · einde −{1} ms
 formaat ongewijzigd ✓
 alle knoppen staan op het paneel
+geen
 geen (samples onaangeroerd)
 volgens paneel
+refrein
 volgens thema
 naadovereenkomst {0}%
 {0} (origineel: {1})
@@ -416,6 +427,7 @@ naadovereenkomst {0}%
 {0} ms ({1} samples)
 loop van {0} ms
 {0} s · {1} samples · {2}
+{0} maten
 sample {0}
 sample {0} ({1} ms)
 kleur {0}

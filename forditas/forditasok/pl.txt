@@ -283,6 +283,7 @@ Neon
 Brak grup.
 Brak utworów. Odbierz pakiet z komputera.
 Brak podłączonego instrumentu – ustawienie zastosowano tylko w programie.
+Brak połączenia
 Język
 Język i tryb wyświetlania…
 Otwórz próbkę WAV po lewej stronie.
@@ -309,6 +310,7 @@ Tryb PC: edycja i projektowanie. Tablet i Telefon: podgląd, dokładnie tak, jak
 Pad / smyczki
 Przezroczystość panelu
 Kolor panelu
+Refren, wiersz {0}
 Banki rejestracji
 Rejestracja
 Siatka rytmiczna (kwantyzacja):
@@ -387,24 +389,33 @@ Usuń ostatni kolor
 Wytnij pogłos i szum z końca
 Zgodność złącza
 Krzywa dynamiki
+Zwrotka, wiersz {0}
 Wróć do trybu PC
 Wróć do SoundNexus Pro
 Smyczki
 V{0}: wysłano {1} (kan. {2})
 Rozpocznij cięcie
 Oczekiwanie na urządzenie mobilne…
+Koniec
 Otwórz pliki WAV
 Próbka WAV
 Otwórz WAV
 Poziom szumu
 Fortepian
+[Am]To już drugi [E]utwór
+[Am]Przewiń, przeciągając w prawo lub w [F]lewo
+[C]Kłódka blokuje [G]stronę
+[Em]Akordy wpisuje się w nawiasy [C]kwadratowe
+[G]Tu wpisz tekst [D]utworu
 [G]Tekst [D]z akordami\nsekcja {Main A}\n# komentarz
 pozostałe próbki są identyczne co do bitu z oryginałem; bez ponownego próbkowania, bez zmiany głębi bitowej
 początek −{0} ms · koniec −{1} ms
 format bez zmian ✓
 wszystkie przyciski są na panelu
+brak
 brak (próbki nienaruszone)
 według panelu
+refren
 według motywu
 zgodność złącza {0}%
 {0} (oryginał: {1})
@@ -416,6 +427,7 @@ Brzmień: {0}
 {0} ms ({1} próbek)
 pętla {0} ms
 {0} s · {1} próbek · {2}
+{0} takty
 próbka {0}
 próbka {0} ({1} ms)
 kolor {0}

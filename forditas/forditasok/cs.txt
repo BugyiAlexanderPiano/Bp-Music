@@ -283,6 +283,7 @@ Neon
 Žádná skupina.
 Žádné skladby. Přijmi balíček z počítače.
 Není připojen žádný nástroj – nastavení se provedlo jen v programu.
+Nepřipojeno
 Jazyk
 Jazyk a režim zobrazení…
 Vlevo otevři vzorek WAV.
@@ -309,6 +310,7 @@ Režim PC: úpravy a návrh. Tablet a Telefon: náhled přesně tak, jak se zobr
 Pad / smyčce
 Průhlednost panelu
 Barva panelu
+Refrén, řádek {0}
 Registrační banky
 Registrace
 Rytmická mřížka (kvantizace):
@@ -387,24 +389,33 @@ Smazat poslední barvu
 Oříznout dozvuk a šum na konci
 Shoda spoje
 Křivka dynamiky
+Sloka, řádek {0}
 Zpět do režimu PC
 Zpět do SoundNexus Pro
 Smyčce
 V{0}: {1} odesláno (kan. {2})
 Spustit ořez
 Čekání na mobil…
+Konec
 Otevřít soubory WAV
 Vzorek WAV
 Otevřít WAV
 Hladina šumu
 Klavír
+[Am]Tohle je už druhá [E]skladba
+[Am]Listuj tažením doprava nebo [F]doleva
+[C]Zámkem se stránka [G]uzamkne
+[Em]Akordy patří do hranatých [C]závorek
+[G]Sem napiš text [D]písně
 [G]Text [D]s akordy\nsekce {Main A}\n# poznámka
 zbylé vzorky jsou bitově shodné s originálem; žádné převzorkování, žádná změna bitové hloubky
 začátek −{0} ms · konec −{1} ms
 formát beze změny ✓
 všechna tlačítka jsou na panelu
+žádný
 žádný (vzorky nedotčeny)
 podle panelu
+refrén
 podle motivu
 shoda spoje {0} %
 {0} (originál: {1})
@@ -416,6 +427,7 @@ Rejstříků: {0}
 {0} ms ({1} vzorků)
 smyčka {0} ms
 {0} s · {1} vzorků · {2}
+{0} takty
 vzorek {0}
 vzorek {0} ({1} ms)
 barva {0}

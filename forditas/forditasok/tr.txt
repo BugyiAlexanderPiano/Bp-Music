@@ -283,6 +283,7 @@ Neon
 Grup yok.
 Şarkı yok. Bilgisayardan bir paket alın.
 Bağlı çalgı yok – ayar yalnızca programda uygulandı.
+Bağlı değil
 Dil
 Dil ve görüntüleme modu…
 Solda bir WAV örneği açın.
@@ -309,6 +310,7 @@ PC modu: düzenleme ve tasarım. Tablet ve Telefon: önizleme, tam olarak mobil 
 Pad / yaylılar
 Panel saydamlığı
 Panel rengi
+Nakarat, {0}. satır
 Kayıt bankaları
 Kayıt
 Ritmik ızgara (kuantalama):
@@ -387,24 +389,33 @@ Son rengi sil
 Sondaki yankıyı ve gürültüyü kes
 Ek yeri uyumu
 Velocity eğrisi
+Kıta, {0}. satır
 PC moduna dön
 SoundNexus Pro'ya dön
 Yaylılar
 V{0}: {1} gönderildi (kan. {2})
 Kesmeyi başlat
 Mobil cihaz bekleniyor…
+Son
 WAV dosyalarını aç
 WAV örneği
 WAV aç
 Gürültü tabanı
 Piyano
+[Am]Bu zaten ikinci [E]şarkı
+[Am]Sayfa çevirmek için sağa veya [F]sola kaydırın
+[C]Kilit düğmesi sayfayı [G]kilitler
+[Em]Akorlar köşeli [C]parantez içine yazılır
+[G]Şarkı sözlerini [D]buraya yazın
 [G]Metin [D]akorlarla\n{Main A} bölümü\n# yorum
 kalan örnekler orijinalle bit düzeyinde aynıdır; yeniden örnekleme yok, bit derinliği değişimi yok
 baş −{0} ms · son −{1} ms
 biçim değişmedi ✓
 tüm düğmeler panelde
+yok
 yok (örnekler dokunulmadı)
 panele göre
+nakarat
 temaya göre
 ek yeri uyumu %{0}
 {0} (orijinal: {1})
@@ -416,6 +427,7 @@ ek yeri uyumu %{0}
 {0} ms ({1} örnek)
 {0} ms uzunluğunda döngü
 {0} s · {1} örnek · {2}
+{0} ölçü
 {0}. örnek
 {0}. örnek ({1} ms)
 {0}. renk

@@ -283,6 +283,7 @@ Neon
 Niciun grup.
 Nicio melodie. Primește un pachet de la PC.
 Niciun instrument conectat – setarea s-a aplicat doar în program.
+Neconectat
 Limbă
 Limbă și mod de afișare…
 Deschide un eșantion WAV în stânga.
@@ -309,6 +310,7 @@ Mod PC: editare și design. Tabletă și Telefon: previzualizare, exact cum va a
 Pad / corzi
 Transparența panoului
 Culoarea panoului
+Refren, rândul {0}
 Bănci de registrație
 Registrație
 Grilă ritmică (cuantizare):
@@ -387,24 +389,33 @@ Spațiere
 Taie reverberația și zgomotul de la sfârșit
 Potrivirea îmbinării
 Curbă de velocitate
+Strofă, rândul {0}
 Înapoi la modul PC
 Înapoi la SoundNexus Pro
 Corzi
 V{0}: {1} trimis (can. {2})
 Pornește tăierea
 Se așteaptă mobilul…
+Sfârșit
 Deschide fișiere WAV
 Eșantion WAV
 Deschide WAV
 Nivel de zgomot
 Pian
+[Am]Aceasta e deja a doua [E]melodie
+[Am]Glisează la dreapta sau la [F]stânga pentru a răsfoi
+[C]Lacătul blochează [G]pagina
+[Em]Acordurile se scriu între paranteze [C]drepte
+[G]Scrie aici [D]versurile
 [G]Text [D]cu acorduri\nsecțiunea {Main A}\n# comentariu
 eșantioanele rămase sunt identice bit cu bit cu originalul; fără reeșantionare, fără schimbarea adâncimii de biți
 început −{0} ms · sfârșit −{1} ms
 format neschimbat ✓
 toate butoanele sunt pe panou
+niciunul
 niciunul (eșantioane neatinse)
 după panou
+refren
 după temă
 potrivirea îmbinării {0}%
 {0} (original: {1})
@@ -416,6 +427,7 @@ Voci: {0}
 {0} ms ({1} eșantioane)
 buclă de {0} ms
 {0} s · {1} eșantioane · {2}
+{0} măsuri
 eșantionul {0}
 eșantionul {0} ({1} ms)
 culoarea {0}

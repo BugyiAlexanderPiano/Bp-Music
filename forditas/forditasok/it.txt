@@ -283,6 +283,7 @@ Neon
 Nessun gruppo.
 Nessun brano. Ricevi un pacchetto dal PC.
 Nessuno strumento collegato: l'impostazione è stata applicata solo nel programma.
+Non collegato
 Lingua
 Lingua e modalità di visualizzazione…
 Apri un campione WAV a sinistra.
@@ -309,6 +310,7 @@ Modalità PC: modifica e progettazione. Tablet e Telefono: anteprima, esattament
 Pad / archi
 Trasparenza del pannello
 Colore del pannello
+Ritornello, riga {0}
 Banchi di registrazione
 Registrazione
 Griglia ritmica (quantizzazione):
@@ -387,24 +389,33 @@ Elimina l'ultimo colore
 Taglia riverbero e rumore alla fine
 Corrispondenza della giunzione
 Curva di velocity
+Strofa, riga {0}
 Torna alla modalità PC
 Torna a SoundNexus Pro
 Archi
 V{0}: {1} inviato (can. {2})
 Avvia taglio
 In attesa del dispositivo mobile…
+Fine
 Apri file WAV
 Campione WAV
 Apri WAV
 Rumore di fondo
 Pianoforte
+[Am]Questo è già il secondo [E]brano
+[Am]Scorri a destra o a [F]sinistra per sfogliare
+[C]Il lucchetto blocca [G]la pagina
+[Em]Gli accordi vanno tra parentesi [C]quadre
+[G]Scrivi qui il [D]testo
 [G]Testo [D]con accordi\nsezione {Main A}\n# commento
 i campioni rimanenti sono identici bit per bit all'originale; nessun ricampionamento, nessun cambio di profondità di bit
 inizio −{0} ms · fine −{1} ms
 formato invariato ✓
 tutti i pulsanti sono nel pannello
+nessuno
 nessuno (campioni intatti)
 secondo il pannello
+ritornello
 secondo il tema
 corrispondenza della giunzione {0}%
 {0} (originale: {1})
@@ -416,6 +427,7 @@ corrispondenza della giunzione {0}%
 {0} ms ({1} campioni)
 loop di {0} ms
 {0} s · {1} campioni · {2}
+{0} battute
 campione {0}
 campione {0} ({1} ms)
 colore {0}

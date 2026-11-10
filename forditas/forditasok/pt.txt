@@ -283,6 +283,7 @@ Néon
 Nenhum grupo.
 Nenhuma música. Receba um pacote do PC.
 Nenhum instrumento ligado – a definição só foi aplicada no programa.
+Sem ligação
 Idioma
 Idioma e modo de apresentação…
 Abra uma amostra WAV à esquerda.
@@ -309,6 +310,7 @@ Modo PC: edição e design. Tablet e Telemóvel: pré-visualização, exatamente
 Pad / cordas
 Transparência do painel
 Cor do painel
+Refrão, linha {0}
 Bancos de registo
 Registo
 Grelha rítmica (quantização):
@@ -387,24 +389,33 @@ Eliminar a última cor
 Cortar reverberação e ruído do fim
 Correspondência da junção
 Curva de velocidade
+Estrofe, linha {0}
 Voltar ao modo PC
 Voltar ao SoundNexus Pro
 Cordas
 V{0}: {1} enviado (can. {2})
 Iniciar corte
 À espera do dispositivo móvel…
+Fim
 Abrir ficheiros WAV
 Amostra WAV
 Abrir WAV
 Ruído de fundo
 Piano
+[Am]Esta já é a segunda [E]música
+[Am]Deslize para a direita ou para a [F]esquerda para mudar de página
+[C]O cadeado bloqueia [G]a página
+[Em]Os acordes ficam entre parênteses [C]retos
+[G]Escreva aqui a [D]letra
 [G]Texto [D]com acordes\nsecção {Main A}\n# comentário
 as amostras restantes são idênticas bit a bit ao original; sem reamostragem nem mudança de profundidade de bits
 início −{0} ms · fim −{1} ms
 formato inalterado ✓
 todos os botões estão no painel
+nenhum
 nenhum (amostras intactas)
 conforme o painel
+refrão
 conforme o tema
 correspondência da junção {0}%
 {0} (original: {1})
@@ -416,6 +427,7 @@ correspondência da junção {0}%
 {0} ms ({1} amostras)
 loop de {0} ms
 {0} s · {1} amostras · {2}
+{0} compassos
 amostra {0}
 amostra {0} ({1} ms)
 cor {0}

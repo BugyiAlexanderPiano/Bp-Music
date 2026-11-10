@@ -283,6 +283,7 @@ Neon
 No groups.
 No songs. Receive a package from the PC.
 No instrument connected – the setting was only applied in the program.
+Not connected
 Language
 Language and display mode…
 Open a WAV sample on the left.
@@ -309,6 +310,7 @@ PC mode: editing and design. Tablet and Phone: preview, exactly as it will appea
 Pad / strings
 Panel transparency
 Panel colour
+Chorus, line {0}
 Registration banks
 Registration
 Rhythmic grid (quantisation):
@@ -387,24 +389,33 @@ Delete last colour
 Trim reverb tail and noise from the end
 Seam match
 Velocity curve
+Verse, line {0}
 Back to PC mode
 Back to SoundNexus Pro
 Strings
 V{0}: {1} sent (ch{2})
 Start trimming
 Waiting for the mobile…
+The end
 Open WAV files
 WAV sample
 Open WAV
 Noise floor
 Piano
+[Am]This is already the second [E]song
+[Am]Swipe right or [F]left to turn pages
+[C]The padlock button locks [G]the page
+[Em]Chords go in square [C]brackets
+[G]Write the song [D]lyrics here
 [G]Text [D]with chords\n{Main A} section\n# comment
 the remaining samples are bit-identical to the original; no resampling, no bit-depth change
 start −{0} ms · end −{1} ms
 format unchanged ✓
 every button is on the panel
+none
 none (samples untouched)
 per panel
+chorus
 per theme
 seam match {0}%
 {0} (original: {1})
@@ -416,6 +427,7 @@ seam match {0}%
 {0} ms ({1} samples)
 {0} ms long loop
 {0} s · {1} samples · {2}
+{0} bars
 sample {0}
 sample {0} ({1} ms)
 colour {0}

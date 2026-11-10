@@ -283,6 +283,7 @@ Neón
 No hay grupos.
 No hay canciones. Recibe un paquete del PC.
 No hay instrumento conectado: el ajuste solo se aplicó en el programa.
+Sin conexión
 Idioma
 Idioma y modo de visualización…
 Abre una muestra WAV a la izquierda.
@@ -309,6 +310,7 @@ Modo PC: edición y diseño. Tablet y Teléfono: vista previa, tal como aparecer
 Pad / cuerdas
 Transparencia del panel
 Color del panel
+Estribillo, línea {0}
 Bancos de registro
 Registro
 Cuadrícula rítmica (cuantización):
@@ -387,24 +389,33 @@ Borrar el último color
 Recortar reverberación y ruido del final
 Coincidencia de la unión
 Curva de velocidad
+Estrofa, línea {0}
 Volver al modo PC
 Volver a SoundNexus Pro
 Cuerdas
 V{0}: {1} enviado (can. {2})
 Iniciar recorte
 Esperando al móvil…
+Fin
 Abrir archivos WAV
 Muestra WAV
 Abrir WAV
 Nivel de ruido
 Piano
+[Am]Esta ya es la segunda [E]canción
+[Am]Desliza a la derecha o a la [F]izquierda para pasar página
+[C]El candado bloquea [G]la página
+[Em]Los acordes van entre [C]corchetes
+[G]Escribe aquí la [D]letra
 [G]Texto [D]con acordes\nsección {Main A}\n# comentario
 las muestras restantes son idénticas bit a bit al original; sin remuestreo ni cambio de profundidad de bits
 inicio −{0} ms · final −{1} ms
 formato sin cambios ✓
 todos los botones están en el panel
+ninguno
 ninguno (muestras intactas)
 según el panel
+estribillo
 según el tema
 coincidencia de la unión {0}%
 {0} (original: {1})
@@ -416,6 +427,7 @@ coincidencia de la unión {0}%
 {0} ms ({1} muestras)
 bucle de {0} ms
 {0} s · {1} muestras · {2}
+{0} compases
 muestra {0}
 muestra {0} ({1} ms)
 color {0}

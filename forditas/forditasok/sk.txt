@@ -283,6 +283,7 @@ Neon
 Žiadna skupina.
 Žiadne skladby. Prijmi balík z počítača.
 Nie je pripojený žiadny nástroj – nastavenie sa vykonalo len v programe.
+Nepripojené
 Jazyk
 Jazyk a režim zobrazenia…
 Vľavo otvor vzorku WAV.
@@ -309,6 +310,7 @@ Režim PC: úpravy a návrh. Tablet a Telefón: náhľad presne tak, ako sa zobr
 Pad / sláčiky
 Priehľadnosť panela
 Farba panela
+Refrén, riadok {0}
 Registračné banky
 Registrácia
 Rytmická mriežka (kvantizácia):
@@ -387,24 +389,33 @@ Zmazať poslednú farbu
 Orezať dozvuk a šum na konci
 Zhoda spoja
 Krivka dynamiky
+Sloha, riadok {0}
 Späť do režimu PC
 Späť do SoundNexus Pro
 Sláčiky
 V{0}: {1} odoslané (kan. {2})
 Spustiť orez
 Čaká sa na mobil…
+Koniec
 Otvoriť súbory WAV
 Vzorka WAV
 Otvoriť WAV
 Úroveň šumu
 Klavír
+[Am]Toto je už druhá [E]skladba
+[Am]Listuj potiahnutím doprava alebo [F]doľava
+[C]Zámkom sa strana [G]uzamkne
+[Em]Akordy patria do hranatých [C]zátvoriek
+[G]Sem napíš text [D]piesne
 [G]Text [D]s akordmi\nsekcia {Main A}\n# poznámka
 zvyšné vzorky sú bitovo zhodné s originálom; žiadne prevzorkovanie, žiadna zmena bitovej hĺbky
 začiatok −{0} ms · koniec −{1} ms
 formát bez zmeny ✓
 všetky tlačidlá sú na paneli
+žiadny
 žiadny (vzorky nedotknuté)
 podľa panela
+refrén
 podľa motívu
 zhoda spoja {0} %
 {0} (originál: {1})
@@ -416,6 +427,7 @@ Zvuky: {0}
 {0} ms ({1} vzoriek)
 slučka {0} ms
 {0} s · {1} vzoriek · {2}
+{0} takty
 vzorka {0}
 vzorka {0} ({1} ms)
 farba {0}

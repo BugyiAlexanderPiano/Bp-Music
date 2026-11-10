@@ -78,7 +78,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   late final MidiBackend midi = MidiBackend.create();
   String? get coreError => midi.error;
   bool connected = false, testMode = false;
-  String connectionLabel = 'Nincs kapcsolat';
+  String connectionLabel = tr('Nincs kapcsolat');
 
   // Fájl
   String? currentPath;
@@ -498,7 +498,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   DropdownButton<int>(
                     isExpanded: true,
                     value: outSel,
-                    hint: const Text('nincs'),
+                    hint: Text(tr('nincs')),
                     items: [
                       for (var i = 0; i < outs.length; i++)
                         DropdownMenuItem(value: i, child: Text('${outs[i].bluetooth ? '(BT) ' : ''}${outs[i].name}')),
@@ -510,7 +510,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   DropdownButton<int>(
                     isExpanded: true,
                     value: inSel,
-                    hint: const Text('nincs'),
+                    hint: Text(tr('nincs')),
                     items: [for (var i = 0; i < ins.length; i++) DropdownMenuItem(value: i, child: Text(ins[i].name))],
                     onChanged: (v) => setD(() => inSel = v),
                   ),
@@ -519,7 +519,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   DropdownButton<int>(
                     isExpanded: true,
                     value: outSel,
-                    hint: const Text('nincs'),
+                    hint: Text(tr('nincs')),
                     items: [for (var i = 0; i < outs.length; i++) DropdownMenuItem(value: i, child: Text(outs[i].name))],
                     onChanged: (v) => setD(() => outSel = v),
                   ),

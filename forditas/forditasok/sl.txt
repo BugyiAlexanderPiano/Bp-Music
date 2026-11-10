@@ -283,6 +283,7 @@ Neon
 Ni skupin.
 Ni skladb. Prejmi paket z računalnika.
 Noben inštrument ni povezan – nastavitev je bila uporabljena le v programu.
+Ni povezave
 Jezik
 Jezik in način prikaza…
 Na levi odpri vzorec WAV.
@@ -309,6 +310,7 @@ Način PC: urejanje in oblikovanje. Tablica in Telefon: predogled, natanko tak, 
 Pad / godala
 Prosojnost plošče
 Barva plošče
+Refren, vrstica {0}
 Registracijske banke
 Registracija
 Ritmična mreža (kvantizacija):
@@ -387,24 +389,33 @@ Izbriši zadnjo barvo
 Odreži odmev in šum s konca
 Ujemanje spoja
 Krivulja dinamike
+Kitica, vrstica {0}
 Nazaj v način PC
 Nazaj v SoundNexus Pro
 Godala
 V{0}: {1} poslano (kan. {2})
 Začni rezanje
 Čakanje na mobilno napravo…
+Konec
 Odpri datoteke WAV
 Vzorec WAV
 Odpri WAV
 Raven šuma
 Klavir
+[Am]To je že druga [E]skladba
+[Am]Listaj s potegom v desno ali [F]levo
+[C]S ključavnico se stran [G]zaklene
+[Em]Akordi so v oglatih [C]oklepajih
+[G]Sem napiši besedilo [D]skladbe
 [G]Besedilo [D]z akordi\ndel {Main A}\n# opomba
 preostali vzorci so bitno enaki izvirniku; brez prevzorčenja, brez spremembe bitne globine
 začetek −{0} ms · konec −{1} ms
 format nespremenjen ✓
 vsi gumbi so na plošči
+brez
 nobeden (vzorci nedotaknjeni)
 po plošči
+refren
 po temi
 ujemanje spoja {0} %
 {0} (izvirnik: {1})
@@ -416,6 +427,7 @@ Zvokov: {0}
 {0} ms ({1} vzorcev)
 zanka {0} ms
 {0} s · {1} vzorcev · {2}
+{0} takti
 vzorec {0}
 vzorec {0} ({1} ms)
 barva {0}

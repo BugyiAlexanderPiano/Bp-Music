@@ -283,6 +283,7 @@ Néon
 Aucun groupe.
 Aucune chanson. Recevez un paquet depuis le PC.
 Aucun instrument connecté – le réglage n'a été appliqué que dans le programme.
+Non connecté
 Langue
 Langue et mode d'affichage…
 Ouvrez un échantillon WAV à gauche.
@@ -309,6 +310,7 @@ Mode PC : édition et conception. Tablette et Téléphone : aperçu, exactement 
 Pad / cordes
 Transparence du panneau
 Couleur du panneau
+Refrain, ligne {0}
 Banques de registration
 Registration
 Grille rythmique (quantification) :
@@ -387,24 +389,33 @@ Supprimer la dernière couleur
 Couper la réverbération et le bruit à la fin
 Concordance de jointure
 Courbe de vélocité
+Couplet, ligne {0}
 Retour au mode PC
 Retour à SoundNexus Pro
 Cordes
 V{0} : {1} envoyé (can. {2})
 Lancer la coupe
 En attente du mobile…
+Fin
 Ouvrir des fichiers WAV
 Échantillon WAV
 Ouvrir un WAV
 Plancher de bruit
 Piano
+[Am]Voici déjà la deuxième [E]chanson
+[Am]Glissez à droite ou à [F]gauche pour tourner les pages
+[C]Le cadenas verrouille [G]la page
+[Em]Les accords vont entre [C]crochets
+[G]Écrivez ici les [D]paroles
 [G]Texte [D]avec accords\nsection {Main A}\n# commentaire
 les échantillons restants sont identiques au bit près à l'original ; aucun rééchantillonnage, aucun changement de profondeur de bits
 début −{0} ms · fin −{1} ms
 format inchangé ✓
 tous les boutons sont sur le panneau
+aucun
 aucun (échantillons intacts)
 selon le panneau
+refrain
 selon le thème
 concordance de jointure {0} %
 {0} (original : {1})
@@ -416,6 +427,7 @@ concordance de jointure {0} %
 {0} ms ({1} échantillons)
 boucle de {0} ms
 {0} s · {1} échantillons · {2}
+{0} mesures
 échantillon {0}
 échantillon {0} ({1} ms)
 couleur {0}

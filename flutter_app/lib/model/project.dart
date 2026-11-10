@@ -4,6 +4,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
+import '../i18n/i18n.dart';
+
 // ---------------------------------------------------------------------------
 // Hangszín-tár: fő csoportok és alkategóriák (GM-példák; a Genos saját bankjait
 // a modellprofil adja majd)
@@ -624,49 +626,53 @@ class Project {
         }
       }
     }
-    return SongScore(name: 'Bemutató dallam', notes: notes, beatsPerBar: 4, bpm: 96);
+    return SongScore(name: tr('Bemutató dallam'), notes: notes, beatsPerBar: 4, bpm: 96);
+  }
+
+  static String _demoBody() {
+    const verse = [['[G]', '[D]'], ['[Em]', '[C]'], ['[G]', '[D]'], ['[C]', '[D]']];
+    const chorus = [['[C]', '[G]'], ['[D]', '[Em]'], ['[C]', '[G]'], ['[D]', '[G]']];
+    return [
+      '{Intro} ${tr('{0} ütem', [4])}',
+      tr('[G]Ide írd a dal [D]szövegét'),
+      tr('[Em]Az akkordok szögletes [C]zárójelbe kerülnek'),
+      '{Main A}',
+      for (var i = 0; i < 4; i++) '${verse[i][0]}${tr('Versszak, {0}. sor', [i + 1])} ${verse[i][1]}',
+      '{Main B} ${tr('refrén')}',
+      for (var i = 0; i < 4; i++) '${chorus[i][0]}${tr('Refrén, {0}. sor', [i + 1])} ${chorus[i][1]}',
+      '{Ending}',
+      '[G]${tr('Vége')}',
+    ].join('\n');
   }
 
   factory Project.demo() {
     final p = Project()
-      ..name = 'Bemutató projekt'
+      ..name = tr('Bemutató projekt')
       ..readerView = ReaderView.both;
     p.songs.addAll([
       Song(
-        title: 'Bemutató dal',
+        title: tr('Bemutató dal'),
         artist: 'SoundNexus Pro',
         key: 'G',
         bpm: 96,
         style: '8Beat Pop',
         scores: [_demoScore()],
-        body: '''{Intro} 4 ütem
-[G]Ide írd a dal [D]szövegét
-[Em]Az akkordok szögletes [C]zárójelbe kerülnek
-{Main A}
-[G]Első versszak, [D]első sor
-[Em]Első versszak, [C]második sor
-[G]Első versszak, [D]harmadik sor
-[C]Első versszak, [D]negyedik sor
-{Main B} refrén
-[C]Refrén, első [G]sor
-[D]Refrén, második [Em]sor
-[C]Refrén, harmadik [G]sor
-[D]Refrén, negyedik [G]sor
-{Ending}
-[G]Vége''',
+        body: _demoBody(),
       ),
       Song(
-        title: 'Második dal',
+        title: tr('Második dal'),
         key: 'Am',
         bpm: 120,
         timeSig: '4/4',
         style: 'Disco',
         mainSection: 0x09,
-        body: '''{Main A}
-[Am]Lapozz ide jobbra vagy [F]balra húzással
-[C]A lakat gombbal az oldal [G]lezárható
-{Main B}
-[Am]Ez már a második [E]dal''',
+        body: [
+          '{Main A}',
+          tr('[Am]Lapozz ide jobbra vagy [F]balra húzással'),
+          tr('[C]A lakat gombbal az oldal [G]lezárható'),
+          '{Main B}',
+          tr('[Am]Ez már a második [E]dal'),
+        ].join('\n'),
       ),
     ]);
     return p;

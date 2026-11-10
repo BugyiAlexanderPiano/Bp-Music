@@ -7,12 +7,15 @@ from dartstr import scan
 root=os.path.join(HERE,'..','flutter_app','lib')
 tpls=set()
 for f in glob.glob(root+'/**/*.dart', recursive=True):
-    if '/i18n/lang/' in f: continue
+    if '/i18n/' in f: continue
     src=open(f).read()
     for s,e,lit,raw in scan(src):
         if src[max(0,s-3):s]=='tr(':
             body = lit[1:-1]
             tpls.add(body)
+    # interpolációban (${...}) lévő tr('...') hívások
+    for m in re.finditer(r"tr\('((?:[^'\\$]|\\.)*)'", src):
+        tpls.add(m.group(1))
 # adat-feliratok
 proj=open(root+'/model/project.dart').read()
 for name in ['rhythmCatalog','bottomCatalog','panelNames','buttonShapeNames']:

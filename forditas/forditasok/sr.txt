@@ -283,6 +283,7 @@ Neon
 Nema grupa.
 Nema pesama. Primi paket sa računara.
 Nijedan instrument nije povezan – podešavanje je primenjeno samo u programu.
+Nije povezano
 Jezik
 Jezik i režim prikaza…
 Otvori WAV uzorak sa leve strane.
@@ -309,6 +310,7 @@ Režim PC: uređivanje i dizajn. Tablet i Telefon: pregled, tačno kako će izgl
 Pad / gudači
 Providnost table
 Boja table
+Refren, red {0}
 Registracione banke
 Registracija
 Ritmička mreža (kvantizacija):
@@ -387,24 +389,33 @@ Obriši poslednju boju
 Iseci odjek i šum sa kraja
 Poklapanje spoja
 Kriva dinamike
+Strofa, red {0}
 Nazad u režim PC
 Nazad u SoundNexus Pro
 Gudači
 V{0}: {1} poslato (kan. {2})
 Pokreni sečenje
 Čekanje na mobilni…
+Kraj
 Otvori WAV datoteke
 WAV uzorak
 Otvori WAV
 Nivo šuma
 Klavir
+[Am]Ovo je već druga [E]pesma
+[Am]Listaj prevlačenjem udesno ili [F]ulevo
+[C]Katancem se strana [G]zaključava
+[Em]Akordi idu u uglaste [C]zagrade
+[G]Ovde upiši tekst [D]pesme
 [G]Tekst [D]sa akordima\ndeo {Main A}\n# komentar
 preostali uzorci su bitski identični originalu; bez ponovnog uzorkovanja, bez promene dubine bita
 početak −{0} ms · kraj −{1} ms
 format nepromenjen ✓
 sva dugmad su na tabli
+nema
 nijedan (uzorci netaknuti)
 prema tabli
+refren
 prema temi
 poklapanje spoja {0}%
 {0} (original: {1})
@@ -416,6 +427,7 @@ Zvukova: {0}
 {0} ms ({1} uzoraka)
 petlja od {0} ms
 {0} s · {1} uzoraka · {2}
+{0} takta
 uzorak {0}
 uzorak {0} ({1} ms)
 boja {0}

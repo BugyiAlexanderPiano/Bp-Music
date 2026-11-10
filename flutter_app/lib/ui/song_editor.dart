@@ -282,7 +282,7 @@ class _SongEditorState extends State<_SongEditor> {
                 isExpanded: true,
                 value: regValue < widget.bankCount * 8 ? regValue : -1,
                 items: [
-                  const DropdownMenuItem(value: -1, child: Text('nincs')),
+                  DropdownMenuItem(value: -1, child: Text(tr('nincs'))),
                   for (var b = 0; b < widget.bankCount; b++)
                     for (var s = 0; s < 8; s++)
                       DropdownMenuItem(value: b * 8 + s, child: Text(tr('Bank {0} / {1}', [b + 1, s + 1]))),
