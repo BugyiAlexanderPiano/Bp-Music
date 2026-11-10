@@ -130,14 +130,13 @@ class _VoicePanelEditorPageState extends State<VoicePanelEditorPage> {
       ],
       body: Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         // Csoportok
-        _box(p, width: 330, Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        _box(p, width: 270, Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           _head('Hangszíncsoportok (húzással átrendezhető)'),
           Expanded(
             child: ReorderableListView.builder(
               buildDefaultDragHandles: false,
               itemCount: groups.length,
-              onReorder: (a, b) => _ch(() {
-                if (b > a) b--;
+              onReorderItem: (a, b) => _ch(() {
                 final x = groups.removeAt(a);
                 groups.insert(b, x);
                 group = b;
@@ -201,15 +200,14 @@ class _VoicePanelEditorPageState extends State<VoicePanelEditorPage> {
                     child: ReorderableListView.builder(
                       buildDefaultDragHandles: false,
                       itemCount: g.voices.length,
-                      onReorder: (a, b) => _ch(() {
-                        if (b > a) b--;
+                      onReorderItem: (a, b) => _ch(() {
                         final x = g.voices.removeAt(a);
                         g.voices.insert(b, x);
                       }),
                       itemBuilder: (ctx, i) {
                         final v = g.voices[i];
                         Widget numField(String label, int value, ValueChanged<int> set, {int min = 0, int max = 127}) => SizedBox(
-                              width: 74,
+                              width: 58,
                               child: TextFormField(
                                 key: ValueKey('$label$i${v.hashCode}'),
                                 initialValue: '$value',
@@ -223,39 +221,46 @@ class _VoicePanelEditorPageState extends State<VoicePanelEditorPage> {
                             );
                         return Padding(
                           key: ValueKey(v),
-                          padding: const EdgeInsets.symmetric(vertical: 4),
+                          padding: const EdgeInsets.symmetric(vertical: 6),
                           child: Row(children: [
                             ReorderableDragStartListener(index: i, child: const Icon(Icons.drag_indicator)),
                             const SizedBox(width: 8),
                             Expanded(
-                              child: TextFormField(
-                                key: ValueKey('vn$i${v.hashCode}'),
-                                initialValue: v.name,
-                                decoration: const InputDecoration(labelText: 'Név', isDense: true),
-                                onChanged: (t) => _ch(() => v.name = t),
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            DropdownButton<String>(
-                              value: _categories.containsKey(v.category) ? v.category : '',
-                              items: [for (final e in _categories.entries) DropdownMenuItem(value: e.key, child: Text(e.value))],
-                              onChanged: (c) => _ch(() => v.category = c!),
-                            ),
-                            const SizedBox(width: 8),
-                            numField('MSB', v.msb, (n) => v.msb = n),
-                            const SizedBox(width: 6),
-                            numField('LSB', v.lsb, (n) => v.lsb = n),
-                            const SizedBox(width: 6),
-                            numField('Prg', v.program + 1, (n) => v.program = n - 1, min: 1, max: 128),
-                            IconButton(
-                              tooltip: 'Gomb kinézete',
-                              icon: const Icon(Icons.brush),
-                              onPressed: () => showItemStyleDialog(context, p, 'voice:${v.name}', v.name, () => _ch(() {})),
-                            ),
-                            IconButton(
-                              tooltip: 'Törlés',
-                              icon: const Icon(Icons.delete_outline),
-                              onPressed: () => _ch(() => g.voices.removeAt(i)),
+                              child: Column(children: [
+                                Row(children: [
+                                  Expanded(
+                                    child: TextFormField(
+                                      key: ValueKey('vn$i${v.hashCode}'),
+                                      initialValue: v.name,
+                                      decoration: const InputDecoration(labelText: 'Név', isDense: true),
+                                      onChanged: (t) => _ch(() => v.name = t),
+                                    ),
+                                  ),
+                                  IconButton(
+                                    tooltip: 'Gomb kinézete',
+                                    icon: const Icon(Icons.brush),
+                                    onPressed: () => showItemStyleDialog(context, p, 'voice:${v.name}', v.name, () => _ch(() {})),
+                                  ),
+                                  IconButton(
+                                    tooltip: 'Törlés',
+                                    icon: const Icon(Icons.delete_outline),
+                                    onPressed: () => _ch(() => g.voices.removeAt(i)),
+                                  ),
+                                ]),
+                                Row(children: [
+                                  DropdownButton<String>(
+                                    value: _categories.containsKey(v.category) ? v.category : '',
+                                    items: [for (final e in _categories.entries) DropdownMenuItem(value: e.key, child: Text(e.value))],
+                                    onChanged: (c) => _ch(() => v.category = c!),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  numField('MSB', v.msb, (n) => v.msb = n),
+                                  const SizedBox(width: 6),
+                                  numField('LSB', v.lsb, (n) => v.lsb = n),
+                                  const SizedBox(width: 6),
+                                  numField('Prg', v.program + 1, (n) => v.program = n - 1, min: 1, max: 128),
+                                ]),
+                              ]),
                             ),
                           ]),
                         );
@@ -273,7 +278,7 @@ class _VoicePanelEditorPageState extends State<VoicePanelEditorPage> {
                 ])),
         ),
         // Előnézet
-        _box(p, width: 300, Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        _box(p, width: 250, Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           _head('Előnézet'),
           Expanded(
             child: LayoutBuilder(builder: (ctx, box) {
@@ -342,8 +347,7 @@ class _RhythmPanelEditorPageState extends State<RhythmPanelEditorPage> {
               child: ReorderableListView.builder(
                 buildDefaultDragHandles: false,
                 itemCount: items.length,
-                onReorder: (a, b) => _ch(() {
-                  if (b > a) b--;
+                onReorderItem: (a, b) => _ch(() {
                   final x = items.removeAt(a);
                   items.insert(b, x);
                 }),
@@ -442,8 +446,7 @@ class _BottomBarEditorPageState extends State<BottomBarEditorPage> {
           child: ReorderableListView.builder(
             buildDefaultDragHandles: false,
             itemCount: mods.length,
-            onReorder: (a, b) => _ch(() {
-              if (b > a) b--;
+            onReorderItem: (a, b) => _ch(() {
               final x = mods.removeAt(a);
               mods.insert(b, x);
             }),

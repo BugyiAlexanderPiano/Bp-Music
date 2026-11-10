@@ -731,7 +731,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
-    final t = p.theme;
     final l = p.layout;
     return CallbackShortcuts(
       bindings: {
@@ -1189,7 +1188,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             final open = openGroup;
             if (open != null && row.contains(open) && open < groups.length) {
               rows.add(Padding(
-                padding: const EdgeInsets.fromLTRB(4, 0, 0, 10),
+                padding: const EdgeInsets.only(bottom: 10),
                 child: Wrap(spacing: 6, runSpacing: 6, children: [
                   for (final v in groups[open].voices)
                     Draggable<VoicePreset>(
