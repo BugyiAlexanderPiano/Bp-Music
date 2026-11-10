@@ -1,4 +1,5 @@
 // lib/score/lead_sheet.dart — dallamkotta akkordjelekkel (lead sheet), tempóval görgetve
+import '../i18n/i18n.dart';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -63,7 +64,7 @@ class ScoreView extends StatelessWidget {
   Widget build(BuildContext context) {
     if (layout.song.score == null) {
       return Center(
-        child: Text('Ehhez a dalhoz még nincs kotta.\nA PC-n: Dal szerkesztése → Kotta → MIDI importálása.',
+        child: Text(tr('Ehhez a dalhoz még nincs kotta.\nA PC-n: Dal szerkesztése → Kotta → MIDI importálása.'),
             textAlign: TextAlign.center, style: TextStyle(color: layout.theme.textColor.withValues(alpha: 0.7))),
       );
     }

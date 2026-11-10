@@ -1,4 +1,5 @@
 // lib/ui/song_view.dart — egy dal oldala: fejléc (zenei adatok) + szöveg akkordokkal
+import '../i18n/i18n.dart';
 import 'package:flutter/material.dart';
 
 import '../model/chordpro.dart';
@@ -184,7 +185,7 @@ class SongHeader extends StatelessWidget {
     final t = theme;
     final key = song.transpose == 0
         ? song.key
-        : '${transposeChord(song.key, song.transpose)} (eredeti: ${song.key})';
+        : tr('{0} (eredeti: {1})', [transposeChord(song.key, song.transpose), song.key]);
     Widget chip(IconData ic, String label) => Container(
           margin: const EdgeInsets.only(right: 8),
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -212,7 +213,7 @@ class SongHeader extends StatelessWidget {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(children: [
-            chip(Icons.music_note, 'Hangnem: $key'),
+            chip(Icons.music_note, tr('Hangnem: {0}', [key])),
             chip(Icons.speed, '${song.bpm.round()} BPM'),
             chip(Icons.straighten, song.timeSig),
             if (song.style.isNotEmpty) chip(Icons.queue_music, song.style),

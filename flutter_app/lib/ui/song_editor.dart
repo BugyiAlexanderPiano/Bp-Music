@@ -1,4 +1,5 @@
 // lib/ui/song_editor.dart — dal-szerkesztő: szöveg + akkordok + tempó + hangnem (élő előnézettel)
+import '../i18n/i18n.dart';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -77,7 +78,7 @@ class _SongEditorState extends State<_SongEditor> {
       mf = MidiFile.parse(bytes);
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('A MIDI fájl nem olvasható: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(tr('A MIDI fájl nem olvasható: {0}', [e]))));
       }
       return;
     }
@@ -89,11 +90,11 @@ class _SongEditorState extends State<_SongEditor> {
       context: context,
       builder: (ctx) => StatefulBuilder(
         builder: (ctx, setD) => AlertDialog(
-          title: Text('Kotta: ${f.name}'),
+          title: Text(tr('Kotta: {0}', [f.name])),
           content: SizedBox(
             width: 480,
             child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const Text('Melyik sáv a dallam?'),
+              Text(tr('Melyik sáv a dallam?')),
               DropdownButton<int>(
                 isExpanded: true,
                 value: track,
@@ -104,28 +105,28 @@ class _SongEditorState extends State<_SongEditor> {
                 onChanged: (v) => setD(() => track = v!),
               ),
               const SizedBox(height: 10),
-              const Text('Ritmikai rács (kvantálás):'),
+              Text(tr('Ritmikai rács (kvantálás):')),
               SegmentedButton<double>(
-                segments: const [
-                  ButtonSegment(value: 0.5, label: Text('Nyolcad')),
-                  ButtonSegment(value: 0.25, label: Text('Tizenhatod')),
+                segments: [
+                  ButtonSegment(value: 0.5, label: Text(tr('Nyolcad'))),
+                  ButtonSegment(value: 0.25, label: Text(tr('Tizenhatod'))),
                 ],
                 selected: {grid},
                 onSelectionChanged: (v) => setD(() => grid = v.first),
               ),
               CheckboxListTile(
                 contentPadding: EdgeInsets.zero,
-                title: Text('Tempó és ütemmutató átvétele (${mf.firstBpm.round()} BPM, ${mf.beatsPerBar}/4)'),
+                title: Text(tr('Tempó és ütemmutató átvétele ({0} BPM, {1}/4)', [mf.firstBpm.round(), mf.beatsPerBar])),
                 value: takeTempo,
                 onChanged: (v) => setD(() => takeTempo = v ?? true),
               ),
-              Text('A teljes MIDI a dalhoz csatolódik: a tableten a „Dal lejátszása” gomb ezt játssza le a hangszeren.',
+              Text(tr('A teljes MIDI a dalhoz csatolódik: a tableten a „Dal lejátszása” gomb ezt játssza le a hangszeren.'),
                   style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.6))),
             ]),
           ),
           actions: [
-            TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Mégse')),
-            FilledButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('Kotta létrehozása')),
+            TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(tr('Mégse'))),
+            FilledButton(onPressed: () => Navigator.pop(ctx, true), child: Text(tr('Kotta létrehozása'))),
           ],
         ),
       ),
@@ -191,14 +192,14 @@ class _SongEditorState extends State<_SongEditor> {
         Padding(
           padding: const EdgeInsets.fromLTRB(20, 16, 12, 8),
           child: Row(children: [
-            const Text('Dal szerkesztése', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+            Text(tr('Dal szerkesztése'), style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
             const Spacer(),
-            TextButton(onPressed: () => Navigator.pop(context), child: const Text('Mégse')),
+            TextButton(onPressed: () => Navigator.pop(context), child: Text(tr('Mégse'))),
             const SizedBox(width: 8),
             FilledButton.icon(
               onPressed: () {
                 song
-                  ..title = titleCtrl.text.trim().isEmpty ? 'Névtelen dal' : titleCtrl.text.trim()
+                  ..title = titleCtrl.text.trim().isEmpty ? tr('Névtelen dal') : titleCtrl.text.trim()
                   ..artist = artistCtrl.text.trim()
                   ..style = styleCtrl.text.trim()
                   ..bpm = (double.tryParse(bpmCtrl.text) ?? song.bpm).clamp(30.0, 300.0)
@@ -206,7 +207,7 @@ class _SongEditorState extends State<_SongEditor> {
                 Navigator.pop(context, song);
               },
               icon: const Icon(Icons.check),
-              label: const Text('Mentés'),
+              label: Text(tr('Mentés')),
             ),
           ]),
         ),
@@ -214,10 +215,10 @@ class _SongEditorState extends State<_SongEditor> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Wrap(spacing: 14, runSpacing: 8, crossAxisAlignment: WrapCrossAlignment.end, children: [
-            _field('Cím', TextField(controller: titleCtrl, onChanged: (v) => setState(() => song.title = v)), width: 230),
-            _field('Előadó', TextField(controller: artistCtrl, onChanged: (v) => setState(() => song.artist = v)), width: 170),
+            _field(tr('Cím'), TextField(controller: titleCtrl, onChanged: (v) => setState(() => song.title = v)), width: 230),
+            _field(tr('Előadó'), TextField(controller: artistCtrl, onChanged: (v) => setState(() => song.artist = v)), width: 170),
             _field(
-              'Hangnem',
+              tr('Hangnem'),
               DropdownButton<String>(
                 isExpanded: true,
                 value: keyChoices.contains(song.key) ? song.key : 'C',
@@ -227,7 +228,7 @@ class _SongEditorState extends State<_SongEditor> {
               width: 90,
             ),
             _field(
-              'Tempó (BPM)',
+              tr('Tempó (BPM)'),
               TextField(
                 controller: bpmCtrl,
                 keyboardType: TextInputType.number,
@@ -236,7 +237,7 @@ class _SongEditorState extends State<_SongEditor> {
               width: 90,
             ),
             _field(
-              'Ütemmutató',
+              tr('Ütemmutató'),
               DropdownButton<String>(
                 isExpanded: true,
                 value: timeChoices.contains(song.timeSig) ? song.timeSig : '4/4',
@@ -245,9 +246,9 @@ class _SongEditorState extends State<_SongEditor> {
               ),
               width: 90,
             ),
-            _field('Stílus (a hangszeren)', TextField(controller: styleCtrl, onChanged: (v) => setState(() => song.style = v)), width: 170),
+            _field(tr('Stílus (a hangszeren)'), TextField(controller: styleCtrl, onChanged: (v) => setState(() => song.style = v)), width: 170),
             _field(
-              'Indító szakasz',
+              tr('Indító szakasz'),
               DropdownButton<int>(
                 isExpanded: true,
                 value: song.mainSection,
@@ -257,7 +258,7 @@ class _SongEditorState extends State<_SongEditor> {
               width: 110,
             ),
             _field(
-              'Ütem / sor',
+              tr('Ütem / sor'),
               DropdownButton<int>(
                 isExpanded: true,
                 value: song.barsPerLine,
@@ -267,7 +268,7 @@ class _SongEditorState extends State<_SongEditor> {
               width: 80,
             ),
             _field(
-              'Transzponálás',
+              tr('Transzponálás'),
               Row(children: [
                 IconButton(onPressed: () => setState(() => song.transpose--), icon: const Icon(Icons.remove, size: 18)),
                 Text('${song.transpose > 0 ? '+' : ''}${song.transpose}'),
@@ -276,7 +277,7 @@ class _SongEditorState extends State<_SongEditor> {
               width: 130,
             ),
             _field(
-              'Regisztráció',
+              tr('Regisztráció'),
               DropdownButton<int>(
                 isExpanded: true,
                 value: regValue < widget.bankCount * 8 ? regValue : -1,
@@ -284,7 +285,7 @@ class _SongEditorState extends State<_SongEditor> {
                   const DropdownMenuItem(value: -1, child: Text('nincs')),
                   for (var b = 0; b < widget.bankCount; b++)
                     for (var s = 0; s < 8; s++)
-                      DropdownMenuItem(value: b * 8 + s, child: Text('Bank ${b + 1} / ${s + 1}')),
+                      DropdownMenuItem(value: b * 8 + s, child: Text(tr('Bank {0} / {1}', [b + 1, s + 1]))),
                 ],
                 onChanged: (v) => setState(() => song.registration = v == null || v < 0 ? null : (bank: v ~/ 8, slot: v % 8)),
               ),
@@ -297,14 +298,14 @@ class _SongEditorState extends State<_SongEditor> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: SingleChildScrollView(scrollDirection: Axis.horizontal, child: Row(children: [
-            const Text('Akkord beszúrása: ', style: TextStyle(fontSize: 12)),
+            Text(tr('Akkord beszúrása: '), style: TextStyle(fontSize: 12)),
             for (final c in diatonicChords(song.key))
               Padding(
                 padding: const EdgeInsets.only(right: 4),
                 child: ActionChip(label: Text(c), onPressed: () => _insert('[$c]')),
               ),
             const SizedBox(width: 12),
-            const Text('Szakasz: ', style: TextStyle(fontSize: 12)),
+            Text(tr('Szakasz: '), style: TextStyle(fontSize: 12)),
             for (final s in ['Intro', 'Main A', 'Main B', 'Main C', 'Main D', 'Break', 'Ending'])
               Padding(
                 padding: const EdgeInsets.only(right: 4),
@@ -318,13 +319,13 @@ class _SongEditorState extends State<_SongEditor> {
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(children: [
-              const Text('Kotta: ', style: TextStyle(fontSize: 12)),
+              Text(tr('Kotta: '), style: TextStyle(fontSize: 12)),
               for (var k = 0; k < song.scores.length; k++)
                 Padding(
                   padding: const EdgeInsets.only(right: 4),
                   child: InputChip(
                     selected: k == song.activeScore,
-                    label: Text('${song.scores[k].name} (${song.scores[k].notes.length} hang)'),
+                    label: Text(tr('{0} ({1} hang)', [song.scores[k].name, song.scores[k].notes.length])),
                     onPressed: () => setState(() => song.activeScore = k),
                     onDeleted: () => setState(() {
                       song.scores.removeAt(k);
@@ -332,9 +333,9 @@ class _SongEditorState extends State<_SongEditor> {
                     }),
                   ),
                 ),
-              ActionChip(avatar: const Icon(Icons.library_music, size: 16), label: const Text('MIDI importálása…'), onPressed: _importMidi),
+              ActionChip(avatar: const Icon(Icons.library_music, size: 16), label: Text(tr('MIDI importálása…')), onPressed: _importMidi),
               const SizedBox(width: 12),
-              Text('Automatikus kottázás MP3/MP4-ből: B. szakasz',
+              Text(tr('Automatikus kottázás MP3/MP4-ből: B. szakasz'),
                   style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.45))),
             ]),
           ),
@@ -351,9 +352,9 @@ class _SongEditorState extends State<_SongEditor> {
                   expands: true,
                   textAlignVertical: TextAlignVertical.top,
                   style: const TextStyle(fontFamily: 'Consolas', fontSize: 15, height: 1.5),
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    hintText: '[G]Szöveg [D]akkordokkal\n{Main A} szakasz\n# megjegyzés',
+                    hintText: tr('[G]Szöveg [D]akkordokkal\n{Main A} szakasz\n# megjegyzés'),
                   ),
                   onChanged: (v) => setState(() => song.body = v),
                 ),
@@ -367,9 +368,9 @@ class _SongEditorState extends State<_SongEditor> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 6),
                       child: SegmentedButton<bool>(
-                        segments: const [
-                          ButtonSegment(value: false, label: Text('Előnézet: szöveg')),
-                          ButtonSegment(value: true, label: Text('Előnézet: kotta')),
+                        segments: [
+                          ButtonSegment(value: false, label: Text(tr('Előnézet: szöveg'))),
+                          ButtonSegment(value: true, label: Text(tr('Előnézet: kotta'))),
                         ],
                         selected: {previewScore},
                         onSelectionChanged: (v) => setState(() => previewScore = v.first),
