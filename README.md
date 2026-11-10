@@ -13,6 +13,13 @@ Szerkesztő (Windows, Mac) és fellépő alkalmazás (Android tablet, telefon) Y
 | `SoundNexusPro-Android.apk` | Android 7.0+ tablet, telefon | Fellépő mód | Másold a készülékre, nyisd meg, engedélyezd az ismeretlen forrásból való telepítést |
 | iPad / iPhone | iOS | Fellépő mód | A kód iOS-re is lefordul; telepítéshez Apple fejlesztői fiók kell (évi 99 USD), ennek beállítása után kerül be a kiadásba |
 
+
+## Nyelvek, megjelenési módok, kézikönyv
+
+- **20 nyelv:** magyar, angol, német, francia, spanyol, olasz, portugál, holland, lengyel, cseh, szlovák, román, horvát, szerb, szlovén, orosz, ukrán, bolgár, görög, török – a jobb felső fogaskerékkel választható.
+- **Megjelenési mód:** Automatikus / PC / Tablet / Telefon. PC-n a Tablet és a Telefon mód pontos előnézet (szerkeszteni csak PC módban lehet).
+- **Használati útmutató:** részletes PDF és feliratos videó magyarul és angolul (forrás: `kezikonyv/`). A fordítások forrása: `forditas/`.
+
 ## Munkafolyamat
 
 1. **PC / Mac – szerkesztés.** Dalok, akkordok, tempó, hangnem, rétegek, regiszter bankok, és a teljes kinézet
