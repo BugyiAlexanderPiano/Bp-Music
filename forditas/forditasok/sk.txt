@@ -1,0 +1,438 @@
+alebo
+(žiadna sieť)
+. Štýl: {0} – vyber ho na nástroji.
+1. Wi-Fi (odporúčané)
+2. Ako súbor (USB kábel, Bluetooth, AirDrop)
+Súbor MIDI sa nedá prečítať: {0}
+Počítač ohlásil chybu ({0}).
+Na počítači: Súbor → Odoslať do tabletu / telefónu → Spustiť odosielanie.
+Koncertný balík: {0} skladieb, {1} bánk, {2} KB. V mobile sa dá len používať, nie upravovať.
+Súbor nie je projekt SoundNexus Pro alebo je poškodený: {0}
+Súbor sa nedá otvoriť: {0}
+Obrázok je príliš veľký (max. 3 MB). Zmenši ho a skús to znova.
+Odosielanie sa nedá spustiť: {0}
+Časť pred koncom slučky sa prelína s časťou pred začiatkom slučky (equal-power).
+Uloženie zlyhalo: {0}
+Projekt sa zmenil. Pokračovať bez uloženia?
+Štýl vyberáš na nástroji; odtiaľto ovládaš štart, sekcie a tempo.
+Text sa nedá prečítať (vyžaduje sa UTF-8): {0}
+Na tablete / telefóne: SoundNexus Pro → Prijať z PC, potom zadaj tento kód:
+Celé MIDI sa pripojí ku skladbe: na tablete ho tlačidlo „Prehrať skladbu“ prehrá na nástroji.
+Zväčšený spoj: koniec slučky (vľavo) → začiatok slučky (vpravo). Plynulý prechod = žiadne cvaknutie.
+Zadaj adresu počítača a 6-miestny kód.
+Vložiť akord:
+Akordy
+Aktuálny riadok
+Predvolené rozloženie
+Predvolená knižnica zvukov
+Základný tón
+Základný tón (MIDI):
+Obnoviť predvolené
+Použiť
+Použité: {0}{1} dB
+Spodná lišta…
+Spodná ovládacia lišta
+Editor spodnej lišty
+Editor spodnej lišty…
+Zlatá
+Polárna žiara
+Automaticky
+Automatický notový zápis z MP3/MP4: fáza B
+Vzhľad jednotlivých tlačidiel (napr. OTS 1–4, registrácia 1–8, V1–V4) nastavíš v hlavnom okne v Zobrazenie → Upraviť rozhranie kliknutím na tlačidlo.
+Prechod sa pomaly otáča
+Banka 1
+Banka {0}
+Banka {0} / {1}
+Basa
+Vyvolané: {0} / {1}
+Zapnuté
+Ukážková skladba
+Ukážková melódia
+Ukážkový projekt
+Načítanie a priebeh vlny
+Veľkosť písma
+Písmo
+Písmo a farby textu
+Písmo a text…
+Zavrieť
+Nastavenia
+Nastavenia: jazyk, režim PC / Tablet / Telefón
+Nastavenia: jazyk, režim Tablet / Telefón
+Skratky: Ctrl+N nový · Ctrl+O otvoriť · Ctrl+S uložiť · Ctrl+Shift+S uložiť ako · Ctrl+E upraviť skladbu · F5 synchronizácia · ←/→ listovanie · Medzerník Start/Stop
+Zóna klaviatúry: {0} – {1}
+Naozaj zmazať „{0}“?
+Hľadanie Bluetooth
+Break
+Karmínová
+Hodnoty CC7 oddelené medzerami
+Bez prelínania zostanú vzorky nedotknuté.
+Len obrázok (bez popisu)
+Len pri silnom údere (vel ≥ {0})
+Orezať ticho na začiatku
+Analýza ticha a doznievania, orez
+Uložiť balík (.snxshow)
+Názov skupiny
+Zmazať skupinu
+Skupiny, zvuky, poradie, stĺpce, vzhľad tlačidiel
+Špičková úroveň
+Cieľ: −18 LUFS. Zadaj nameranú hlasitosť štýlu a aktuálne hodnoty CC7 partov.
+Názov
+Skladba
+Skladbu vyššie
+Skladbu nižšie
+Skladba importovaná: {0}
+Prehrať skladbu
+Prehrať skladbu na nástroji (pripojené MIDI)
+Upraviť skladbu
+Upraviť skladbu (Ctrl+E)
+Upraviť skladbu…
+Zmazať skladbu
+Text piesne (stred)
+Importovať text (.txt)…
+Čas jednej otáčky
+Dá sa vybrať jeden alebo viac súborov (dávkové spracovanie).
+Jednofarebné
+Ostatné
+Táto skladba zatiaľ nemá noty.\nNa počítači: Upraviť skladbu → Noty → Importovať MIDI.
+K tejto skladbe nie je pripojené MIDI. Na počítači: Upraviť skladbu → Noty → Importovať MIDI.
+Na začiatok
+Poradie prvkov (zľava doprava), pridanie, odobratie, vzhľad
+Prvky – poradie zoznamu = poradie lišty zľava doprava
+Odoslané: {0} BPM, {1}, vrstvy: {2}{3}
+Kontrola: formát, bitová hĺbka
+Kontrola: spoj, formát
+Rozmazanie
+Pridať prvú skladbu
+Odobrať
+Interpret
+Najprv sa pripoj k nástroju (Nástroj → Pripojiť).
+Najprv sa pripoj k nástroju.
+Náhľad
+Náhľad: noty
+Náhľad: text
+Predchádzajúca skladba
+Ending A
+Ending B
+Ending C
+Originál (červené = orezaná časť)
+Výsledok
+Zariadenie:
+Nástroje
+POZOR: formát sa líši
+Drevené dychy
+Spracovanie…
+Popis
+Farba popisu
+Koncertný režim · ukážka
+Koncertný režim · {0}
+Odomknúť
+Rozhranie
+Upraviť rozhranie (tlačidlá, lišty)
+Úprava rozhrania: klikni na ľubovoľné tlačidlo a zmeň jeho vzhľad (obrázok, popis, farba, veľkosť); oranžovým štetcom v rohu líšt upravíš celú lištu; deliace čiary sa dajú presúvať.
+Pozor: zvuk s pomalým nábehom (napr. pad) – vypočuj si, či nebol orezaný začiatok zvuku.
+Fill In
+Prijaté: {0}
+Prijať z PC
+Pokračovať bez uloženia
+Obnoviť
+Súbor
+Gitara
+Vzhľad tlačidla
+Tlačidlo: {0}
+Veľkosť tlačidiel
+Tlačidlá
+Tlačidlá (poradie zmeníš presunutím)
+Poradie tlačidiel, pridanie, odobratie, stĺpce, vzhľad
+Farba tlačidla
+Spustiť posúvanie (vnútorné hodiny)
+Zastaviť posúvanie
+Ak sa brána firewall systému Windows opýta, povoľ prístup „Súkromná sieť“.
+Ak mobil sám nenájde počítač, zadaj túto adresu: {0}
+Hlasitosť
+Rozdiel hlasitosti medzi oboma koncami
+Normalizácia hlasitosti…
+Vzorka (zvýraznená: slučka)
+Tónina
+Tónina: {0}
+Nástroj
+Zvuk (Bank MSB / LSB / Program)
+Odoslať zvuk
+Panel zvukov
+Editor panela zvukov
+Editor panela zvukov…
+Skupiny zvukov (poradie zmeníš presunutím)
+Zvuky
+Zvuky (Bank MSB / LSB / Program zo zoznamu nástroja)
+Zvuky (vľavo)
+Neplatný vstup.
+Chybný kód
+Chybný kód.
+Kam?
+Pridať:
+Pozadie
+Obrázok pozadia
+Farba pozadia
+Úvodná sekcia
+Intro A
+Intro B
+Intro C
+Ľad
+Pripojené: {0}
+Pripojiť
+Pripojiť k nástroju
+Chyba pripojenia
+Pripája sa…
+Kapsula
+Koniec bez cvaknutia (fade 5–20 ms)
+Body slučky bez cvaknutia pre držané vzorky · blok smpl (Yamaha Expansion Manager, samplery)
+Hľadá sa…
+Farba okraja
+Hrúbka okraja
+Prah nástupu
+Farba zvýraznenia
+Vypnuté: použije sa farba panela z motívu
+Ukončiť
+Najlepšie funguje držaný zvuk (sláčiky, pad, organ, zbor).
+Vyplniť
+Vybrať
+Noty (melódia + akordy)
+Vytvoriť noty
+Noty a text spolu
+Variant nôt
+Noty:
+Noty: {0}
+Obrázok na tlačidle
+Načítať obrázok
+Nahrať obrázok
+Viditeľnosť obrázka
+Obrázky
+Hotovo
+Hotové motívy
+Hotovo, späť
+Hotovo. Zatiaľ neuložené.
+Kód (6 číslic)
+Zbor
+Zbor, pad
+Kruh
+Ďalšia skladba
+Odoslať
+Spustiť odosielanie
+Odoslať do tabletu / telefónu
+Odoslať do tabletu / telefónu…
+Zámok
+Prah doznievania
+Najkratšia slučka
+Prehrať
+Prehrávanie na nástroji: {0} ({1} BPM)
+Prehrávanie zastavené.
+Zastaviť prehrávanie
+Zaoblené
+Stiahnuté do {0} zariadení ✓
+Stiahnuť
+Sťahuje sa…
+Levanduľová
+Orezané z konca
+Orezané zo začiatku
+Záverečný fade
+Zastaviť
+Dĺžka slučky
+Začiatok slučky
+Hľadať body slučky
+Koniec slučky
+Viditeľnosť
+Láva
+Vstup MIDI (z nástroja):
+Kanál MIDI:
+Importovať MIDI…
+Výstup MIDI (do nástroja):
+Main A
+Main A–D
+Main B
+Main C
+Main D
+Zvyšok (do hlasitosti štýlu): {0} dB
+Režim zobrazenia
+Otvorené: {0}
+Otvoriť zo súboru (.snxshow)
+Otvoriť…
+Ktorá stopa je melódia?
+Neuložené zmeny
+Ulož balík, skopíruj ho do mobilu (v Androide do priečinka Stiahnuté súbory, v iPhone/iPade do aplikácie Súbory) a potom v mobile: Prijať → Otvoriť zo súboru.
+Uložené: {0}
+Uložené: {0} / {1}
+Uložiť
+Uložiť sem
+Uložiť ako…
+Uložiť…
+Ukážkový riadok textu
+Orez ticha a doznievania s presnosťou na vzorku · zvyšné vzorky zostávajú bitovo zhodné
+Kvalita
+Dlaždice
+Pohyblivý prechod
+Druhá skladba
+Zrušiť
+Veľkosť
+Obnoviť veľkosti
+Nameraná hlasitosť (LUFS)
+Západ slnka
+Nepodarilo sa pripojiť k nástroju.
+Nenašlo sa žiadne zariadenie MIDI. Pripoj nástroj káblom USB-C / OTG (do zásuvky USB TO HOST nástroja) alebo použi Bluetooth MIDI adaptér.
+Nenašlo sa žiadne zariadenie MIDI. Pripoj nástroj káblom USB (USB TO HOST), zapni ho a klikni na Obnoviť.
+Počítač ({0}) nie je dostupný. Ste v rovnakej Wi-Fi? Beží na počítači odosielanie?
+Neon
+Žiadna skupina.
+Žiadne skladby. Prijmi balík z počítača.
+Nie je pripojený žiadny nástroj – nastavenie sa vykonalo len v programe.
+Jazyk
+Jazyk a režim zobrazenia…
+Vľavo otvor vzorku WAV.
+Vľavo otvor jeden alebo viac súborov WAV.
+Osminová
+Názov
+O programe a skratky
+Skladba bez názvu
+Zobrazenie
+Zobrazenie: text, noty alebo oboje
+Vyvolanie OTS cez MIDI: bude doplnené podľa Data List modelu
+Oktáva
+Strana
+Odomknúť stranu
+Zamknúť stranu (bez listovania)
+Vymeniť strany
+One Touch Settings
+Organ
+Stĺpce:
+PC
+Adresa počítača (napr. 192.168.1.20)
+Hľadá sa počítač v sieti Wi-Fi…
+Režim PC: úpravy a návrh. Tablet a Telefón: náhľad presne tak, ako sa zobrazí v mobile.
+Pad / sláčiky
+Priehľadnosť panela
+Farba panela
+Registračné banky
+Registrácia
+Rytmická mriežka (kvantizácia):
+Rytmus
+Rytmus (vpravo)
+Panel rytmu
+Rytmus a štýl
+Editor panela rytmu
+Editor panela rytmu…
+Part {0}: CC7 {1} → {2}
+Vrstvy (V1–V4)
+Plechové dychy
+Vlastné pozadie tejto lišty
+Vlastný obrázok pozadia
+Zaoblenie rohov
+Smaragdová
+SoundNexus Pro sa spustil.
+Koncertný balík SoundNexus Pro
+Projekt SoundNexus Pro
+Hľadať stabilný úsek a body slučky
+Start
+Start / Stop
+Stop
+Štýl
+Štýl (na nástroji)
+Style Start
+Style Stop
+Normalizácia hlasitosti štýlu
+Štýl: {0}
+Sekcia:
+Sekcie
+Úpravy
+Program na úpravy a živé ovládanie nástrojov Yamaha Genos 2, Genos, Tyros 5, Tyros 4 a PSR-SX.
+Synchronizácia
+Synchronizovať s nástrojom
+Tlačidlo synchronizácie
+Vypočítať
+Uhlík
+Farba
+Pridať farbu
+Vybrať farbu
+Zmazať farbu
+Otáčať aj farby
+Sólo
+Hranaté
+Text
+Text a akordy
+Štýl lišty
+Štýl lišty: {0}
+Štýly líšt
+Poškodený prenos (nesúhlasí kontrolný súčet). Skús to znova.
+Stmavenie
+Pomocník
+Tempo TAP
+Tablet
+Náhľad tabletu – takto vyzerá rozhranie na tablete (úpravy len v režime PC)
+Tablet: tri stĺpce vedľa seba. Telefón: skladba v strede, zvuky a rytmus sa vysúvajú zo strán.
+Telefón
+Náhľad telefónu – takto vyzerá rozhranie na telefóne (úpravy len v režime PC)
+Celý obrázok
+Tempo
+Tempo (BPM)
+Tempo +
+Prevziať tempo a takt ({0} BPM, {1}/4)
+Tempo −
+Testovací režim
+Testovací režim: príkazy sa neodosielajú do nástroja.
+Šestnástinová
+Transpozícia
+Motív
+Motív a farby
+Motív a farby…
+Rozostup
+Zmazať
+Zmazať poslednú farbu
+Orezať dozvuk a šum na konci
+Zhoda spoja
+Krivka dynamiky
+Späť do režimu PC
+Späť do SoundNexus Pro
+Sláčiky
+V{0}: {1} odoslané (kan. {2})
+Spustiť orez
+Čaká sa na mobil…
+Otvoriť súbory WAV
+Vzorka WAV
+Otvoriť WAV
+Úroveň šumu
+Klavír
+[G]Text [D]s akordmi\nsekcia {Main A}\n# poznámka
+zvyšné vzorky sú bitovo zhodné s originálom; žiadne prevzorkovanie, žiadna zmena bitovej hĺbky
+začiatok −{0} ms · koniec −{1} ms
+formát bez zmeny ✓
+všetky tlačidlá sú na paneli
+žiadny (vzorky nedotknuté)
+podľa panela
+podľa motívu
+zhoda spoja {0} %
+{0} (originál: {1})
+{0} ({1} nôt)
+{0} / {1} je prázdne. Uloženie: Uložiť, potom číslo.
+Vybrané súbory: {0}
+Uložené súbory: {0} do: {1}
+Zvuky: {0}
+{0} ms ({1} vzoriek)
+slučka {0} ms
+{0} s · {1} vzoriek · {2}
+vzorka {0}
+vzorka {0} ({1} ms)
+farba {0}
+{Main A}\n[C]Sem napíš text
+Priehľadnosť
+Smer prechodu
+Prechod: pridať farbu
+Prechod
+Polnočná modrá
+Oceán
+Nová banka
+Nová skupina
+Nová skladba
+Nová skladba…
+Nový zvuk
+Nový projekt
+Nový projekt.
+Znova
+Takty / riadok
+Takt
