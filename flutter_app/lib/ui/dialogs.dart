@@ -1,4 +1,5 @@
 // lib/ui/dialogs.dart — beállító ablakok: téma, betűtípus, V-slot, normalizálás
+import '../i18n/i18n.dart';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -46,12 +47,12 @@ Future<void> showThemeDialog(BuildContext context, Project project, VoidCallback
         }
 
         return AlertDialog(
-          title: const Text('Téma és színek'),
+          title: Text(tr('Téma és színek')),
           content: SizedBox(
             width: 460,
             child: SingleChildScrollView(
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                const Text('Kész témák', style: TextStyle(fontWeight: FontWeight.w600)),
+                Text(tr('Kész témák'), style: TextStyle(fontWeight: FontWeight.w600)),
                 const SizedBox(height: 8),
                 Wrap(spacing: 8, runSpacing: 8, children: [
                   for (final p in _themePresets)
@@ -73,16 +74,16 @@ Future<void> showThemeDialog(BuildContext context, Project project, VoidCallback
                           gradient: LinearGradient(colors: p.bg.length > 1 ? p.bg : [p.bg.first, p.bg.first]),
                           border: Border.all(color: p.accent, width: 2),
                         ),
-                        child: Text(p.name, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+                        child: Text(tr(p.name), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
                       ),
                     ),
                 ]),
                 const SizedBox(height: 18),
-                const Text('Háttér', style: TextStyle(fontWeight: FontWeight.w600)),
+                Text(tr('Háttér'), style: TextStyle(fontWeight: FontWeight.w600)),
                 SegmentedButton<BackgroundMode>(
-                  segments: const [
-                    ButtonSegment(value: BackgroundMode.solid, label: Text('Egyszínű')),
-                    ButtonSegment(value: BackgroundMode.gradient, label: Text('Átmenetes')),
+                  segments: [
+                    ButtonSegment(value: BackgroundMode.solid, label: Text(tr('Egyszínű'))),
+                    ButtonSegment(value: BackgroundMode.gradient, label: Text(tr('Átmenetes'))),
                   ],
                   selected: {t.mode},
                   onSelectionChanged: (s) => upd(() {
@@ -97,18 +98,18 @@ Future<void> showThemeDialog(BuildContext context, Project project, VoidCallback
                   for (var i = 0; i < (t.mode == BackgroundMode.solid ? 1 : t.background.length); i++)
                     ColorButton(
                       color: t.background[i],
-                      label: t.mode == BackgroundMode.solid ? 'Háttérszín' : '${i + 1}. szín',
+                      label: t.mode == BackgroundMode.solid ? tr('Háttérszín') : tr('{0}. szín', [i + 1]),
                       onChanged: (c) => upd(() => t.background[i] = c),
                     ),
                   if (t.mode == BackgroundMode.gradient && t.background.length < 4)
                     IconButton(
-                      tooltip: 'Szín hozzáadása',
+                      tooltip: tr('Szín hozzáadása'),
                       icon: const Icon(Icons.add_circle_outline),
                       onPressed: () => upd(() => t.background.add(t.background.last)),
                     ),
                   if (t.mode == BackgroundMode.gradient && t.background.length > 2)
                     IconButton(
-                      tooltip: 'Utolsó szín törlése',
+                      tooltip: tr('Utolsó szín törlése'),
                       icon: const Icon(Icons.remove_circle_outline),
                       onPressed: () => upd(() => t.background.removeLast()),
                     ),
@@ -116,26 +117,26 @@ Future<void> showThemeDialog(BuildContext context, Project project, VoidCallback
                 if (t.mode == BackgroundMode.gradient) ...[
                   SwitchListTile(
                     contentPadding: EdgeInsets.zero,
-                    title: const Text('Mozgó színátmenet'),
-                    subtitle: const Text('Az átmenet lassan körbeforog'),
+                    title: Text(tr('Mozgó színátmenet')),
+                    subtitle: Text(tr('Az átmenet lassan körbeforog')),
                     value: t.animate,
                     onChanged: (v) => upd(() => t.animate = v),
                   ),
                   if (t.animate) ...[
                     Row(children: [
-                      const SizedBox(width: 130, child: Text('Egy kör ideje')),
+                      SizedBox(width: 130, child: Text(tr('Egy kör ideje'))),
                       Expanded(child: Slider(value: t.animSeconds, min: 4, max: 60, divisions: 56, label: '${t.animSeconds.round()} s', onChanged: (v) => upd(() => t.animSeconds = v))),
                       Text('${t.animSeconds.round()} s'),
                     ]),
                     SwitchListTile(
                       contentPadding: EdgeInsets.zero,
-                      title: const Text('Színek körbeforgatása is'),
+                      title: Text(tr('Színek körbeforgatása is')),
                       value: t.animateHue,
                       onChanged: (v) => upd(() => t.animateHue = v),
                     ),
                   ],
                   const SizedBox(height: 6),
-                  const Text('Átmenet iránya'),
+                  Text(tr('Átmenet iránya')),
                   Wrap(spacing: 4, children: [
                     for (final (a, ic) in const [
                       (Alignment.topCenter, Icons.south),
@@ -151,7 +152,7 @@ Future<void> showThemeDialog(BuildContext context, Project project, VoidCallback
                   ]),
                 ],
                 const SizedBox(height: 14),
-                const Text('Saját háttérkép', style: TextStyle(fontWeight: FontWeight.w600)),
+                Text(tr('Saját háttérkép'), style: TextStyle(fontWeight: FontWeight.w600)),
                 const SizedBox(height: 6),
                 Row(children: [
                   Container(
@@ -172,42 +173,42 @@ Future<void> showThemeDialog(BuildContext context, Project project, VoidCallback
                       if (id != null) upd(() => t.bgImage = id);
                     },
                     icon: const Icon(Icons.wallpaper),
-                    label: const Text('Kép betöltése'),
+                    label: Text(tr('Kép betöltése')),
                   ),
-                  if (t.bgImage != null) TextButton(onPressed: () => upd(() => t.bgImage = null), child: const Text('Eltávolítás')),
+                  if (t.bgImage != null) TextButton(onPressed: () => upd(() => t.bgImage = null), child: Text(tr('Eltávolítás'))),
                 ]),
                 if (t.bgImage != null) ...[
                   const SizedBox(height: 6),
                   SegmentedButton<String>(
-                    segments: const [
-                      ButtonSegment(value: 'cover', label: Text('Kitöltés')),
-                      ButtonSegment(value: 'contain', label: Text('Teljes kép')),
-                      ButtonSegment(value: 'tile', label: Text('Mozaik')),
+                    segments: [
+                      ButtonSegment(value: 'cover', label: Text(tr('Kitöltés'))),
+                      ButtonSegment(value: 'contain', label: Text(tr('Teljes kép'))),
+                      ButtonSegment(value: 'tile', label: Text(tr('Mozaik'))),
                     ],
                     selected: {t.bgFit},
                     onSelectionChanged: (v) => upd(() => t.bgFit = v.first),
                   ),
                   Row(children: [
-                    const SizedBox(width: 130, child: Text('Láthatóság')),
+                    SizedBox(width: 130, child: Text(tr('Láthatóság'))),
                     Expanded(child: Slider(value: t.bgOpacity, min: 0.1, max: 1, onChanged: (v) => upd(() => t.bgOpacity = v))),
                   ]),
                   Row(children: [
-                    const SizedBox(width: 130, child: Text('Elmosás')),
+                    SizedBox(width: 130, child: Text(tr('Elmosás'))),
                     Expanded(child: Slider(value: t.bgBlur, max: 30, onChanged: (v) => upd(() => t.bgBlur = v))),
                   ]),
                   Row(children: [
-                    const SizedBox(width: 130, child: Text('Sötétítés')),
+                    SizedBox(width: 130, child: Text(tr('Sötétítés'))),
                     Expanded(child: Slider(value: t.bgDarken, max: 0.9, onChanged: (v) => upd(() => t.bgDarken = v))),
                   ]),
                 ],
                 const SizedBox(height: 14),
-                const Text('Felület', style: TextStyle(fontWeight: FontWeight.w600)),
+                Text(tr('Felület'), style: TextStyle(fontWeight: FontWeight.w600)),
                 Wrap(spacing: 8, children: [
-                  ColorButton(color: t.accent, label: 'Kiemelőszín', onChanged: (c) => upd(() => t.accent = c)),
-                  ColorButton(color: t.panel, label: 'Panelszín', onChanged: (c) => upd(() => t.panel = c)),
+                  ColorButton(color: t.accent, label: tr('Kiemelőszín'), onChanged: (c) => upd(() => t.accent = c)),
+                  ColorButton(color: t.panel, label: tr('Panelszín'), onChanged: (c) => upd(() => t.panel = c)),
                 ]),
                 Row(children: [
-                  const SizedBox(width: 130, child: Text('Panel átlátszóság')),
+                  SizedBox(width: 130, child: Text(tr('Panel átlátszóság'))),
                   Expanded(
                     child: Slider(
                       value: t.panelOpacity,
@@ -218,7 +219,7 @@ Future<void> showThemeDialog(BuildContext context, Project project, VoidCallback
                   ),
                 ]),
                 Row(children: [
-                  const SizedBox(width: 130, child: Text('Sarkok kerekítése')),
+                  SizedBox(width: 130, child: Text(tr('Sarkok kerekítése'))),
                   Expanded(
                     child: Slider(
                       value: t.radius,
@@ -230,7 +231,7 @@ Future<void> showThemeDialog(BuildContext context, Project project, VoidCallback
               ]),
             ),
           ),
-          actions: [FilledButton(onPressed: () => Navigator.pop(ctx), child: const Text('Kész'))],
+          actions: [FilledButton(onPressed: () => Navigator.pop(ctx), child: Text(tr('Kész')))],
         );
       }),
     );
@@ -256,11 +257,11 @@ Future<void> showFontDialog(BuildContext context, ThemeSettings t, VoidCallback 
         }
 
         return AlertDialog(
-          title: const Text('Betűtípus és szövegszínek'),
+          title: Text(tr('Betűtípus és szövegszínek')),
           content: SizedBox(
             width: 460,
             child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const Text('Betűtípus'),
+              Text(tr('Betűtípus')),
               DropdownButton<String>(
                 isExpanded: true,
                 value: fontChoices.contains(t.fontFamily) ? t.fontFamily : fontChoices.first,
@@ -272,7 +273,7 @@ Future<void> showFontDialog(BuildContext context, ThemeSettings t, VoidCallback 
               ),
               const SizedBox(height: 8),
               Row(children: [
-                const Text('Betűméret'),
+                Text(tr('Betűméret')),
                 Expanded(
                   child: Slider(
                     value: t.fontSize,
@@ -286,10 +287,10 @@ Future<void> showFontDialog(BuildContext context, ThemeSettings t, VoidCallback 
                 Text('${t.fontSize.round()} pt'),
               ]),
               Wrap(spacing: 8, children: [
-                ColorButton(color: t.textColor, label: 'Szöveg', onChanged: (c) => upd(() => t.textColor = c)),
-                ColorButton(color: t.chordColor, label: 'Akkordok', onChanged: (c) => upd(() => t.chordColor = c)),
-                ColorButton(color: t.sectionColor, label: 'Szakaszok', onChanged: (c) => upd(() => t.sectionColor = c)),
-                ColorButton(color: t.highlight, label: 'Aktuális sor', onChanged: (c) => upd(() => t.highlight = c)),
+                ColorButton(color: t.textColor, label: tr('Szöveg'), onChanged: (c) => upd(() => t.textColor = c)),
+                ColorButton(color: t.chordColor, label: tr('Akkordok'), onChanged: (c) => upd(() => t.chordColor = c)),
+                ColorButton(color: t.sectionColor, label: tr('Szakaszok'), onChanged: (c) => upd(() => t.sectionColor = c)),
+                ColorButton(color: t.highlight, label: tr('Aktuális sor'), onChanged: (c) => upd(() => t.highlight = c)),
               ]),
               const SizedBox(height: 12),
               Container(
@@ -297,12 +298,12 @@ Future<void> showFontDialog(BuildContext context, ThemeSettings t, VoidCallback 
                 decoration: BoxDecoration(color: Colors.black26, borderRadius: BorderRadius.circular(8)),
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Text('G            D', style: TextStyle(fontFamily: t.fontFamily, color: t.chordColor, fontSize: 16, fontWeight: FontWeight.w700)),
-                  Text('Minta dalszöveg sor', style: TextStyle(fontFamily: t.fontFamily, color: t.textColor, fontSize: 26)),
+                  Text(tr('Minta dalszöveg sor'), style: TextStyle(fontFamily: t.fontFamily, color: t.textColor, fontSize: 26)),
                 ]),
               ),
             ]),
           ),
-          actions: [FilledButton(onPressed: () => Navigator.pop(ctx), child: const Text('Kész'))],
+          actions: [FilledButton(onPressed: () => Navigator.pop(ctx), child: Text(tr('Kész')))],
         );
       }),
     );
@@ -331,19 +332,19 @@ Future<void> showSlotDialog(BuildContext context, int index, VSlot s, VoidCallba
             child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
               SwitchListTile(
                 contentPadding: EdgeInsets.zero,
-                title: const Text('Bekapcsolva'),
+                title: Text(tr('Bekapcsolva')),
                 value: s.enabled,
                 onChanged: (v) => upd(() => s.enabled = v),
               ),
               Row(children: [
-                const Text('MIDI csatorna: '),
+                Text(tr('MIDI csatorna: ')),
                 DropdownButton<int>(
                   value: s.channel,
                   items: [for (var c = 0; c < 16; c++) DropdownMenuItem(value: c, child: Text('${c + 1}'))],
                   onChanged: (v) => upd(() => s.channel = v!),
                 ),
               ]),
-              Text('Billentyűzóna: ${noteName(s.low)} – ${noteName(s.high)}'),
+              Text(tr('Billentyűzóna: {0} – {1}', [noteName(s.low), noteName(s.high)])),
               RangeSlider(
                 values: RangeValues(s.low.toDouble(), s.high.toDouble()),
                 min: 21,
@@ -355,26 +356,26 @@ Future<void> showSlotDialog(BuildContext context, int index, VSlot s, VoidCallba
                 }),
               ),
               Row(children: [
-                const Text('Oktáv'),
+                Text(tr('Oktáv')),
                 IconButton(onPressed: () => upd(() => s.transpose = (s.transpose - 12).clamp(-24, 24)), icon: const Icon(Icons.remove)),
                 Text('${s.transpose ~/ 12}'),
                 IconButton(onPressed: () => upd(() => s.transpose = (s.transpose + 12).clamp(-24, 24)), icon: const Icon(Icons.add)),
                 const Spacer(),
-                Text('Csak erős leütésre (vel ≥ ${s.velLow})'),
+                Text(tr('Csak erős leütésre (vel ≥ {0})', [s.velLow])),
               ]),
               Slider(value: s.velLow.toDouble(), min: 1, max: 127, onChanged: (v) => upd(() => s.velLow = v.round())),
               Row(children: [
-                const SizedBox(width: 110, child: Text('Velocity-görbe')),
+                SizedBox(width: 110, child: Text(tr('Velocity-görbe'))),
                 Expanded(child: Slider(value: s.curve, min: 0.5, max: 2, onChanged: (v) => upd(() => s.curve = v))),
                 Text(s.curve.toStringAsFixed(2)),
               ]),
               Row(children: [
-                const SizedBox(width: 110, child: Text('Hangerő')),
+                SizedBox(width: 110, child: Text(tr('Hangerő'))),
                 Expanded(child: Slider(value: s.volume.toDouble(), max: 127, onChanged: (v) => upd(() => s.volume = v.round()))),
                 Text('${s.volume}'),
               ]),
               const Divider(),
-              const Text('Hangszín (Bank MSB / LSB / Program)'),
+              Text(tr('Hangszín (Bank MSB / LSB / Program)')),
               Row(children: [
                 for (final (label, getter, setter) in [
                   ('MSB', () => s.msb, (int v) => s.msb = v),
@@ -399,8 +400,8 @@ Future<void> showSlotDialog(BuildContext context, int index, VSlot s, VoidCallba
             ]),
           ),
           actions: [
-            TextButton.icon(onPressed: onSendVoice, icon: const Icon(Icons.send), label: const Text('Hangszín küldése')),
-            FilledButton(onPressed: () => Navigator.pop(ctx), child: const Text('Kész')),
+            TextButton.icon(onPressed: onSendVoice, icon: const Icon(Icons.send), label: Text(tr('Hangszín küldése'))),
+            FilledButton(onPressed: () => Navigator.pop(ctx), child: Text(tr('Kész'))),
           ],
         );
       }),
@@ -412,17 +413,17 @@ Future<void> showSlotDialog(BuildContext context, int index, VSlot s, VoidCallba
 String normalizeText(String lufsText, String ccText) {
   final measured = double.tryParse(lufsText.replaceAll(',', '.'));
   final ccs = ccText.split(RegExp(r'[\s,;]+')).map(int.tryParse).whereType<int>().where((v) => v > 0 && v <= 127).toList();
-  if (measured == null || ccs.isEmpty) return 'Hibás bemenet.';
+  if (measured == null || ccs.isEmpty) return tr('Hibás bemenet.');
   double toDb(int v) => 40 * math.log(v / 127) / math.ln10;
   int toCc(double db) => (127 * math.pow(10, db / 40)).round().clamp(1, 127);
   final wanted = -18.0 - measured;
   final headroom = ccs.map((v) => -toDb(v)).reduce(math.min);
   final delta = [wanted, headroom, 6.0].reduce(math.min);
   final b = StringBuffer()
-    ..writeln('Alkalmazott: ${delta >= 0 ? '+' : ''}${delta.toStringAsFixed(2)} dB')
-    ..writeln('Maradék (stílushangerőbe): ${(wanted - delta).toStringAsFixed(2)} dB');
+    ..writeln(tr('Alkalmazott: {0}{1} dB', [delta >= 0 ? '+' : '', delta.toStringAsFixed(2)]))
+    ..writeln(tr('Maradék (stílushangerőbe): {0} dB', [(wanted - delta).toStringAsFixed(2)]));
   for (var i = 0; i < ccs.length; i++) {
-    b.writeln('Rész ${i + 1}: CC7 ${ccs[i]} → ${toCc(toDb(ccs[i]) + delta)}');
+    b.writeln(tr('Rész {0}: CC7 {1} → {2}', [i + 1, ccs[i], toCc(toDb(ccs[i]) + delta)]));
   }
   return b.toString();
 }
@@ -435,23 +436,23 @@ Future<void> showNormalizeDialog(BuildContext context) {
     context: context,
     builder: (ctx) => StatefulBuilder(
       builder: (ctx, setD) => AlertDialog(
-        title: const Text('Stílus hangerő-normalizálás'),
+        title: Text(tr('Stílus hangerő-normalizálás')),
         content: SizedBox(
           width: 460,
           child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const Text('Cél: −18 LUFS. Add meg a stílus mért hangerejét és a részek jelenlegi CC7 értékeit.'),
+            Text(tr('Cél: −18 LUFS. Add meg a stílus mért hangerejét és a részek jelenlegi CC7 értékeit.')),
             const SizedBox(height: 12),
-            TextField(controller: lufsCtrl, decoration: const InputDecoration(labelText: 'Mért hangerő (LUFS)')),
-            TextField(controller: ccCtrl, decoration: const InputDecoration(labelText: 'CC7 értékek szóközzel')),
+            TextField(controller: lufsCtrl, decoration: InputDecoration(labelText: tr('Mért hangerő (LUFS)'))),
+            TextField(controller: ccCtrl, decoration: InputDecoration(labelText: tr('CC7 értékek szóközzel'))),
             const SizedBox(height: 12),
             SelectableText(result, style: const TextStyle(fontFamily: 'Consolas')),
           ]),
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Bezárás')),
+          TextButton(onPressed: () => Navigator.pop(ctx), child: Text(tr('Bezárás'))),
           FilledButton(
             onPressed: () => setD(() => result = normalizeText(lufsCtrl.text, ccCtrl.text)),
-            child: const Text('Számítás'),
+            child: Text(tr('Számítás')),
           ),
         ],
       ),

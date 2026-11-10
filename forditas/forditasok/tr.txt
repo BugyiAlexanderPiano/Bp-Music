@@ -1,0 +1,438 @@
+veya
+(ağ yok)
+. Stil: {0} – bunu çalgı üzerinde seçin.
+1. Wi-Fi (önerilen)
+2. Dosya olarak (USB kablosu, Bluetooth, AirDrop)
+MIDI dosyası okunamıyor: {0}
+Bilgisayar bir hata bildirdi ({0}).
+Bilgisayarda: Dosya → Tablete / telefona gönder → Göndermeyi başlat.
+Sahne paketi: {0} şarkı, {1} banka, {2} KB. Mobil cihazda yalnızca kullanılabilir, düzenlenemez.
+Dosya bir SoundNexus Pro projesi değil veya bozuk: {0}
+Dosya açılamıyor: {0}
+Görsel çok büyük (en fazla 3 MB). Küçültüp yeniden deneyin.
+Gönderme başlatılamıyor: {0}
+Döngü sonundan önceki kısım, döngü başından önceki kısımla karıştırılır (equal-power).
+Kaydetme başarısız: {0}
+Proje değişti. Kaydetmeden devam edilsin mi?
+Stili çalgı üzerinde seçersiniz; buradan başlatma, bölümler ve tempo kontrol edilir.
+Metin okunamıyor (UTF-8 gerekli): {0}
+Tablette / telefonda: SoundNexus Pro → Bilgisayardan al, ardından bu kodu girin:
+MIDI'nin tamamı şarkıya eklenir: tablette „Şarkıyı çal” düğmesi onu çalgıda çalar.
+Ek yeri büyütülmüş: döngü sonu (solda) → döngü başı (sağda). Düzgün geçiş = tık sesi yok.
+Bilgisayarın adresini ve 6 haneli kodu girin.
+Akor ekle:
+Akorlar
+Geçerli satır
+Varsayılan düzen
+Varsayılan ses kitaplığı
+Kök nota
+Kök nota (MIDI):
+Sıfırla
+Uygula
+Uygulandı: {0}{1} dB
+Alt çubuk…
+Alt kontrol çubuğu
+Alt çubuk düzenleyicisi
+Alt çubuk düzenleyicisi…
+Altın
+Aurora
+Otomatik
+MP3/MP4'ten otomatik nota yazımı: B aşaması
+Tek tek düğmelerin görünümünü (ör. OTS 1–4, kayıt 1–8, V1–V4) ana pencerede Görünüm → Arayüzü düzenle bölümünde düğmeye tıklayarak ayarlarsınız.
+Geçiş yavaşça döner
+Banka 1
+Banka {0}
+Banka {0} / {1}
+Bas
+Çağrıldı: {0} / {1}
+Açık
+Tanıtım şarkısı
+Tanıtım melodisi
+Tanıtım projesi
+Yükleme ve dalga biçimi
+Yazı boyutu
+Yazı tipi
+Yazı tipi ve metin renkleri
+Yazı tipi ve metin…
+Kapat
+Ayarlar
+Ayarlar: dil, PC / Tablet / Telefon modu
+Ayarlar: dil, Tablet / Telefon modu
+Kısayollar: Ctrl+N yeni · Ctrl+O aç · Ctrl+S kaydet · Ctrl+Shift+S farklı kaydet · Ctrl+E şarkıyı düzenle · F5 eşitle · ←/→ sayfa · Boşluk Start/Stop
+Klavye bölgesi: {0} – {1}
+„{0}” gerçekten silinsin mi?
+Bluetooth araması
+Break
+Koyu kırmızı
+Boşlukla ayrılmış CC7 değerleri
+Çapraz geçiş olmadan örnekler dokunulmadan kalır.
+Yalnızca görsel (etiketsiz)
+Yalnızca güçlü vuruşta (vel ≥ {0})
+Baştaki sessizliği kes
+Sessizlik ve sönümlenme analizi, kesme
+Paketi kaydet (.snxshow)
+Grup adı
+Grubu sil
+Gruplar, sesler, sıra, sütunlar, düğme görünümü
+Tepe seviyesi
+Hedef: −18 LUFS. Stilin ölçülen ses yüksekliğini ve partilerin mevcut CC7 değerlerini girin.
+Başlık
+Şarkı
+Şarkıyı yukarı taşı
+Şarkıyı aşağı taşı
+Şarkı içe aktarıldı: {0}
+Şarkıyı çal
+Şarkıyı çalgıda çal (ekli MIDI)
+Şarkıyı düzenle
+Şarkıyı düzenle (Ctrl+E)
+Şarkıyı düzenle…
+Şarkıyı sil
+Şarkı sözü (orta)
+Şarkı sözü içe aktar (.txt)…
+Bir tur süresi
+Bir veya daha fazla dosya seçilebilir (toplu işlem).
+Düz renk
+Diğer
+Bu şarkının henüz notası yok.\nBilgisayarda: Şarkıyı düzenle → Nota → MIDI içe aktar.
+Bu şarkıya ekli MIDI yok. Bilgisayarda: Şarkıyı düzenle → Nota → MIDI içe aktar.
+Başa
+Öğelerin sırası (soldan sağa), ekleme, kaldırma, görünüm
+Öğeler – liste sırası = çubuk sırası soldan sağa
+Gönderildi: {0} BPM, {1}, {2} katman{3}
+Kontrol: biçim, bit derinliği
+Kontrol: ek yeri, biçim
+Bulanıklık
+İlk şarkıyı ekle
+Kaldır
+Sanatçı
+Önce çalgıya bağlanın (Çalgı → Bağlan).
+Önce çalgıya bağlanın.
+Önizleme
+Önizleme: nota
+Önizleme: metin
+Önceki şarkı
+Ending A
+Ending B
+Ending C
+Orijinal (kırmızı = kesilen kısım)
+Sonuç
+Cihaz:
+Araçlar
+DİKKAT: biçim farklı
+Tahta üflemeliler
+İşleniyor…
+Etiket
+Etiket rengi
+Sahne modu · tanıtım
+Sahne modu · {0}
+Kilidi aç
+Arayüz
+Arayüzü düzenle (düğmeler, çubuklar)
+Arayüzü düzenle: görünümünü değiştirmek için herhangi bir düğmeye tıklayın (görsel, etiket, renk, boyut); çubukların köşesindeki turuncu fırçayla tüm çubuğu biçimlendirirsiniz; ayırıcı çizgiler sürüklenebilir.
+Dikkat: yavaş atak sesli ton (ör. pad) – sesin başının kesilip kesilmediğini dinleyin.
+Fill In
+Alındı: {0}
+Bilgisayardan al
+Kaydetmeden devam et
+Yenile
+Dosya
+Gitar
+Düğme görünümü
+Düğme: {0}
+Düğme boyutu
+Düğmeler
+Düğmeler (sıralamak için sürükleyin)
+Düğme sırası, ekleme, kaldırma, sütunlar, görünüm
+Düğme rengi
+Kaydırmayı başlat (dahili saat)
+Kaydırmayı durdur
+Windows güvenlik duvarı sorarsa „Özel ağ” erişimine izin verin.
+Mobil cihaz bilgisayarı kendisi bulamazsa bu adresi girin: {0}
+Ses düzeyi
+İki uç arasındaki seviye farkı
+Ses düzeyi normalleştirme…
+Örnek (vurgulanan: döngü)
+Ton
+Ton: {0}
+Çalgı
+Ses (Bank MSB / LSB / Program)
+Sesi gönder
+Ses paneli
+Ses paneli düzenleyicisi
+Ses paneli düzenleyicisi…
+Ses grupları (sıralamak için sürükleyin)
+Sesler
+Sesler (çalgının listesinden Bank MSB / LSB / Program)
+Sesler (sol)
+Geçersiz giriş.
+Yanlış kod
+Yanlış kod.
+Nereye?
+Ekle:
+Arka plan
+Arka plan görseli
+Arka plan rengi
+Başlangıç bölümü
+Intro A
+Intro B
+Intro C
+Buz
+Bağlandı: {0}
+Bağlan
+Çalgıya bağlan
+Bağlantı hatası
+Bağlanıyor…
+Kapsül
+Tık sesi olmayan bitiş (5–20 ms fade)
+Sürekli örnekler için tık sesi olmayan döngü noktaları · smpl bloğu (Yamaha Expansion Manager, sampler'lar)
+Aranıyor…
+Kenarlık rengi
+Kenarlık kalınlığı
+Başlangıç eşiği
+Vurgu rengi
+Kapalıyken temanın panel rengi kullanılır
+Çıkış
+En iyisi sürekli bir sestir (yaylılar, pad, org, koro).
+Doldur
+Seç
+Nota (melodi + akorlar)
+Nota oluştur
+Nota ve metin birlikte
+Nota varyantı
+Nota:
+Nota: {0}
+Düğme üzerindeki görsel
+Görsel yükle
+Görsel karşıya yükle
+Görsel görünürlüğü
+Görseller
+Tamam
+Hazır temalar
+Tamam, geri
+Tamam. Henüz kaydedilmedi.
+Kod (6 hane)
+Koro
+Koro, pad
+Daire
+Sonraki şarkı
+Gönder
+Göndermeyi başlat
+Tablete / telefona gönder
+Tablete / telefona gönder…
+Kilit
+Sönümlenme eşiği
+En kısa döngü
+Çal
+Çalgıda çalınıyor: {0} ({1} BPM)
+Çalma durduruldu.
+Çalmayı durdur
+Yuvarlatılmış
+{0} cihaza indirildi ✓
+İndir
+İndiriliyor…
+Lavanta
+Sondan kesildi
+Baştan kesildi
+Kapanış fade'i
+Durdur
+Döngü uzunluğu
+Döngü başı
+Döngü noktalarını bul
+Döngü sonu
+Görünürlük
+Lav
+MIDI girişi (çalgıdan):
+MIDI kanalı:
+MIDI içe aktar…
+MIDI çıkışı (çalgıya):
+Main A
+Main A–D
+Main B
+Main C
+Main D
+Kalan (stil ses düzeyine): {0} dB
+Görüntüleme modu
+Açıldı: {0}
+Dosyadan aç (.snxshow)
+Aç…
+Hangi parça melodi?
+Kaydedilmemiş değişiklikler
+Paketi kaydedin, mobil cihaza kopyalayın (Android'de İndirilenler klasörüne, iPhone/iPad'de Dosyalar uygulamasına), ardından mobil cihazda: Al → Dosyadan aç.
+Kaydedildi: {0}
+Kaydedildi: {0} / {1}
+Kaydet
+Buraya kaydet
+Farklı kaydet…
+Kaydet…
+Örnek şarkı sözü satırı
+Sessizlik ve sönümlenmenin örnek hassasiyetinde kesilmesi · kalan örnekler bit düzeyinde aynıdır
+Kalite
+Döşeme
+Hareketli renk geçişi
+İkinci şarkı
+İptal
+Boyut
+Boyutları sıfırla
+Ölçülen ses yüksekliği (LUFS)
+Gün batımı
+Çalgıya bağlanılamadı.
+MIDI cihazı bulunamadı. Çalgıyı USB-C / OTG kablosuyla (çalgının USB TO HOST girişine) bağlayın veya bir Bluetooth MIDI adaptörü kullanın.
+MIDI cihazı bulunamadı. Çalgıyı USB kablosuyla (USB TO HOST) bağlayın, açın ve ardından Yenile'ye tıklayın.
+Bilgisayara ({0}) ulaşılamıyor. Aynı Wi-Fi ağında mısınız? Bilgisayarda gönderme çalışıyor mu?
+Neon
+Grup yok.
+Şarkı yok. Bilgisayardan bir paket alın.
+Bağlı çalgı yok – ayar yalnızca programda uygulandı.
+Dil
+Dil ve görüntüleme modu…
+Solda bir WAV örneği açın.
+Solda bir veya daha fazla WAV dosyası açın.
+Sekizlik
+Ad
+Hakkında ve kısayollar
+Adsız şarkı
+Görünüm
+Görünüm: metin, nota veya ikisi
+MIDI üzerinden OTS çağırma: modelin Data List'ine göre eklenecek
+Oktav
+Sayfa
+Sayfanın kilidini aç
+Sayfayı kilitle (sayfa çevrilmez)
+Sayfaları değiştir
+One Touch Settings
+Org
+Sütunlar:
+PC
+Bilgisayar adresi (ör. 192.168.1.20)
+Wi-Fi ağında bilgisayar aranıyor…
+PC modu: düzenleme ve tasarım. Tablet ve Telefon: önizleme, tam olarak mobil cihazda görüneceği gibi.
+Pad / yaylılar
+Panel saydamlığı
+Panel rengi
+Kayıt bankaları
+Kayıt
+Ritmik ızgara (kuantalama):
+Ritim
+Ritim (sağ)
+Ritim paneli
+Ritim ve stil
+Ritim paneli düzenleyicisi
+Ritim paneli düzenleyicisi…
+Parti {0}: CC7 {1} → {2}
+Katmanlar (V1–V4)
+Bakır üflemeliler
+Bu çubuk için özel arka plan
+Özel arka plan görseli
+Köşe yuvarlama
+Zümrüt
+SoundNexus Pro başlatıldı.
+SoundNexus Pro sahne paketi
+SoundNexus Pro projesi
+Kararlı bölümü ve döngü noktalarını bul
+Start
+Start / Stop
+Stop
+Stil
+Stil (çalgıda)
+Style Start
+Style Stop
+Stil ses düzeyi normalleştirme
+Stil: {0}
+Bölüm:
+Bölümler
+Düzen
+Yamaha Genos 2, Genos, Tyros 5, Tyros 4 ve PSR-SX için düzenleme ve canlı kontrol programı.
+Eşitle
+Çalgıyla eşitle
+Eşitleme düğmesi
+Hesapla
+Karbon
+Renk
+Renk ekle
+Renk seç
+Rengi sil
+Renkleri de döndür
+Solo
+Köşeli
+Metin
+Metin ve akorlar
+Çubuk stili
+Çubuk stili: {0}
+Çubuk stilleri
+Bozuk aktarım (sağlama toplamı uyuşmuyor). Yeniden deneyin.
+Karartma
+Yardım
+TAP tempo
+Tablet
+Tablet önizlemesi – arayüz tablette böyle görünür (düzenleme yalnızca PC modunda)
+Tablet: yan yana üç sütun. Telefon: ortada şarkı, sesler ve ritim yanlardan kaydırılarak açılır.
+Telefon
+Telefon önizlemesi – arayüz telefonda böyle görünür (düzenleme yalnızca PC modunda)
+Tam görsel
+Tempo
+Tempo (BPM)
+Tempo +
+Tempo ve ölçüyü al ({0} BPM, {1}/4)
+Tempo −
+Test modu
+Test modu: komutlar çalgıya gönderilmez.
+On altılık
+Transpoze
+Tema
+Tema ve renkler
+Tema ve renkler…
+Aralık
+Sil
+Son rengi sil
+Sondaki yankıyı ve gürültüyü kes
+Ek yeri uyumu
+Velocity eğrisi
+PC moduna dön
+SoundNexus Pro'ya dön
+Yaylılar
+V{0}: {1} gönderildi (kan. {2})
+Kesmeyi başlat
+Mobil cihaz bekleniyor…
+WAV dosyalarını aç
+WAV örneği
+WAV aç
+Gürültü tabanı
+Piyano
+[G]Metin [D]akorlarla\n{Main A} bölümü\n# yorum
+kalan örnekler orijinalle bit düzeyinde aynıdır; yeniden örnekleme yok, bit derinliği değişimi yok
+baş −{0} ms · son −{1} ms
+biçim değişmedi ✓
+tüm düğmeler panelde
+yok (örnekler dokunulmadı)
+panele göre
+temaya göre
+ek yeri uyumu %{0}
+{0} (orijinal: {1})
+{0} ({1} nota)
+{0} / {1} boş. Kaydetmek için: Kaydet, ardından numara.
+{0} dosya seçildi
+{0} dosya şuraya kaydedildi: {1}
+{0} ses
+{0} ms ({1} örnek)
+{0} ms uzunluğunda döngü
+{0} s · {1} örnek · {2}
+{0}. örnek
+{0}. örnek ({1} ms)
+{0}. renk
+{Main A}\n[C]Metni buraya yazın
+Saydamlık
+Geçiş yönü
+Geçiş: renk ekle
+Renk geçişi
+Gece mavisi
+Okyanus
+Yeni banka
+Yeni grup
+Yeni şarkı
+Yeni şarkı…
+Yeni ses
+Yeni proje
+Yeni proje.
+Yeniden dene
+Ölçü / satır
+Ölçü

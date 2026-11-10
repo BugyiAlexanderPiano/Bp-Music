@@ -1,0 +1,438 @@
+or
+(no network)
+. Style: {0} – select it on the instrument.
+1. Wi-Fi (recommended)
+2. As a file (USB cable, Bluetooth, AirDrop)
+The MIDI file cannot be read: {0}
+The PC reported an error ({0}).
+On the PC: File → Send to tablet / phone → Start sending.
+Show package: {0} songs, {1} banks, {2} KB. On mobile it can only be used, not edited.
+The file is not a SoundNexus Pro project or is damaged: {0}
+The file cannot be opened: {0}
+The image is too large (max. 3 MB). Shrink it and try again.
+Sending cannot be started: {0}
+The part before the loop end is crossfaded with the part before the loop start (equal-power).
+Saving failed: {0}
+The project has changed. Continue without saving?
+You select the style on the instrument; from here you control start, sections and tempo.
+The text cannot be read (UTF-8 required): {0}
+On the tablet / phone: SoundNexus Pro → Receive from PC, then enter this code:
+The full MIDI is attached to the song: on the tablet the “Play song” button plays it on the instrument.
+The seam magnified: loop end (left) → loop start (right). Smooth transition = no click.
+Enter the PC address and the 6-digit code.
+Insert chord:
+Chords
+Current line
+Default layout
+Default voice library
+Root note
+Root note (MIDI):
+Reset
+Apply
+Applied: {0}{1} dB
+Bottom bar…
+Bottom control bar
+Bottom control bar editor
+Bottom control bar editor…
+Gold
+Aurora
+Automatic
+Automatic transcription from MP3/MP4: phase B
+Change the look of individual buttons (e.g. OTS 1–4, registration 1–8, V1–V4) in the main window via View → Edit interface, by clicking the button.
+The gradient slowly rotates
+Bank 1
+Bank {0}
+Bank {0} / {1}
+Bass
+Recalled: {0} / {1}
+On
+Demo song
+Demo melody
+Demo project
+Load and waveform
+Font size
+Font
+Font and text colours
+Font and text…
+Close
+Settings
+Settings: language, PC / Tablet / Phone mode
+Settings: language, Tablet / Phone mode
+Shortcuts: Ctrl+N new · Ctrl+O open · Ctrl+S save · Ctrl+Shift+S save as · Ctrl+E edit song · F5 sync · ←/→ page · Space Start/Stop
+Keyboard zone: {0} – {1}
+Really delete “{0}”?
+Bluetooth search
+Break
+Crimson
+CC7 values separated by spaces
+Without crossfade the samples stay untouched.
+Image only (no label)
+Only on strong hits (vel ≥ {0})
+Trim silence from the start
+Analyse silence and decay, trim
+Save package (.snxshow)
+Group name
+Delete group
+Groups, voices, order, columns, button look
+Peak level
+Target: −18 LUFS. Enter the measured loudness of the style and the current CC7 values of the parts.
+Title
+Song
+Move song up
+Move song down
+Song imported: {0}
+Play song
+Play song on the instrument (attached MIDI)
+Edit song
+Edit song (Ctrl+E)
+Edit song…
+Delete song
+Lyrics (centre)
+Import lyrics (.txt)…
+Cycle time
+One or more files can be selected (batch processing).
+Solid
+Other
+There is no score for this song yet.\nOn the PC: Edit song → Score → Import MIDI.
+No MIDI is attached to this song. On the PC: Edit song → Score → Import MIDI.
+To start
+Order of items (left to right), add, remove, look
+Items – list order = bar order from left to right
+Sent: {0} BPM, {1}, {2} layer(s){3}
+Check: format, bit depth
+Check: seam, format
+Blur
+Add first song
+Remove
+Artist
+Connect to the instrument first (Instrument → Connect).
+Connect to the instrument first.
+Preview
+Preview: score
+Preview: text
+Previous song
+Ending A
+Ending B
+Ending C
+Original (red = trimmed part)
+Result
+Device:
+Tools
+WARNING: format differs
+Woodwind
+Processing…
+Label
+Label colour
+Performance mode · demo
+Performance mode · {0}
+Unlock
+Interface
+Edit interface (buttons, bars)
+Edit interface: click any button to change its look (image, label, colour, size); the orange brush in the corner of each bar styles the whole bar; the dividers can be dragged.
+Warning: slow-attack sound (e.g. pad) – listen to check that the start of the sound was not cut.
+Fill In
+Received: {0}
+Receive from PC
+Continue without saving
+Refresh
+File
+Guitar
+Button look
+Button: {0}
+Button size
+Buttons
+Buttons (drag to reorder)
+Button order, add, remove, columns, look
+Button colour
+Start scrolling (internal clock)
+Stop scrolling
+If the Windows firewall asks, allow “Private network” access.
+If the mobile does not find the computer by itself, enter this address: {0}
+Volume
+Level difference between the two ends
+Volume normalisation…
+Sample (highlighted: the loop)
+Key
+Key: {0}
+Instrument
+Voice (Bank MSB / LSB / Program)
+Send voice
+Voice panel
+Voice panel editor
+Voice panel editor…
+Voice groups (drag to reorder)
+Voices
+Voices (Bank MSB / LSB / Program from the instrument's list)
+Voices (left)
+Invalid input.
+Wrong code
+Wrong code.
+Where to?
+Add:
+Background
+Background image
+Background colour
+Start section
+Intro A
+Intro B
+Intro C
+Ice
+Connected: {0}
+Connect
+Connect to the instrument
+Connection error
+Connecting…
+Capsule
+Click-free ending (5–20 ms fade)
+Click-free loop points for sustained samples · smpl chunk (Yamaha Expansion Manager, samplers)
+Searching…
+Border colour
+Border width
+Onset threshold
+Accent colour
+When off, the theme's panel colour is used
+Exit
+A sustained sound (strings, pad, organ, choir) works best.
+Fill
+Select
+Score (melody + chords)
+Create score
+Score and text together
+Score variant
+Score:
+Score: {0}
+Image on the button
+Load image
+Upload image
+Image visibility
+Images
+Done
+Ready-made themes
+Done, back
+Done. Not saved yet.
+Code (6 digits)
+Choir
+Choir, pad
+Circle
+Next song
+Send
+Start sending
+Send to tablet / phone
+Send to tablet / phone…
+Lock
+Decay threshold
+Shortest loop
+Play
+Playing on the instrument: {0} ({1} BPM)
+Playback stopped.
+Stop playback
+Rounded
+Downloaded to {0} devices ✓
+Download
+Downloading…
+Lavender
+Trimmed from the end
+Trimmed from the start
+Closing fade
+Stop
+Loop length
+Loop start
+Find loop points
+Loop end
+Visibility
+Lava
+MIDI input (from the instrument):
+MIDI channel:
+Import MIDI…
+MIDI output (to the instrument):
+Main A
+Main A–D
+Main B
+Main C
+Main D
+Remainder (into style volume): {0} dB
+Display mode
+Opened: {0}
+Open from file (.snxshow)
+Open…
+Which track is the melody?
+Unsaved changes
+Save the package and copy it to the mobile (on Android to the Downloads folder, on iPhone/iPad to the Files app), then on the mobile: Receive → Open from file.
+Saved: {0}
+Saved: {0} / {1}
+Save
+Save here
+Save as…
+Save…
+Sample lyric line
+Sample-accurate trimming of silence and decay · the remaining samples are bit-identical
+Quality
+Tile
+Animated gradient
+Second song
+Cancel
+Size
+Reset sizes
+Measured loudness (LUFS)
+Sunset
+Could not connect to the instrument.
+No MIDI device found. Connect the instrument with a USB-C / OTG cable (to the instrument's USB TO HOST port), or look for a Bluetooth MIDI adapter.
+No MIDI device found. Connect the instrument with a USB cable (USB TO HOST), switch it on, then click Refresh.
+The PC ({0}) cannot be reached. Are you on the same Wi-Fi? Is sending running on the PC?
+Neon
+No groups.
+No songs. Receive a package from the PC.
+No instrument connected – the setting was only applied in the program.
+Language
+Language and display mode…
+Open a WAV sample on the left.
+Open one or more WAV files on the left.
+Eighth
+Name
+About and shortcuts
+Untitled song
+View
+View: text, score or both
+OTS recall via MIDI: will be added based on the model's Data List
+Octave
+Page
+Unlock page
+Lock page (no swiping)
+Swap pages
+One Touch Settings
+Organ
+Columns:
+PC
+PC address (e.g. 192.168.1.20)
+Searching for the PC on the Wi-Fi network…
+PC mode: editing and design. Tablet and Phone: preview, exactly as it will appear on the mobile.
+Pad / strings
+Panel transparency
+Panel colour
+Registration banks
+Registration
+Rhythmic grid (quantisation):
+Rhythm
+Rhythm (right)
+Rhythm panel
+Rhythm and style
+Rhythm panel editor
+Rhythm panel editor…
+Part {0}: CC7 {1} → {2}
+Layers (V1–V4)
+Brass
+Own background for this bar
+Own background image
+Corner rounding
+Emerald
+SoundNexus Pro started.
+SoundNexus Pro show package
+SoundNexus Pro project
+Find stable section and loop points
+Start
+Start / Stop
+Stop
+Style
+Style (on the instrument)
+Style Start
+Style Stop
+Style volume normalisation
+Style: {0}
+Section:
+Sections
+Edit
+Editor and live control program for Yamaha Genos 2, Genos, Tyros 5, Tyros 4 and PSR-SX instruments.
+Sync
+Sync to the instrument
+Sync button
+Calculate
+Carbon
+Colour
+Add colour
+Choose colour
+Delete colour
+Also rotate the colours
+Solo
+Square
+Text
+Text and chords
+Bar style
+Bar style: {0}
+Bar styles
+Damaged transfer (checksum mismatch). Please try again.
+Darken
+Help
+TAP tempo
+Tablet
+Tablet preview – this is how the interface appears on a tablet (editing only in PC mode)
+Tablet: three columns side by side. Phone: the song in the middle, voices and rhythm slide in from the sides.
+Phone
+Phone preview – this is how the interface appears on a phone (editing only in PC mode)
+Full image
+Tempo
+Tempo (BPM)
+Tempo +
+Take over tempo and time signature ({0} BPM, {1}/4)
+Tempo −
+Test mode
+Test mode: commands are not sent to the instrument.
+Sixteenth
+Transpose
+Theme
+Theme and colours
+Theme and colours…
+Spacing
+Delete
+Delete last colour
+Trim reverb tail and noise from the end
+Seam match
+Velocity curve
+Back to PC mode
+Back to SoundNexus Pro
+Strings
+V{0}: {1} sent (ch{2})
+Start trimming
+Waiting for the mobile…
+Open WAV files
+WAV sample
+Open WAV
+Noise floor
+Piano
+[G]Text [D]with chords\n{Main A} section\n# comment
+the remaining samples are bit-identical to the original; no resampling, no bit-depth change
+start −{0} ms · end −{1} ms
+format unchanged ✓
+every button is on the panel
+none (samples untouched)
+per panel
+per theme
+seam match {0}%
+{0} (original: {1})
+{0} ({1} notes)
+{0} / {1} is empty. To store: Save, then the number.
+{0} files selected
+{0} files saved to: {1}
+{0} voices
+{0} ms ({1} samples)
+{0} ms long loop
+{0} s · {1} samples · {2}
+sample {0}
+sample {0} ({1} ms)
+colour {0}
+{Main A}\n[C]Write the text here
+Transparency
+Gradient direction
+Gradient: add colour
+Gradient
+Midnight blue
+Ocean
+New bank
+New group
+New song
+New song…
+New voice
+New project
+New project.
+Retry
+Bars / line
+Time signature

@@ -3,6 +3,7 @@
 // Önálló oldalak, élő folyamatjelzéssel. A feldolgozás a C++ magban, külön
 // isolate-ban fut (a felület nem akad meg); a végén a program megkérdezi,
 // hova mentse az eredményt.
+import '../i18n/i18n.dart';
 import 'dart:io';
 import 'dart:isolate';
 import 'dart:math' as math;
@@ -15,7 +16,7 @@ import '../audio/wav_peaks.dart';
 import '../ffi/als_core.dart';
 import '../model/project.dart';
 
-const _wavTypes = [XTypeGroup(label: 'WAV hangminta', extensions: ['wav'])];
+List<XTypeGroup> get _wavTypes => [XTypeGroup(label: tr('WAV hangminta'), extensions: const ['wav'])];
 
 // Háttérszálas hívások felső szintű függvényekben: a lezárás így csak az
 // átadott értékeket viszi át az isolate-ba (a felület állapotát nem).
@@ -64,7 +65,7 @@ class _StudioScaffold extends StatelessWidget {
                 gradient: LinearGradient(colors: [t.accent.withValues(alpha: 0.35), Colors.transparent]),
               ),
               child: Row(children: [
-                IconButton(tooltip: 'Vissza a SoundNexus Pro-hoz', onPressed: () => Navigator.pop(context), icon: const Icon(Icons.arrow_back)),
+                IconButton(tooltip: tr('Vissza a SoundNexus Pro-hoz'), onPressed: () => Navigator.pop(context), icon: const Icon(Icons.arrow_back)),
                 const SizedBox(width: 6),
                 Icon(icon, color: t.accent, size: 30),
                 const SizedBox(width: 12),
@@ -223,7 +224,7 @@ Widget _wave(String label, WavInfo? info, Color color, {int? cutStart, int? cutE
         Text(label, style: const TextStyle(fontWeight: FontWeight.w600)),
         const Spacer(),
         if (info != null)
-          Text('${info.seconds.toStringAsFixed(3)} s · ${info.frames} minta · ${info.format}',
+          Text(tr('{0} s · {1} minta · {2}', [info.seconds.toStringAsFixed(3), info.frames, info.format]),
               style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.6))),
       ]),
       const SizedBox(height: 6),
@@ -265,7 +266,7 @@ class _TrimJob {
   WavInfo? before, after;
   TrimResult? result;
   String? temp;
-  final steps = [_Step('Beolvasás és hullámforma'), _Step('Csend és lecsengés elemzése, vágás'), _Step('Ellenőrzés: formátum, bitmélység')];
+  final steps = [_Step(tr('Beolvasás és hullámforma')), _Step(tr('Csend és lecsengés elemzése, vágás')), _Step(tr('Ellenőrzés: formátum, bitmélység'))];
 }
 
 class SampleStudioPage extends StatefulWidget {
@@ -320,10 +321,10 @@ class _SampleStudioPageState extends State<SampleStudioPage> {
             () => _trimIso(path, out, sd, td, th, tt, ft));
         if (!j.result!.ok) throw '${j.result!.json['error']}';
         j.temp = out;
-        j.steps[1].detail = 'eleje −${(j.result!.json['cutHeadMs'] as num).toStringAsFixed(2)} ms · vége −${(j.result!.json['cutTailMs'] as num).toStringAsFixed(1)} ms';
+        j.steps[1].detail = tr('eleje −{0} ms · vége −{1} ms', [(j.result!.json['cutHeadMs'] as num).toStringAsFixed(2), (j.result!.json['cutTailMs'] as num).toStringAsFixed(1)]);
         j.after = await _timed(j.steps[2], () => setState(() {}), () => _peaksIso(out));
         final same = j.after!.sampleRate == j.before!.sampleRate && j.after!.bits == j.before!.bits && j.after!.channels == j.before!.channels;
-        j.steps[2].detail = same ? 'formátum változatlan ✓' : 'FIGYELEM: formátum eltér';
+        j.steps[2].detail = same ? tr('formátum változatlan ✓') : tr('FIGYELEM: formátum eltér');
       } catch (_) {
         // a hibát a lépés mutatja
       }
@@ -341,19 +342,19 @@ class _SampleStudioPageState extends State<SampleStudioPage> {
       final loc = await getSaveLocation(
         suggestedName: '${_stem(j.path)}_vagott.wav',
         acceptedTypeGroups: _wavTypes,
-        confirmButtonText: 'Mentés',
+        confirmButtonText: tr('Mentés'),
       );
       if (loc == null) return;
       final dest = loc.path.toLowerCase().endsWith('.wav') ? loc.path : '${loc.path}.wav';
       await File(j.temp!).copy(dest);
-      setState(() => savedInfo = 'Mentve: $dest');
+      setState(() => savedInfo = tr('Mentve: {0}', [dest]));
     } else {
-      final dir = await getDirectoryPath(confirmButtonText: 'Mentés ide');
+      final dir = await getDirectoryPath(confirmButtonText: tr('Mentés ide'));
       if (dir == null) return;
       for (final j in ok) {
         await File(j.temp!).copy('$dir${Platform.pathSeparator}${_stem(j.path)}_vagott.wav');
       }
-      setState(() => savedInfo = '${ok.length} fájl mentve ide: $dir');
+      setState(() => savedInfo = tr('{0} fájl mentve ide: {1}', [ok.length, dir]));
     }
   }
 
@@ -366,7 +367,7 @@ class _SampleStudioPageState extends State<SampleStudioPage> {
     return _StudioScaffold(
       project: p,
       title: 'SoundNexus Sample Studio',
-      subtitle: 'Mintapontos csend- és lecsengés-vágás · a megmaradó minták bitre változatlanok',
+      subtitle: tr('Mintapontos csend- és lecsengés-vágás · a megmaradó minták bitre változatlanok'),
       icon: Icons.content_cut,
       body: Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         SizedBox(
@@ -374,18 +375,18 @@ class _SampleStudioPageState extends State<SampleStudioPage> {
           child: _card(
             p,
             ListView(children: [
-              FilledButton.icon(onPressed: running ? null : _pick, icon: const Icon(Icons.library_music), label: const Text('WAV fájlok megnyitása')),
+              FilledButton.icon(onPressed: running ? null : _pick, icon: const Icon(Icons.library_music), label: Text(tr('WAV fájlok megnyitása'))),
               const SizedBox(height: 6),
-              Text(jobs.isEmpty ? 'Egy vagy több fájl választható (kötegelt feldolgozás).' : '${jobs.length} fájl kiválasztva',
+              Text(jobs.isEmpty ? tr('Egy vagy több fájl választható (kötegelt feldolgozás).') : tr('{0} fájl kiválasztva', [jobs.length]),
                   style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.6))),
               const Divider(height: 26),
-              SwitchListTile(contentPadding: EdgeInsets.zero, title: const Text('Csend vágása az elejéről'), value: trimHead,
+              SwitchListTile(contentPadding: EdgeInsets.zero, title: Text(tr('Csend vágása az elejéről')), value: trimHead,
                   onChanged: running ? null : (v) => setState(() => trimHead = v)),
-              _slider('Kezdőpont küszöb', startDb, -90, -30, 'dBFS', running ? null : (v) => setState(() => startDb = v.roundToDouble()), divisions: 60),
-              SwitchListTile(contentPadding: EdgeInsets.zero, title: const Text('Utózengés, zaj vágása a végéről'), value: trimTail,
+              _slider(tr('Kezdőpont küszöb'), startDb, -90, -30, 'dBFS', running ? null : (v) => setState(() => startDb = v.roundToDouble()), divisions: 60),
+              SwitchListTile(contentPadding: EdgeInsets.zero, title: Text(tr('Utózengés, zaj vágása a végéről')), value: trimTail,
                   onChanged: running ? null : (v) => setState(() => trimTail = v)),
-              _slider('Lecsengés küszöb', tailDb, -100, -40, 'dBFS', running || !trimTail ? null : (v) => setState(() => tailDb = v.roundToDouble()), divisions: 60),
-              SwitchListTile(contentPadding: EdgeInsets.zero, title: const Text('Kattanásmentes lezárás (5–20 ms fade)'), value: fadeTail,
+              _slider(tr('Lecsengés küszöb'), tailDb, -100, -40, 'dBFS', running || !trimTail ? null : (v) => setState(() => tailDb = v.roundToDouble()), divisions: 60),
+              SwitchListTile(contentPadding: EdgeInsets.zero, title: Text(tr('Kattanásmentes lezárás (5–20 ms fade)')), value: fadeTail,
                   onChanged: running || !trimTail ? null : (v) => setState(() => fadeTail = v)),
               const SizedBox(height: 10),
               SizedBox(
@@ -393,7 +394,7 @@ class _SampleStudioPageState extends State<SampleStudioPage> {
                 child: FilledButton.icon(
                   onPressed: running || jobs.isEmpty ? null : _run,
                   icon: const Icon(Icons.play_arrow),
-                  label: Text(running ? 'Feldolgozás…' : 'Vágás indítása'),
+                  label: Text(running ? tr('Feldolgozás…') : tr('Vágás indítása')),
                 ),
               ),
               if (jobs.length > 1) ...[
@@ -418,37 +419,37 @@ class _SampleStudioPageState extends State<SampleStudioPage> {
         Expanded(
           child: ListView(children: [
             _card(p, j == null
-                ? const Text('Nyiss meg egy vagy több WAV fájlt a bal oldalon.')
+                ? Text(tr('Nyiss meg egy vagy több WAV fájlt a bal oldalon.'))
                 : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                     Text(_base(j.path), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
                     const SizedBox(height: 10),
                     _steps(j.steps, accent),
                   ])),
             _card(p, Column(children: [
-              _wave('Eredeti (piros = levágott rész)', j?.before, Colors.white70,
+              _wave(tr('Eredeti (piros = levágott rész)'), j?.before, Colors.white70,
                   cutStart: r?['startFrame'] as int?, cutEnd: r?['endFrame'] as int?),
               const SizedBox(height: 14),
-              _wave('Eredmény', j?.after, accent),
+              _wave(tr('Eredmény'), j?.after, accent),
             ])),
             if (r != null && j?.result?.ok == true)
               _card(p, Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                _kv('Levágva az elejéről', '${(r['cutHeadMs'] as num).toStringAsFixed(3)} ms (${r['cutHeadSamples']} minta)'),
-                _kv('Levágva a végéről', '${(r['cutTailMs'] as num).toStringAsFixed(2)} ms'),
-                _kv('Csúcsszint', '${(r['peakDb'] as num).toStringAsFixed(2)} dBFS'),
-                _kv('Zajpadló', '${(r['noiseFloorDb'] as num).toStringAsFixed(1)} dBFS'),
-                _kv('Lezáró fade', (r['fadeMs'] as num) > 0 ? '${(r['fadeMs'] as num).toStringAsFixed(2)} ms' : 'nincs'),
-                _kv('Minőség', 'a megmaradó minták bitre azonosak az eredetivel; nincs újramintavételezés, nincs bitmélység-váltás'),
+                _kv(tr('Levágva az elejéről'), tr('{0} ms ({1} minta)', [(r['cutHeadMs'] as num).toStringAsFixed(3), r['cutHeadSamples']])),
+                _kv(tr('Levágva a végéről'), '${(r['cutTailMs'] as num).toStringAsFixed(2)} ms'),
+                _kv(tr('Csúcsszint'), '${(r['peakDb'] as num).toStringAsFixed(2)} dBFS'),
+                _kv(tr('Zajpadló'), '${(r['noiseFloorDb'] as num).toStringAsFixed(1)} dBFS'),
+                _kv(tr('Lezáró fade'), (r['fadeMs'] as num) > 0 ? '${(r['fadeMs'] as num).toStringAsFixed(2)} ms' : 'nincs'),
+                _kv(tr('Minőség'), tr('a megmaradó minták bitre azonosak az eredetivel; nincs újramintavételezés, nincs bitmélység-váltás')),
                 if (r['needsReview'] == true)
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.only(top: 6),
-                    child: Text('Figyelem: lassú felfutású hang (pl. pad) – hallgasd meg, nem vágott-e bele a hang elejébe.',
+                    child: Text(tr('Figyelem: lassú felfutású hang (pl. pad) – hallgasd meg, nem vágott-e bele a hang elejébe.'),
                         style: TextStyle(color: Colors.orangeAccent)),
                   ),
               ])),
             if (!running && jobs.any((j) => j.temp != null))
               _card(p, Row(children: [
-                Expanded(child: Text(savedInfo ?? 'Kész. Még nincs mentve.')),
-                FilledButton.icon(onPressed: _save, icon: const Icon(Icons.save_alt), label: const Text('Mentés…')),
+                Expanded(child: Text(savedInfo ?? tr('Kész. Még nincs mentve.'))),
+                FilledButton.icon(onPressed: _save, icon: const Icon(Icons.save_alt), label: Text(tr('Mentés…'))),
               ])),
           ]),
         ),
@@ -479,7 +480,7 @@ class _LoopStudioPageState extends State<LoopStudioPage> {
   int unityNote = 60;
   var steps = <_Step>[];
 
-  List<_Step> _newSteps() => [_Step('Beolvasás és hullámforma'), _Step('Stabil szakasz és loop pontok keresése'), _Step('Ellenőrzés: varrat, formátum')];
+  List<_Step> _newSteps() => [_Step(tr('Beolvasás és hullámforma')), _Step(tr('Stabil szakasz és loop pontok keresése')), _Step(tr('Ellenőrzés: varrat, formátum'))];
 
   Future<void> _pick() async {
     final f = await openFile(acceptedTypeGroups: _wavTypes);
@@ -512,9 +513,9 @@ class _LoopStudioPageState extends State<LoopStudioPage> {
       if (!result!.ok) throw '${result!.json['error']}';
       temp = out;
       final r = result!.json;
-      steps[1].detail = '${(r['lengthMs'] as num).toStringAsFixed(1)} ms hosszú loop';
+      steps[1].detail = tr('{0} ms hosszú loop', [(r['lengthMs'] as num).toStringAsFixed(1)]);
       after = await _timed(steps[2], () => setState(() {}), () => _peaksIso(out));
-      steps[2].detail = 'varrat-egyezés ${((r['score'] as num) * 100).toStringAsFixed(2)}%';
+      steps[2].detail = tr('varrat-egyezés {0}%', [((r['score'] as num) * 100).toStringAsFixed(2)]);
     } catch (_) {
       // a lépés mutatja a hibát
     }
@@ -525,11 +526,11 @@ class _LoopStudioPageState extends State<LoopStudioPage> {
   Future<void> _save() async {
     final src = path, tmp = temp;
     if (src == null || tmp == null) return;
-    final loc = await getSaveLocation(suggestedName: '${_stem(src)}_loop.wav', acceptedTypeGroups: _wavTypes, confirmButtonText: 'Mentés');
+    final loc = await getSaveLocation(suggestedName: '${_stem(src)}_loop.wav', acceptedTypeGroups: _wavTypes, confirmButtonText: tr('Mentés'));
     if (loc == null) return;
     final dest = loc.path.toLowerCase().endsWith('.wav') ? loc.path : '${loc.path}.wav';
     await File(tmp).copy(dest);
-    setState(() => savedInfo = 'Mentve: $dest');
+    setState(() => savedInfo = tr('Mentve: {0}', [dest]));
   }
 
   @override
@@ -541,7 +542,7 @@ class _LoopStudioPageState extends State<LoopStudioPage> {
     return _StudioScaffold(
       project: p,
       title: 'SoundNexus Loop Studio',
-      subtitle: 'Kattanásmentes loop pontok kitartott hangmintákhoz · smpl blokk (Yamaha Expansion Manager, samplerek)',
+      subtitle: tr('Kattanásmentes loop pontok kitartott hangmintákhoz · smpl blokk (Yamaha Expansion Manager, samplerek)'),
       icon: Icons.all_inclusive,
       body: Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         SizedBox(
@@ -549,20 +550,20 @@ class _LoopStudioPageState extends State<LoopStudioPage> {
           child: _card(
             p,
             ListView(children: [
-              FilledButton.icon(onPressed: running ? null : _pick, icon: const Icon(Icons.audio_file), label: const Text('WAV megnyitása')),
+              FilledButton.icon(onPressed: running ? null : _pick, icon: const Icon(Icons.audio_file), label: Text(tr('WAV megnyitása'))),
               const SizedBox(height: 6),
-              Text(path == null ? 'Kitartott hang (vonós, pad, orgona, kórus) a legjobb.' : _base(path!),
+              Text(path == null ? tr('Kitartott hang (vonós, pad, orgona, kórus) a legjobb.') : _base(path!),
                   style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.7))),
               const Divider(height: 26),
-              _slider('Legrövidebb loop', minLoopMs, 100, 3000, 'ms', running ? null : (v) => setState(() => minLoopMs = v.roundToDouble()), divisions: 58),
+              _slider(tr('Legrövidebb loop'), minLoopMs, 100, 3000, 'ms', running ? null : (v) => setState(() => minLoopMs = v.roundToDouble()), divisions: 58),
               _slider('Crossfade', crossfadeMs, 0, 300, 'ms', running ? null : (v) => setState(() => crossfadeMs = v.roundToDouble()), divisions: 60),
               Text(crossfadeMs == 0
-                  ? 'Crossfade nélkül a minták érintetlenek maradnak.'
-                  : 'A loop vége előtti rész átkeveredik a loop eleje előtti résszel (equal-power).',
+                  ? tr('Crossfade nélkül a minták érintetlenek maradnak.')
+                  : tr('A loop vége előtti rész átkeveredik a loop eleje előtti résszel (equal-power).'),
                   style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.6))),
               const SizedBox(height: 12),
               Row(children: [
-                const Text('Alaphang (MIDI): '),
+                Text(tr('Alaphang (MIDI): ')),
                 IconButton(onPressed: running ? null : () => setState(() => unityNote = (unityNote - 1).clamp(0, 127)), icon: const Icon(Icons.remove)),
                 Text('${_note(unityNote)} ($unityNote)', style: const TextStyle(fontWeight: FontWeight.w700)),
                 IconButton(onPressed: running ? null : () => setState(() => unityNote = (unityNote + 1).clamp(0, 127)), icon: const Icon(Icons.add)),
@@ -573,7 +574,7 @@ class _LoopStudioPageState extends State<LoopStudioPage> {
                 child: FilledButton.icon(
                   onPressed: running || path == null ? null : _run,
                   icon: const Icon(Icons.search),
-                  label: Text(running ? 'Keresés…' : 'Loop pontok keresése'),
+                  label: Text(running ? tr('Keresés…') : tr('Loop pontok keresése')),
                 ),
               ),
             ]),
@@ -581,14 +582,14 @@ class _LoopStudioPageState extends State<LoopStudioPage> {
         ),
         Expanded(
           child: ListView(children: [
-            _card(p, steps.isEmpty ? const Text('Nyiss meg egy WAV hangmintát a bal oldalon.') : _steps(steps, accent)),
+            _card(p, steps.isEmpty ? Text(tr('Nyiss meg egy WAV hangmintát a bal oldalon.')) : _steps(steps, accent)),
             _card(p, Column(children: [
-              _wave('Hangminta (kiemelve: a loop)', after ?? before, accent,
+              _wave(tr('Hangminta (kiemelve: a loop)'), after ?? before, accent,
                   loopStart: ok ? r!['loopStart'] as int : null, loopEnd: ok ? r!['loopEnd'] as int : null, height: 170),
             ])),
             if (ok && after?.seam != null)
               _card(p, Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                const Text('A varrat nagyítva: a loop vége (balra) → a loop eleje (jobbra). Egyenletes átmenet = nincs kattanás.',
+                Text(tr('A varrat nagyítva: a loop vége (balra) → a loop eleje (jobbra). Egyenletes átmenet = nincs kattanás.'),
                     style: TextStyle(fontWeight: FontWeight.w600)),
                 const SizedBox(height: 8),
                 Container(
@@ -599,18 +600,18 @@ class _LoopStudioPageState extends State<LoopStudioPage> {
               ])),
             if (ok)
               _card(p, Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                _kv('Loop kezdete', '${r!['loopStart']}. minta (${((r['loopStart'] as int) / (r['sampleRate'] as int) * 1000).toStringAsFixed(2)} ms)'),
-                _kv('Loop vége', '${r['loopEnd']}. minta'),
-                _kv('Loop hossza', '${(r['lengthMs'] as num).toStringAsFixed(2)} ms'),
-                _kv('Varrat-egyezés', '${((r['score'] as num) * 100).toStringAsFixed(2)}%'),
-                _kv('Hangerő-eltérés a két vég között', '${(r['levelDiffDb'] as num).toStringAsFixed(2)} dB'),
-                _kv('Crossfade', (r['crossfadeMs'] as num) > 0 ? '${(r['crossfadeMs'] as num).toStringAsFixed(1)} ms' : 'nincs (a minták érintetlenek)'),
-                _kv('Alaphang', '${_note(unityNote)} (MIDI $unityNote)'),
+                _kv(tr('Loop kezdete'), tr('{0}. minta ({1} ms)', [r!['loopStart'], ((r['loopStart'] as int) / (r['sampleRate'] as int) * 1000).toStringAsFixed(2)])),
+                _kv(tr('Loop vége'), tr('{0}. minta', [r['loopEnd']])),
+                _kv(tr('Loop hossza'), '${(r['lengthMs'] as num).toStringAsFixed(2)} ms'),
+                _kv(tr('Varrat-egyezés'), '${((r['score'] as num) * 100).toStringAsFixed(2)}%'),
+                _kv(tr('Hangerő-eltérés a két vég között'), '${(r['levelDiffDb'] as num).toStringAsFixed(2)} dB'),
+                _kv('Crossfade', (r['crossfadeMs'] as num) > 0 ? '${(r['crossfadeMs'] as num).toStringAsFixed(1)} ms' : tr('nincs (a minták érintetlenek)')),
+                _kv(tr('Alaphang'), '${_note(unityNote)} (MIDI $unityNote)'),
               ])),
             if (temp != null && !running)
               _card(p, Row(children: [
-                Expanded(child: Text(savedInfo ?? 'Kész. Még nincs mentve.')),
-                FilledButton.icon(onPressed: _save, icon: const Icon(Icons.save_alt), label: const Text('Mentés…')),
+                Expanded(child: Text(savedInfo ?? tr('Kész. Még nincs mentve.'))),
+                FilledButton.icon(onPressed: _save, icon: const Icon(Icons.save_alt), label: Text(tr('Mentés…'))),
               ])),
           ]),
         ),

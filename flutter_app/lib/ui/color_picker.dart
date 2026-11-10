@@ -1,4 +1,5 @@
 // lib/ui/color_picker.dart — beépített HSV színválasztó (külső csomag nélkül)
+import '../i18n/i18n.dart';
 import 'package:flutter/material.dart';
 
 const colorSwatches = <Color>[
@@ -7,8 +8,8 @@ const colorSwatches = <Color>[
   Color(0xFFE91E63), Color(0xFF43A047), Color(0xFFF2F4F8), Color(0xFF9E9E9E), Color(0xFF263238),
 ];
 
-Future<Color?> pickColor(BuildContext context, Color initial, {String title = 'Szín kiválasztása'}) =>
-    showDialog<Color>(context: context, builder: (_) => _ColorPickerDialog(initial: initial, title: title));
+Future<Color?> pickColor(BuildContext context, Color initial, {String? title}) =>
+    showDialog<Color>(context: context, builder: (_) => _ColorPickerDialog(initial: initial, title: title ?? tr('Szín kiválasztása')));
 
 class _ColorPickerDialog extends StatefulWidget {
   const _ColorPickerDialog({required this.initial, required this.title});
@@ -171,8 +172,8 @@ class _ColorPickerDialogState extends State<_ColorPickerDialog> {
         ]),
       ),
       actions: [
-        TextButton(onPressed: () => Navigator.pop(context), child: const Text('Mégse')),
-        FilledButton(onPressed: () => Navigator.pop(context, color), child: const Text('Kiválaszt')),
+        TextButton(onPressed: () => Navigator.pop(context), child: Text(tr('Mégse'))),
+        FilledButton(onPressed: () => Navigator.pop(context, color), child: Text(tr('Kiválaszt'))),
       ],
     );
   }
@@ -189,7 +190,7 @@ class ColorButton extends StatelessWidget {
   Widget build(BuildContext context) => InkWell(
         borderRadius: BorderRadius.circular(8),
         onTap: () async {
-          final c = await pickColor(context, color, title: label ?? 'Szín kiválasztása');
+          final c = await pickColor(context, color, title: label ?? tr('Szín kiválasztása'));
           if (c != null) onChanged(c);
         },
         child: Padding(

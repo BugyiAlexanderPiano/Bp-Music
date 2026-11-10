@@ -1,0 +1,438 @@
+ali
+(ni omrežja)
+. Slog: {0} – izberi ga na inštrumentu.
+1. Wi-Fi (priporočeno)
+2. Kot datoteka (kabel USB, Bluetooth, AirDrop)
+Datoteke MIDI ni mogoče prebrati: {0}
+Računalnik je javil napako ({0}).
+Na računalniku: Datoteka → Pošlji na tablico / telefon → Začni pošiljanje.
+Paket za nastop: {0} skladb, {1} bank, {2} KB. Na mobilni napravi ga je mogoče le uporabljati, ne urejati.
+Datoteka ni projekt SoundNexus Pro ali je poškodovana: {0}
+Datoteke ni mogoče odpreti: {0}
+Slika je prevelika (največ 3 MB). Pomanjšaj jo in poskusi znova.
+Pošiljanja ni mogoče začeti: {0}
+Del pred koncem zanke se pretopi z delom pred začetkom zanke (equal-power).
+Shranjevanje ni uspelo: {0}
+Projekt je spremenjen. Nadaljujem brez shranjevanja?
+Slog izbereš na inštrumentu; od tu upravljaš zagon, dele in tempo.
+Besedila ni mogoče prebrati (potreben je UTF-8): {0}
+Na tablici / telefonu: SoundNexus Pro → Prejmi z računalnika, nato vnesi to kodo:
+Celoten MIDI se pripne skladbi: na tablici ga gumb »Predvajaj skladbo« zaigra na inštrumentu.
+Spoj povečan: konec zanke (levo) → začetek zanke (desno). Enakomeren prehod = brez klika.
+Vnesi naslov računalnika in 6-mestno kodo.
+Vstavi akord:
+Akordi
+Trenutna vrstica
+Privzeta postavitev
+Privzeta knjižnica zvokov
+Osnovni ton
+Osnovni ton (MIDI):
+Ponastavi
+Uporabi
+Uporabljeno: {0}{1} dB
+Spodnja vrstica…
+Spodnja nadzorna vrstica
+Urejevalnik spodnje vrstice
+Urejevalnik spodnje vrstice…
+Zlata
+Aurora
+Samodejno
+Samodejni notni zapis iz MP3/MP4: faza B
+Videz posameznih gumbov (npr. OTS 1–4, registracija 1–8, V1–V4) nastaviš v glavnem oknu v Pogled → Urejanje vmesnika s klikom na gumb.
+Preliv se počasi vrti
+Banka 1
+Banka {0}
+Banka {0} / {1}
+Bas
+Priklicano: {0} / {1}
+Vklopljeno
+Predstavitvena skladba
+Predstavitvena melodija
+Predstavitveni projekt
+Nalaganje in valovna oblika
+Velikost pisave
+Pisava
+Pisava in barve besedila
+Pisava in besedilo…
+Zapri
+Nastavitve
+Nastavitve: jezik, način PC / Tablica / Telefon
+Nastavitve: jezik, način Tablica / Telefon
+Bližnjice: Ctrl+N novo · Ctrl+O odpri · Ctrl+S shrani · Ctrl+Shift+S shrani kot · Ctrl+E uredi skladbo · F5 sinhronizacija · ←/→ listanje · Preslednica Start/Stop
+Območje klaviature: {0} – {1}
+Res izbrišem »{0}«?
+Iskanje Bluetooth
+Break
+Škrlatna
+Vrednosti CC7, ločene s presledki
+Brez pretapljanja vzorci ostanejo nedotaknjeni.
+Samo slika (brez napisa)
+Samo pri močnem udarcu (vel ≥ {0})
+Odreži tišino na začetku
+Analiza tišine in pojemanja, rezanje
+Shrani paket (.snxshow)
+Ime skupine
+Izbriši skupino
+Skupine, zvoki, vrstni red, stolpci, videz gumbov
+Najvišja raven
+Cilj: −18 LUFS. Vnesi izmerjeno glasnost sloga in trenutne vrednosti CC7 delov.
+Naslov
+Skladba
+Skladbo višje
+Skladbo nižje
+Skladba uvožena: {0}
+Predvajaj skladbo
+Predvajaj skladbo na inštrumentu (pripeti MIDI)
+Uredi skladbo
+Uredi skladbo (Ctrl+E)
+Uredi skladbo…
+Izbriši skladbo
+Besedilo (sredina)
+Uvozi besedilo (.txt)…
+Trajanje enega kroga
+Izbereš lahko eno ali več datotek (paketna obdelava).
+Enobarvno
+Drugo
+Za to skladbo še ni not.\nNa računalniku: Uredi skladbo → Note → Uvozi MIDI.
+Tej skladbi ni pripet noben MIDI. Na računalniku: Uredi skladbo → Note → Uvozi MIDI.
+Na začetek
+Vrstni red elementov (od leve proti desni), dodajanje, odstranjevanje, videz
+Elementi – vrstni red seznama = vrstni red vrstice od leve proti desni
+Poslano: {0} BPM, {1}, plasti: {2}{3}
+Preverjanje: format, bitna globina
+Preverjanje: spoj, format
+Zameglitev
+Dodaj prvo skladbo
+Odstrani
+Izvajalec
+Najprej se poveži z inštrumentom (Inštrument → Poveži).
+Najprej se poveži z inštrumentom.
+Predogled
+Predogled: note
+Predogled: besedilo
+Prejšnja skladba
+Ending A
+Ending B
+Ending C
+Izvirnik (rdeče = odrezani del)
+Rezultat
+Naprava:
+Orodja
+POZOR: format se razlikuje
+Lesena pihala
+Obdelava…
+Napis
+Barva napisa
+Način nastopa · predstavitev
+Način nastopa · {0}
+Odkleni
+Vmesnik
+Urejanje vmesnika (gumbi, vrstice)
+Urejanje vmesnika: klikni kateri koli gumb in mu spremeni videz (slika, napis, barva, velikost); z oranžnim čopičem v kotu vrstic oblikuješ celotno vrstico; ločilne črte je mogoče vleči.
+Pozor: zvok s počasnim napadom (npr. pad) – poslušaj, ali začetek zvoka ni bil odrezan.
+Fill In
+Prejeto: {0}
+Prejmi z računalnika
+Nadaljuj brez shranjevanja
+Osveži
+Datoteka
+Kitara
+Videz gumba
+Gumb: {0}
+Velikost gumbov
+Gumbi
+Gumbi (povleci za spremembo vrstnega reda)
+Vrstni red gumbov, dodajanje, odstranjevanje, stolpci, videz
+Barva gumba
+Začni drsenje (notranja ura)
+Ustavi drsenje
+Če požarni zid Windows vpraša, dovoli dostop »Zasebno omrežje«.
+Če mobilna naprava sama ne najde računalnika, vnesi ta naslov: {0}
+Glasnost
+Razlika ravni med obema koncema
+Normalizacija glasnosti…
+Vzorec (poudarjeno: zanka)
+Tonaliteta
+Tonaliteta: {0}
+Inštrument
+Zvok (Bank MSB / LSB / Program)
+Pošlji zvok
+Plošča zvokov
+Urejevalnik plošče zvokov
+Urejevalnik plošče zvokov…
+Skupine zvokov (povleci za spremembo vrstnega reda)
+Zvoki
+Zvoki (Bank MSB / LSB / Program s seznama inštrumenta)
+Zvoki (levo)
+Neveljaven vnos.
+Napačna koda
+Napačna koda.
+Kam?
+Dodaj:
+Ozadje
+Slika ozadja
+Barva ozadja
+Začetni del
+Intro A
+Intro B
+Intro C
+Led
+Povezano: {0}
+Poveži
+Poveži z inštrumentom
+Napaka povezave
+Povezovanje…
+Kapsula
+Zaključek brez klika (fade 5–20 ms)
+Točke zanke brez klika za zadržane vzorce · blok smpl (Yamaha Expansion Manager, samplerji)
+Iskanje…
+Barva obrobe
+Debelina obrobe
+Prag začetka
+Barva poudarka
+Izklopljeno: uporabi se barva plošče iz teme
+Izhod
+Najbolje deluje zadržan zvok (godala, pad, orgle, zbor).
+Zapolni
+Izberi
+Note (melodija + akordi)
+Ustvari note
+Note in besedilo skupaj
+Različica not
+Note:
+Note: {0}
+Slika na gumbu
+Naloži sliko
+Prenesi sliko
+Vidnost slike
+Slike
+Končano
+Pripravljene teme
+Končano, nazaj
+Končano. Še ni shranjeno.
+Koda (6 števk)
+Zbor
+Zbor, pad
+Krog
+Naslednja skladba
+Pošlji
+Začni pošiljanje
+Pošlji na tablico / telefon
+Pošlji na tablico / telefon…
+Ključavnica
+Prag pojemanja
+Najkrajša zanka
+Predvajaj
+Predvajanje na inštrumentu: {0} ({1} BPM)
+Predvajanje ustavljeno.
+Ustavi predvajanje
+Zaobljeno
+Preneseno na {0} naprav ✓
+Prenesi
+Prenašanje…
+Sivka
+Odrezano s konca
+Odrezano z začetka
+Zaključni fade
+Ustavi
+Dolžina zanke
+Začetek zanke
+Poišči točke zanke
+Konec zanke
+Vidnost
+Lava
+Vhod MIDI (z inštrumenta):
+Kanal MIDI:
+Uvozi MIDI…
+Izhod MIDI (proti inštrumentu):
+Main A
+Main A–D
+Main B
+Main C
+Main D
+Ostanek (v glasnost sloga): {0} dB
+Način prikaza
+Odprto: {0}
+Odpri iz datoteke (.snxshow)
+Odpri…
+Katera sled je melodija?
+Neshranjene spremembe
+Shrani paket, ga kopiraj na mobilno napravo (na Androidu v mapo Prenosi, na iPhonu/iPadu v aplikacijo Datoteke), nato na mobilni napravi: Prejmi → Odpri iz datoteke.
+Shranjeno: {0}
+Shranjeno: {0} / {1}
+Shrani
+Shrani sem
+Shrani kot…
+Shrani…
+Vzorčna vrstica besedila
+Rezanje tišine in pojemanja na vzorec natančno · preostali vzorci ostanejo bitno enaki
+Kakovost
+Ploščice
+Gibljiv preliv
+Druga skladba
+Prekliči
+Velikost
+Ponastavi velikosti
+Izmerjena glasnost (LUFS)
+Sončni zahod
+Povezava z inštrumentom ni uspela.
+Ni najdene naprave MIDI. Priključi inštrument s kablom USB-C / OTG (v vtičnico USB TO HOST na inštrumentu) ali uporabi vmesnik Bluetooth MIDI.
+Ni najdene naprave MIDI. Priključi inštrument s kablom USB (USB TO HOST), ga vklopi in klikni Osveži.
+Računalnik ({0}) ni dosegljiv. Ste v istem omrežju Wi-Fi? Ali pošiljanje na računalniku teče?
+Neon
+Ni skupin.
+Ni skladb. Prejmi paket z računalnika.
+Noben inštrument ni povezan – nastavitev je bila uporabljena le v programu.
+Jezik
+Jezik in način prikaza…
+Na levi odpri vzorec WAV.
+Na levi odpri eno ali več datotek WAV.
+Osminka
+Ime
+O programu in bližnjice
+Skladba brez naslova
+Pogled
+Pogled: besedilo, note ali oboje
+Priklic OTS prek MIDI: bo dodan na podlagi Data List modela
+Oktava
+Stran
+Odkleni stran
+Zakleni stran (brez listanja)
+Zamenjaj strani
+One Touch Settings
+Orgle
+Stolpci:
+PC
+Naslov računalnika (npr. 192.168.1.20)
+Iskanje računalnika v omrežju Wi-Fi…
+Način PC: urejanje in oblikovanje. Tablica in Telefon: predogled, natanko tak, kot bo prikazan na mobilni napravi.
+Pad / godala
+Prosojnost plošče
+Barva plošče
+Registracijske banke
+Registracija
+Ritmična mreža (kvantizacija):
+Ritem
+Ritem (desno)
+Plošča ritma
+Ritem in slog
+Urejevalnik plošče ritma
+Urejevalnik plošče ritma…
+Del {0}: CC7 {1} → {2}
+Plasti (V1–V4)
+Trobila
+Lastno ozadje za to vrstico
+Lastna slika ozadja
+Zaobljenost kotov
+Smaragdna
+SoundNexus Pro se je zagnal.
+Paket za nastop SoundNexus Pro
+Projekt SoundNexus Pro
+Poišči stabilen del in točke zanke
+Start
+Start / Stop
+Stop
+Slog
+Slog (na inštrumentu)
+Style Start
+Style Stop
+Normalizacija glasnosti sloga
+Slog: {0}
+Del:
+Deli
+Urejanje
+Program za urejanje in upravljanje v živo za Yamaha Genos 2, Genos, Tyros 5, Tyros 4 in PSR-SX.
+Sinhronizacija
+Sinhroniziraj z inštrumentom
+Gumb za sinhronizacijo
+Izračunaj
+Oglje
+Barva
+Dodaj barvo
+Izberi barvo
+Izbriši barvo
+Vrti tudi barve
+Solo
+Oglato
+Besedilo
+Besedilo in akordi
+Slog vrstice
+Slog vrstice: {0}
+Slogi vrstic
+Poškodovan prenos (kontrolna vsota se ne ujema). Poskusi znova.
+Potemnitev
+Pomoč
+Tempo TAP
+Tablica
+Predogled tablice – tako je vmesnik videti na tablici (urejanje le v načinu PC)
+Tablica: trije stolpci drug ob drugem. Telefon: skladba na sredini, zvoki in ritem se izvlečejo s strani.
+Telefon
+Predogled telefona – tako je vmesnik videti na telefonu (urejanje le v načinu PC)
+Cela slika
+Tempo
+Tempo (BPM)
+Tempo +
+Prevzemi tempo in takt ({0} BPM, {1}/4)
+Tempo −
+Preskusni način
+Preskusni način: ukazi se ne pošiljajo inštrumentu.
+Šestnajstinka
+Transpozicija
+Tema
+Tema in barve
+Tema in barve…
+Razmik
+Izbriši
+Izbriši zadnjo barvo
+Odreži odmev in šum s konca
+Ujemanje spoja
+Krivulja dinamike
+Nazaj v način PC
+Nazaj v SoundNexus Pro
+Godala
+V{0}: {1} poslano (kan. {2})
+Začni rezanje
+Čakanje na mobilno napravo…
+Odpri datoteke WAV
+Vzorec WAV
+Odpri WAV
+Raven šuma
+Klavir
+[G]Besedilo [D]z akordi\ndel {Main A}\n# opomba
+preostali vzorci so bitno enaki izvirniku; brez prevzorčenja, brez spremembe bitne globine
+začetek −{0} ms · konec −{1} ms
+format nespremenjen ✓
+vsi gumbi so na plošči
+nobeden (vzorci nedotaknjeni)
+po plošči
+po temi
+ujemanje spoja {0} %
+{0} (izvirnik: {1})
+{0} ({1} not)
+{0} / {1} je prazno. Za shranjevanje: Shrani, nato številka.
+Izbranih datotek: {0}
+Shranjenih datotek: {0} v: {1}
+Zvokov: {0}
+{0} ms ({1} vzorcev)
+zanka {0} ms
+{0} s · {1} vzorcev · {2}
+vzorec {0}
+vzorec {0} ({1} ms)
+barva {0}
+{Main A}\n[C]Sem napiši besedilo
+Prosojnost
+Smer preliva
+Preliv: dodaj barvo
+Preliv
+Polnočno modra
+Ocean
+Nova banka
+Nova skupina
+Nova skladba
+Nova skladba…
+Nov zvok
+Nov projekt
+Nov projekt.
+Znova
+Takti / vrstica
+Takt

@@ -1,0 +1,438 @@
+ou
+(sem rede)
+. Estilo: {0} – selecione-o no instrumento.
+1. Wi-Fi (recomendado)
+2. Como ficheiro (cabo USB, Bluetooth, AirDrop)
+Não é possível ler o ficheiro MIDI: {0}
+O PC comunicou um erro ({0}).
+No PC: Ficheiro → Enviar para tablet / telemóvel → Iniciar envio.
+Pacote de atuação: {0} músicas, {1} bancos, {2} KB. No dispositivo móvel só pode ser usado, não editado.
+O ficheiro não é um projeto SoundNexus Pro ou está danificado: {0}
+Não é possível abrir o ficheiro: {0}
+A imagem é demasiado grande (máx. 3 MB). Reduza-a e tente novamente.
+Não é possível iniciar o envio: {0}
+A parte antes do fim do loop é misturada com a parte antes do início do loop (potência constante).
+Falha ao guardar: {0}
+O projeto foi alterado. Continuar sem guardar?
+O estilo é escolhido no instrumento; daqui controla o início, as secções e o tempo.
+Não é possível ler o texto (é necessário UTF-8): {0}
+No tablet / telemóvel: SoundNexus Pro → Receber do PC e introduza este código:
+O MIDI completo é anexado à música: no tablet, o botão «Tocar música» toca-o no instrumento.
+A junção ampliada: fim do loop (esquerda) → início do loop (direita). Transição suave = sem clique.
+Introduza o endereço do PC e o código de 6 dígitos.
+Inserir acorde:
+Acordes
+Linha atual
+Disposição predefinida
+Biblioteca de vozes predefinida
+Nota base
+Nota base (MIDI):
+Repor
+Aplicar
+Aplicado: {0}{1} dB
+Barra inferior…
+Barra de controlo inferior
+Editor da barra inferior
+Editor da barra inferior…
+Ouro
+Aurora
+Automático
+Transcrição automática de MP3/MP4: fase B
+O aspeto de cada botão (p. ex. OTS 1–4, registo 1–8, V1–V4) ajusta-se na janela principal em Ver → Editar interface, clicando no botão.
+O degradê roda lentamente
+Banco 1
+Banco {0}
+Banco {0} / {1}
+Baixo
+Chamado: {0} / {1}
+Ligado
+Música de demonstração
+Melodia de demonstração
+Projeto de demonstração
+Carregamento e forma de onda
+Tamanho da letra
+Tipo de letra
+Tipo de letra e cores do texto
+Tipo de letra e texto…
+Fechar
+Definições
+Definições: idioma, modo PC / Tablet / Telemóvel
+Definições: idioma, modo Tablet / Telemóvel
+Atalhos: Ctrl+N novo · Ctrl+O abrir · Ctrl+S guardar · Ctrl+Shift+S guardar como · Ctrl+E editar música · F5 sincronizar · ←/→ página · Espaço Start/Stop
+Zona do teclado: {0} – {1}
+Eliminar mesmo «{0}»?
+Procura Bluetooth
+Break
+Carmim
+Valores CC7 separados por espaços
+Sem crossfade, as amostras ficam intactas.
+Só imagem (sem legenda)
+Só com toque forte (vel ≥ {0})
+Cortar silêncio do início
+Analisar silêncio e decaimento, cortar
+Guardar pacote (.snxshow)
+Nome do grupo
+Eliminar grupo
+Grupos, vozes, ordem, colunas, aspeto dos botões
+Nível de pico
+Objetivo: −18 LUFS. Introduza o volume medido do estilo e os valores CC7 atuais das partes.
+Título
+Música
+Subir música
+Descer música
+Música importada: {0}
+Tocar música
+Tocar a música no instrumento (MIDI anexado)
+Editar música
+Editar música (Ctrl+E)
+Editar música…
+Eliminar música
+Letra (centro)
+Importar letra (.txt)…
+Duração de um ciclo
+Pode escolher um ou mais ficheiros (processamento em lote).
+Sólido
+Outros
+Esta música ainda não tem partitura.\nNo PC: Editar música → Partitura → Importar MIDI.
+Esta música não tem MIDI anexado. No PC: Editar música → Partitura → Importar MIDI.
+Ao início
+Ordem dos elementos (da esquerda para a direita), adicionar, remover, aspeto
+Elementos – ordem da lista = ordem da barra da esquerda para a direita
+Enviado: {0} BPM, {1}, {2} camada(s){3}
+Verificação: formato, profundidade de bits
+Verificação: junção, formato
+Desfocagem
+Adicionar a primeira música
+Remover
+Artista
+Ligue-se primeiro ao instrumento (Instrumento → Ligar).
+Ligue-se primeiro ao instrumento.
+Pré-visualização
+Pré-visualização: partitura
+Pré-visualização: texto
+Música anterior
+Ending A
+Ending B
+Ending C
+Original (vermelho = parte cortada)
+Resultado
+Dispositivo:
+Ferramentas
+ATENÇÃO: o formato é diferente
+Madeiras
+A processar…
+Legenda
+Cor da legenda
+Modo atuação · demo
+Modo atuação · {0}
+Desbloquear
+Interface
+Editar interface (botões, barras)
+Editar interface: clique em qualquer botão para mudar o seu aspeto (imagem, legenda, cor, tamanho); com o pincel laranja no canto das barras estiliza a barra inteira; os separadores podem ser arrastados.
+Atenção: som de ataque lento (p. ex. pad) – ouça se o início do som não foi cortado.
+Fill In
+Recebido: {0}
+Receber do PC
+Continuar sem guardar
+Atualizar
+Ficheiro
+Guitarra
+Aspeto do botão
+Botão: {0}
+Tamanho dos botões
+Botões
+Botões (arraste para reordenar)
+Ordem dos botões, adicionar, remover, colunas, aspeto
+Cor do botão
+Iniciar deslocamento (relógio interno)
+Parar deslocamento
+Se a firewall do Windows perguntar, permita o acesso «Rede privada».
+Se o dispositivo móvel não encontrar o computador sozinho, introduza este endereço: {0}
+Volume
+Diferença de nível entre as duas extremidades
+Normalização de volume…
+Amostra (destacado: o loop)
+Tonalidade
+Tonalidade: {0}
+Instrumento
+Voz (Bank MSB / LSB / Program)
+Enviar voz
+Painel de vozes
+Editor do painel de vozes
+Editor do painel de vozes…
+Grupos de vozes (arraste para reordenar)
+Vozes
+Vozes (Bank MSB / LSB / Program da lista do instrumento)
+Vozes (esquerda)
+Entrada inválida.
+Código errado
+Código errado.
+Para onde?
+Adicionar:
+Fundo
+Imagem de fundo
+Cor de fundo
+Secção inicial
+Intro A
+Intro B
+Intro C
+Gelo
+Ligado: {0}
+Ligar
+Ligar ao instrumento
+Erro de ligação
+A ligar…
+Cápsula
+Final sem cliques (fade de 5–20 ms)
+Pontos de loop sem cliques para amostras sustentadas · bloco smpl (Yamaha Expansion Manager, samplers)
+A procurar…
+Cor do contorno
+Espessura do contorno
+Limiar de ataque
+Cor de destaque
+Desligado: é usada a cor de painel do tema
+Sair
+Um som sustentado (cordas, pad, órgão, coro) funciona melhor.
+Preencher
+Selecionar
+Partitura (melodia + acordes)
+Criar partitura
+Partitura e texto juntos
+Variante da partitura
+Partitura:
+Partitura: {0}
+Imagem no botão
+Carregar imagem
+Enviar imagem
+Visibilidade da imagem
+Imagens
+Concluído
+Temas prontos
+Concluído, voltar
+Concluído. Ainda não guardado.
+Código (6 dígitos)
+Coro
+Coro, pad
+Círculo
+Música seguinte
+Enviar
+Iniciar envio
+Enviar para tablet / telemóvel
+Enviar para tablet / telemóvel…
+Cadeado
+Limiar de decaimento
+Loop mais curto
+Tocar
+A tocar no instrumento: {0} ({1} BPM)
+Reprodução parada.
+Parar reprodução
+Arredondado
+Transferido para {0} dispositivos ✓
+Transferir
+A transferir…
+Lavanda
+Cortado do fim
+Cortado do início
+Fade final
+Parar
+Comprimento do loop
+Início do loop
+Procurar pontos de loop
+Fim do loop
+Visibilidade
+Lava
+Entrada MIDI (do instrumento):
+Canal MIDI:
+Importar MIDI…
+Saída MIDI (para o instrumento):
+Main A
+Main A–D
+Main B
+Main C
+Main D
+Resto (no volume do estilo): {0} dB
+Modo de apresentação
+Aberto: {0}
+Abrir de ficheiro (.snxshow)
+Abrir…
+Que pista é a melodia?
+Alterações não guardadas
+Guarde o pacote, copie-o para o dispositivo móvel (no Android para a pasta Transferências, no iPhone/iPad para a app Ficheiros) e depois no móvel: Receber → Abrir de ficheiro.
+Guardado: {0}
+Guardado: {0} / {1}
+Guardar
+Guardar aqui
+Guardar como…
+Guardar…
+Linha de letra de exemplo
+Corte de silêncio e decaimento com precisão de amostra · as amostras restantes ficam idênticas bit a bit
+Qualidade
+Mosaico
+Degradê animado
+Segunda música
+Cancelar
+Tamanho
+Repor tamanhos
+Volume medido (LUFS)
+Pôr do sol
+Não foi possível ligar ao instrumento.
+Nenhum dispositivo MIDI encontrado. Ligue o instrumento com um cabo USB-C / OTG (à porta USB TO HOST do instrumento) ou use um adaptador MIDI Bluetooth.
+Nenhum dispositivo MIDI encontrado. Ligue o instrumento com um cabo USB (USB TO HOST), ligue-o e clique em Atualizar.
+O PC ({0}) não está acessível. Estão na mesma rede Wi-Fi? O envio está ativo no PC?
+Néon
+Nenhum grupo.
+Nenhuma música. Receba um pacote do PC.
+Nenhum instrumento ligado – a definição só foi aplicada no programa.
+Idioma
+Idioma e modo de apresentação…
+Abra uma amostra WAV à esquerda.
+Abra um ou mais ficheiros WAV à esquerda.
+Colcheia
+Nome
+Sobre e atalhos
+Música sem título
+Ver
+Ver: texto, partitura ou ambos
+Chamada OTS por MIDI: será adicionada com base na Data List do modelo
+Oitava
+Página
+Desbloquear página
+Bloquear página (sem deslizar)
+Trocar páginas
+One Touch Settings
+Órgão
+Colunas:
+PC
+Endereço do PC (p. ex. 192.168.1.20)
+A procurar o PC na rede Wi-Fi…
+Modo PC: edição e design. Tablet e Telemóvel: pré-visualização, exatamente como aparecerá no dispositivo móvel.
+Pad / cordas
+Transparência do painel
+Cor do painel
+Bancos de registo
+Registo
+Grelha rítmica (quantização):
+Ritmo
+Ritmo (direita)
+Painel de ritmo
+Ritmo e estilo
+Editor do painel de ritmo
+Editor do painel de ritmo…
+Parte {0}: CC7 {1} → {2}
+Camadas (V1–V4)
+Metais
+Fundo próprio para esta barra
+Imagem de fundo própria
+Arredondamento dos cantos
+Esmeralda
+SoundNexus Pro iniciado.
+Pacote de atuação SoundNexus Pro
+Projeto SoundNexus Pro
+Procurar secção estável e pontos de loop
+Start
+Start / Stop
+Stop
+Estilo
+Estilo (no instrumento)
+Style Start
+Style Stop
+Normalização do volume do estilo
+Estilo: {0}
+Secção:
+Secções
+Editar
+Programa de edição e controlo ao vivo para Yamaha Genos 2, Genos, Tyros 5, Tyros 4 e PSR-SX.
+Sincronizar
+Sincronizar com o instrumento
+Botão de sincronização
+Calcular
+Carvão
+Cor
+Adicionar cor
+Escolher cor
+Eliminar cor
+Rodar também as cores
+Solo
+Quadrado
+Texto
+Texto e acordes
+Estilo da barra
+Estilo da barra: {0}
+Estilos das barras
+Transferência danificada (checksum não coincide). Tente novamente.
+Escurecer
+Ajuda
+Tempo TAP
+Tablet
+Pré-visualização tablet – é assim que a interface aparece num tablet (edição só no modo PC)
+Tablet: três colunas lado a lado. Telemóvel: a música ao centro, vozes e ritmo deslizam dos lados.
+Telemóvel
+Pré-visualização telemóvel – é assim que a interface aparece num telemóvel (edição só no modo PC)
+Imagem inteira
+Tempo
+Tempo (BPM)
+Tempo +
+Adotar tempo e compasso ({0} BPM, {1}/4)
+Tempo −
+Modo de teste
+Modo de teste: os comandos não são enviados para o instrumento.
+Semicolcheia
+Transpor
+Tema
+Tema e cores
+Tema e cores…
+Espaçamento
+Eliminar
+Eliminar a última cor
+Cortar reverberação e ruído do fim
+Correspondência da junção
+Curva de velocidade
+Voltar ao modo PC
+Voltar ao SoundNexus Pro
+Cordas
+V{0}: {1} enviado (can. {2})
+Iniciar corte
+À espera do dispositivo móvel…
+Abrir ficheiros WAV
+Amostra WAV
+Abrir WAV
+Ruído de fundo
+Piano
+[G]Texto [D]com acordes\nsecção {Main A}\n# comentário
+as amostras restantes são idênticas bit a bit ao original; sem reamostragem nem mudança de profundidade de bits
+início −{0} ms · fim −{1} ms
+formato inalterado ✓
+todos os botões estão no painel
+nenhum (amostras intactas)
+conforme o painel
+conforme o tema
+correspondência da junção {0}%
+{0} (original: {1})
+{0} ({1} notas)
+{0} / {1} está vazio. Para guardar: Guardar e depois o número.
+{0} ficheiros selecionados
+{0} ficheiros guardados em: {1}
+{0} vozes
+{0} ms ({1} amostras)
+loop de {0} ms
+{0} s · {1} amostras · {2}
+amostra {0}
+amostra {0} ({1} ms)
+cor {0}
+{Main A}\n[C]Escreva aqui o texto
+Transparência
+Direção do degradê
+Degradê: adicionar cor
+Degradê
+Azul-meia-noite
+Oceano
+Novo banco
+Novo grupo
+Nova música
+Nova música…
+Nova voz
+Novo projeto
+Novo projeto.
+Tentar de novo
+Compassos / linha
+Compasso

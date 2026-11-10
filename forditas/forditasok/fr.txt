@@ -1,0 +1,438 @@
+ou
+(pas de réseau)
+. Style : {0} – sélectionnez-le sur l'instrument.
+1. Wi-Fi (recommandé)
+2. Sous forme de fichier (câble USB, Bluetooth, AirDrop)
+Impossible de lire le fichier MIDI : {0}
+Le PC a signalé une erreur ({0}).
+Sur le PC : Fichier → Envoyer vers tablette / téléphone → Démarrer l'envoi.
+Paquet de scène : {0} chansons, {1} banques, {2} Ko. Sur mobile, il peut seulement être utilisé, pas modifié.
+Le fichier n'est pas un projet SoundNexus Pro ou il est endommagé : {0}
+Impossible d'ouvrir le fichier : {0}
+L'image est trop grande (3 Mo max.). Réduisez-la et réessayez.
+Impossible de démarrer l'envoi : {0}
+La partie avant la fin de la boucle est fondue avec la partie avant le début de la boucle (puissance constante).
+Échec de l'enregistrement : {0}
+Le projet a été modifié. Continuer sans enregistrer ?
+Le style se choisit sur l'instrument ; d'ici vous pilotez le démarrage, les sections et le tempo.
+Impossible de lire le texte (UTF-8 requis) : {0}
+Sur la tablette / le téléphone : SoundNexus Pro → Recevoir du PC, puis saisissez ce code :
+Le MIDI complet est joint à la chanson : sur la tablette, le bouton « Lire la chanson » le joue sur l'instrument.
+La jointure agrandie : fin de boucle (à gauche) → début de boucle (à droite). Transition régulière = pas de clic.
+Saisissez l'adresse du PC et le code à 6 chiffres.
+Insérer un accord :
+Accords
+Ligne actuelle
+Disposition par défaut
+Bibliothèque de sons par défaut
+Note de base
+Note de base (MIDI) :
+Réinitialiser
+Appliquer
+Appliqué : {0}{1} dB
+Barre inférieure…
+Barre de commande inférieure
+Éditeur de la barre inférieure
+Éditeur de la barre inférieure…
+Or
+Aurore
+Automatique
+Transcription automatique depuis MP3/MP4 : phase B
+L'apparence de chaque bouton (p. ex. OTS 1–4, registration 1–8, V1–V4) se règle dans la fenêtre principale via Affichage → Modifier l'interface, en cliquant sur le bouton.
+Le dégradé tourne lentement
+Banque 1
+Banque {0}
+Banque {0} / {1}
+Basse
+Rappelé : {0} / {1}
+Activé
+Chanson de démo
+Mélodie de démo
+Projet de démo
+Chargement et forme d'onde
+Taille de police
+Police
+Police et couleurs du texte
+Police et texte…
+Fermer
+Paramètres
+Paramètres : langue, mode PC / Tablette / Téléphone
+Paramètres : langue, mode Tablette / Téléphone
+Raccourcis : Ctrl+N nouveau · Ctrl+O ouvrir · Ctrl+S enregistrer · Ctrl+Maj+S enregistrer sous · Ctrl+E modifier la chanson · F5 synchro · ←/→ page · Espace Start/Stop
+Zone du clavier : {0} – {1}
+Supprimer vraiment « {0} » ?
+Recherche Bluetooth
+Break
+Pourpre
+Valeurs CC7 séparées par des espaces
+Sans fondu enchaîné, les échantillons restent intacts.
+Image seule (sans libellé)
+Seulement sur frappe forte (vél ≥ {0})
+Couper le silence au début
+Analyser le silence et l'extinction, couper
+Enregistrer le paquet (.snxshow)
+Nom du groupe
+Supprimer le groupe
+Groupes, sons, ordre, colonnes, apparence des boutons
+Niveau crête
+Cible : −18 LUFS. Saisissez le volume mesuré du style et les valeurs CC7 actuelles des parties.
+Titre
+Chanson
+Monter la chanson
+Descendre la chanson
+Chanson importée : {0}
+Lire la chanson
+Lire la chanson sur l'instrument (MIDI joint)
+Modifier la chanson
+Modifier la chanson (Ctrl+E)
+Modifier la chanson…
+Supprimer la chanson
+Paroles (centre)
+Importer des paroles (.txt)…
+Durée d'un cycle
+Un ou plusieurs fichiers peuvent être choisis (traitement par lots).
+Uni
+Autre
+Il n'y a pas encore de partition pour cette chanson.\nSur le PC : Modifier la chanson → Partition → Importer MIDI.
+Aucun MIDI n'est joint à cette chanson. Sur le PC : Modifier la chanson → Partition → Importer MIDI.
+Au début
+Ordre des éléments (de gauche à droite), ajout, suppression, apparence
+Éléments – ordre de la liste = ordre de la barre de gauche à droite
+Envoyé : {0} BPM, {1}, {2} couche(s){3}
+Contrôle : format, profondeur de bits
+Contrôle : jointure, format
+Flou
+Ajouter la première chanson
+Retirer
+Artiste
+Connectez-vous d'abord à l'instrument (Instrument → Connexion).
+Connectez-vous d'abord à l'instrument.
+Aperçu
+Aperçu : partition
+Aperçu : texte
+Chanson précédente
+Ending A
+Ending B
+Ending C
+Original (rouge = partie coupée)
+Résultat
+Appareil :
+Outils
+ATTENTION : format différent
+Bois
+Traitement…
+Libellé
+Couleur du libellé
+Mode scène · démo
+Mode scène · {0}
+Déverrouiller
+Interface
+Modifier l'interface (boutons, barres)
+Modifier l'interface : cliquez sur n'importe quel bouton pour changer son apparence (image, libellé, couleur, taille) ; le pinceau orange dans le coin des barres stylise toute la barre ; les séparateurs se déplacent.
+Attention : son à attaque lente (p. ex. pad) – écoutez si le début du son n'a pas été coupé.
+Fill In
+Reçu : {0}
+Recevoir du PC
+Continuer sans enregistrer
+Actualiser
+Fichier
+Guitare
+Apparence du bouton
+Bouton : {0}
+Taille des boutons
+Boutons
+Boutons (glisser pour réordonner)
+Ordre des boutons, ajout, suppression, colonnes, apparence
+Couleur des boutons
+Démarrer le défilement (horloge interne)
+Arrêter le défilement
+Si le pare-feu Windows le demande, autorisez l'accès « Réseau privé ».
+Si le mobile ne trouve pas l'ordinateur tout seul, saisissez cette adresse : {0}
+Volume
+Différence de niveau entre les deux extrémités
+Normalisation du volume…
+Échantillon (en surbrillance : la boucle)
+Tonalité
+Tonalité : {0}
+Instrument
+Son (Bank MSB / LSB / Program)
+Envoyer le son
+Panneau des sons
+Éditeur du panneau des sons
+Éditeur du panneau des sons…
+Groupes de sons (glisser pour réordonner)
+Sons
+Sons (Bank MSB / LSB / Program de la liste de l'instrument)
+Sons (gauche)
+Saisie invalide.
+Code erroné
+Code erroné.
+Où ?
+Ajouter :
+Arrière-plan
+Image d'arrière-plan
+Couleur d'arrière-plan
+Section de départ
+Intro A
+Intro B
+Intro C
+Glace
+Connecté : {0}
+Connexion
+Connexion à l'instrument
+Erreur de connexion
+Connexion…
+Capsule
+Fin sans clic (fondu de 5–20 ms)
+Points de boucle sans clic pour échantillons tenus · bloc smpl (Yamaha Expansion Manager, samplers)
+Recherche…
+Couleur de bordure
+Épaisseur de bordure
+Seuil d'attaque
+Couleur d'accent
+Désactivé : la couleur de panneau du thème est utilisée
+Quitter
+Un son tenu (cordes, pad, orgue, chœur) donne le meilleur résultat.
+Remplir
+Choisir
+Partition (mélodie + accords)
+Créer la partition
+Partition et texte ensemble
+Variante de partition
+Partition :
+Partition : {0}
+Image sur le bouton
+Charger une image
+Téléverser une image
+Visibilité de l'image
+Images
+Terminé
+Thèmes prêts à l'emploi
+Terminé, retour
+Terminé. Pas encore enregistré.
+Code (6 chiffres)
+Chœur
+Chœur, pad
+Cercle
+Chanson suivante
+Envoyer
+Démarrer l'envoi
+Envoyer vers tablette / téléphone
+Envoyer vers tablette / téléphone…
+Cadenas
+Seuil d'extinction
+Boucle la plus courte
+Lecture
+Lecture sur l'instrument : {0} ({1} BPM)
+Lecture arrêtée.
+Arrêter la lecture
+Arrondi
+Téléchargé sur {0} appareils ✓
+Télécharger
+Téléchargement…
+Lavande
+Coupé à la fin
+Coupé au début
+Fondu final
+Arrêter
+Longueur de boucle
+Début de boucle
+Rechercher les points de boucle
+Fin de boucle
+Visibilité
+Lave
+Entrée MIDI (depuis l'instrument) :
+Canal MIDI :
+Importer MIDI…
+Sortie MIDI (vers l'instrument) :
+Main A
+Main A–D
+Main B
+Main C
+Main D
+Reste (dans le volume du style) : {0} dB
+Mode d'affichage
+Ouvert : {0}
+Ouvrir depuis un fichier (.snxshow)
+Ouvrir…
+Quelle piste est la mélodie ?
+Modifications non enregistrées
+Enregistrez le paquet, copiez-le sur le mobile (sur Android dans le dossier Téléchargements, sur iPhone/iPad dans l'app Fichiers), puis sur le mobile : Recevoir → Ouvrir depuis un fichier.
+Enregistré : {0}
+Enregistré : {0} / {1}
+Enregistrer
+Enregistrer ici
+Enregistrer sous…
+Enregistrer…
+Exemple de ligne de paroles
+Coupe du silence et de l'extinction à l'échantillon près · les échantillons restants sont identiques au bit près
+Qualité
+Mosaïque
+Dégradé animé
+Deuxième chanson
+Annuler
+Taille
+Réinitialiser les tailles
+Volume mesuré (LUFS)
+Coucher de soleil
+Impossible de se connecter à l'instrument.
+Aucun appareil MIDI trouvé. Branchez l'instrument avec un câble USB-C / OTG (sur la prise USB TO HOST de l'instrument) ou utilisez un adaptateur MIDI Bluetooth.
+Aucun appareil MIDI trouvé. Branchez l'instrument avec un câble USB (USB TO HOST), allumez-le puis cliquez sur Actualiser.
+Le PC ({0}) est injoignable. Êtes-vous sur le même Wi-Fi ? L'envoi est-il lancé sur le PC ?
+Néon
+Aucun groupe.
+Aucune chanson. Recevez un paquet depuis le PC.
+Aucun instrument connecté – le réglage n'a été appliqué que dans le programme.
+Langue
+Langue et mode d'affichage…
+Ouvrez un échantillon WAV à gauche.
+Ouvrez un ou plusieurs fichiers WAV à gauche.
+Croche
+Nom
+À propos et raccourcis
+Chanson sans titre
+Affichage
+Affichage : texte, partition ou les deux
+Rappel OTS par MIDI : sera ajouté d'après la Data List du modèle
+Octave
+Page
+Déverrouiller la page
+Verrouiller la page (pas de défilement)
+Échanger les pages
+One Touch Settings
+Orgue
+Colonnes :
+PC
+Adresse du PC (p. ex. 192.168.1.20)
+Recherche du PC sur le réseau Wi-Fi…
+Mode PC : édition et conception. Tablette et Téléphone : aperçu, exactement comme sur le mobile.
+Pad / cordes
+Transparence du panneau
+Couleur du panneau
+Banques de registration
+Registration
+Grille rythmique (quantification) :
+Rythme
+Rythme (droite)
+Panneau rythme
+Rythme et style
+Éditeur du panneau rythme
+Éditeur du panneau rythme…
+Partie {0} : CC7 {1} → {2}
+Couches (V1–V4)
+Cuivres
+Arrière-plan propre pour cette barre
+Image d'arrière-plan personnelle
+Arrondi des coins
+Émeraude
+SoundNexus Pro a démarré.
+Paquet de scène SoundNexus Pro
+Projet SoundNexus Pro
+Rechercher une section stable et les points de boucle
+Start
+Start / Stop
+Stop
+Style
+Style (sur l'instrument)
+Style Start
+Style Stop
+Normalisation du volume du style
+Style : {0}
+Section :
+Sections
+Édition
+Programme d'édition et de pilotage live pour Yamaha Genos 2, Genos, Tyros 5, Tyros 4 et PSR-SX.
+Synchro
+Synchroniser avec l'instrument
+Bouton de synchro
+Calculer
+Carbone
+Couleur
+Ajouter une couleur
+Choisir une couleur
+Supprimer la couleur
+Faire aussi tourner les couleurs
+Solo
+Carré
+Texte
+Texte et accords
+Style de la barre
+Style de la barre : {0}
+Styles des barres
+Transfert endommagé (somme de contrôle différente). Réessayez.
+Assombrir
+Aide
+Tempo TAP
+Tablette
+Aperçu tablette – voici l'interface sur une tablette (édition uniquement en mode PC)
+Tablette : trois colonnes côte à côte. Téléphone : la chanson au centre, sons et rythme glissent depuis les côtés.
+Téléphone
+Aperçu téléphone – voici l'interface sur un téléphone (édition uniquement en mode PC)
+Image entière
+Tempo
+Tempo (BPM)
+Tempo +
+Reprendre tempo et mesure ({0} BPM, {1}/4)
+Tempo −
+Mode test
+Mode test : les commandes ne sont pas envoyées à l'instrument.
+Double croche
+Transposer
+Thème
+Thème et couleurs
+Thème et couleurs…
+Espacement
+Supprimer
+Supprimer la dernière couleur
+Couper la réverbération et le bruit à la fin
+Concordance de jointure
+Courbe de vélocité
+Retour au mode PC
+Retour à SoundNexus Pro
+Cordes
+V{0} : {1} envoyé (can. {2})
+Lancer la coupe
+En attente du mobile…
+Ouvrir des fichiers WAV
+Échantillon WAV
+Ouvrir un WAV
+Plancher de bruit
+Piano
+[G]Texte [D]avec accords\nsection {Main A}\n# commentaire
+les échantillons restants sont identiques au bit près à l'original ; aucun rééchantillonnage, aucun changement de profondeur de bits
+début −{0} ms · fin −{1} ms
+format inchangé ✓
+tous les boutons sont sur le panneau
+aucun (échantillons intacts)
+selon le panneau
+selon le thème
+concordance de jointure {0} %
+{0} (original : {1})
+{0} ({1} notes)
+{0} / {1} est vide. Pour mémoriser : Enregistrer, puis le numéro.
+{0} fichiers sélectionnés
+{0} fichiers enregistrés dans : {1}
+{0} sons
+{0} ms ({1} échantillons)
+boucle de {0} ms
+{0} s · {1} échantillons · {2}
+échantillon {0}
+échantillon {0} ({1} ms)
+couleur {0}
+{Main A}\n[C]Écrivez le texte ici
+Transparence
+Direction du dégradé
+Dégradé : ajouter une couleur
+Dégradé
+Bleu nuit
+Océan
+Nouvelle banque
+Nouveau groupe
+Nouvelle chanson
+Nouvelle chanson…
+Nouveau son
+Nouveau projet
+Nouveau projet.
+Réessayer
+Mesures / ligne
+Mesure

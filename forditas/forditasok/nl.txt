@@ -1,0 +1,438 @@
+of
+(geen netwerk)
+. Stijl: {0} – kies deze op het instrument.
+1. Wi-Fi (aanbevolen)
+2. Als bestand (USB-kabel, Bluetooth, AirDrop)
+Het MIDI-bestand kan niet worden gelezen: {0}
+De pc meldde een fout ({0}).
+Op de pc: Bestand → Naar tablet / telefoon sturen → Verzenden starten.
+Optreedpakket: {0} nummers, {1} banken, {2} KB. Op mobiel alleen te gebruiken, niet te bewerken.
+Het bestand is geen SoundNexus Pro-project of is beschadigd: {0}
+Het bestand kan niet worden geopend: {0}
+De afbeelding is te groot (max. 3 MB). Verklein haar en probeer het opnieuw.
+Verzenden kan niet worden gestart: {0}
+Het deel vóór het loop-einde wordt overgevloeid met het deel vóór het loop-begin (equal-power).
+Opslaan mislukt: {0}
+Het project is gewijzigd. Doorgaan zonder opslaan?
+De stijl kies je op het instrument; hiervandaan bedien je start, secties en tempo.
+De tekst kan niet worden gelezen (UTF-8 vereist): {0}
+Op de tablet / telefoon: SoundNexus Pro → Ontvangen van pc, en voer dan deze code in:
+De volledige MIDI wordt aan het nummer gekoppeld: op de tablet speelt de knop „Nummer afspelen” hem af op het instrument.
+De naad vergroot: loop-einde (links) → loop-begin (rechts). Vloeiende overgang = geen klik.
+Voer het pc-adres en de 6-cijferige code in.
+Akkoord invoegen:
+Akkoorden
+Huidige regel
+Standaardindeling
+Standaard klankbibliotheek
+Grondtoon
+Grondtoon (MIDI):
+Herstellen
+Toepassen
+Toegepast: {0}{1} dB
+Onderbalk…
+Onderste bedieningsbalk
+Editor onderste bedieningsbalk
+Editor onderste bedieningsbalk…
+Goud
+Aurora
+Automatisch
+Automatische notatie uit MP3/MP4: fase B
+Het uiterlijk van afzonderlijke knoppen (bijv. OTS 1–4, registratie 1–8, V1–V4) stel je in het hoofdvenster in via Beeld → Interface bewerken, door op de knop te klikken.
+Het verloop draait langzaam rond
+Bank 1
+Bank {0}
+Bank {0} / {1}
+Bas
+Opgeroepen: {0} / {1}
+Aan
+Demonummer
+Demomelodie
+Demoproject
+Laden en golfvorm
+Lettergrootte
+Lettertype
+Lettertype en tekstkleuren
+Lettertype en tekst…
+Sluiten
+Instellingen
+Instellingen: taal, pc- / tablet- / telefoonmodus
+Instellingen: taal, tablet- / telefoonmodus
+Sneltoetsen: Ctrl+N nieuw · Ctrl+O openen · Ctrl+S opslaan · Ctrl+Shift+S opslaan als · Ctrl+E nummer bewerken · F5 sync · ←/→ bladeren · Spatie Start/Stop
+Toetsenbordzone: {0} – {1}
+„{0}” echt verwijderen?
+Bluetooth zoeken
+Break
+Karmozijn
+CC7-waarden gescheiden door spaties
+Zonder crossfade blijven de samples onaangeroerd.
+Alleen afbeelding (zonder label)
+Alleen bij hard aanslaan (vel ≥ {0})
+Stilte aan het begin wegknippen
+Stilte en uitsterven analyseren, knippen
+Pakket opslaan (.snxshow)
+Groepsnaam
+Groep verwijderen
+Groepen, klanken, volgorde, kolommen, uiterlijk van knoppen
+Piekniveau
+Doel: −18 LUFS. Voer de gemeten luidheid van de stijl en de huidige CC7-waarden van de partijen in.
+Titel
+Nummer
+Nummer omhoog
+Nummer omlaag
+Nummer geïmporteerd: {0}
+Nummer afspelen
+Nummer afspelen op het instrument (gekoppelde MIDI)
+Nummer bewerken
+Nummer bewerken (Ctrl+E)
+Nummer bewerken…
+Nummer verwijderen
+Songtekst (midden)
+Songtekst importeren (.txt)…
+Duur van één rondgang
+Eén of meer bestanden kiesbaar (batchverwerking).
+Effen
+Overig
+Voor dit nummer is nog geen bladmuziek.\nOp de pc: Nummer bewerken → Bladmuziek → MIDI importeren.
+Aan dit nummer is geen MIDI gekoppeld. Op de pc: Nummer bewerken → Bladmuziek → MIDI importeren.
+Naar het begin
+Volgorde van elementen (links naar rechts), toevoegen, verwijderen, uiterlijk
+Elementen – volgorde van de lijst = volgorde van de balk van links naar rechts
+Verzonden: {0} BPM, {1}, {2} laag/lagen{3}
+Controle: formaat, bitdiepte
+Controle: naad, formaat
+Vervagen
+Eerste nummer toevoegen
+Verwijderen
+Artiest
+Maak eerst verbinding met het instrument (Instrument → Verbinden).
+Maak eerst verbinding met het instrument.
+Voorbeeld
+Voorbeeld: bladmuziek
+Voorbeeld: tekst
+Vorig nummer
+Ending A
+Ending B
+Ending C
+Origineel (rood = weggeknipt deel)
+Resultaat
+Apparaat:
+Extra
+LET OP: formaat wijkt af
+Houtblazers
+Verwerken…
+Label
+Labelkleur
+Optreedmodus · demo
+Optreedmodus · {0}
+Ontgrendelen
+Interface
+Interface bewerken (knoppen, balken)
+Interface bewerken: klik op een knop om het uiterlijk te wijzigen (afbeelding, label, kleur, grootte); met het oranje penseel in de hoek van de balken style je de hele balk; de scheidingslijnen zijn versleepbaar.
+Let op: klank met trage aanzet (bijv. pad) – luister of het begin van de klank niet is weggeknipt.
+Fill In
+Ontvangen: {0}
+Ontvangen van pc
+Doorgaan zonder opslaan
+Vernieuwen
+Bestand
+Gitaar
+Knopuiterlijk
+Knop: {0}
+Knopgrootte
+Knoppen
+Knoppen (versleep om te ordenen)
+Knopvolgorde, toevoegen, verwijderen, kolommen, uiterlijk
+Knopkleur
+Scrollen starten (interne klok)
+Scrollen stoppen
+Als de Windows-firewall erom vraagt, sta dan toegang tot „Privénetwerk” toe.
+Als de mobiel de computer niet zelf vindt, voer dan dit adres in: {0}
+Volume
+Niveauverschil tussen de twee uiteinden
+Volumenormalisatie…
+Sample (gemarkeerd: de loop)
+Toonsoort
+Toonsoort: {0}
+Instrument
+Klank (Bank MSB / LSB / Program)
+Klank verzenden
+Klankenpaneel
+Editor klankenpaneel
+Editor klankenpaneel…
+Klankgroepen (versleep om te ordenen)
+Klanken
+Klanken (Bank MSB / LSB / Program uit de lijst van het instrument)
+Klanken (links)
+Ongeldige invoer.
+Onjuiste code
+Onjuiste code.
+Waarheen?
+Toevoegen:
+Achtergrond
+Achtergrondafbeelding
+Achtergrondkleur
+Startsectie
+Intro A
+Intro B
+Intro C
+IJs
+Verbonden: {0}
+Verbinden
+Verbinden met het instrument
+Verbindingsfout
+Verbinden…
+Capsule
+Klikvrij einde (fade van 5–20 ms)
+Klikvrije looppunten voor aangehouden samples · smpl-blok (Yamaha Expansion Manager, samplers)
+Zoeken…
+Randkleur
+Randdikte
+Aanzetdrempel
+Accentkleur
+Uit: de panelkleur van het thema wordt gebruikt
+Afsluiten
+Een aangehouden klank (strijkers, pad, orgel, koor) werkt het best.
+Vullen
+Kiezen
+Bladmuziek (melodie + akkoorden)
+Bladmuziek maken
+Bladmuziek en tekst samen
+Bladmuziekvariant
+Bladmuziek:
+Bladmuziek: {0}
+Afbeelding op de knop
+Afbeelding laden
+Afbeelding uploaden
+Zichtbaarheid afbeelding
+Afbeeldingen
+Klaar
+Kant-en-klare thema's
+Klaar, terug
+Klaar. Nog niet opgeslagen.
+Code (6 cijfers)
+Koor
+Koor, pad
+Cirkel
+Volgend nummer
+Verzenden
+Verzenden starten
+Naar tablet / telefoon sturen
+Naar tablet / telefoon sturen…
+Slot
+Uitsterfdrempel
+Kortste loop
+Afspelen
+Afspelen op het instrument: {0} ({1} BPM)
+Afspelen gestopt.
+Afspelen stoppen
+Afgerond
+Gedownload naar {0} apparaten ✓
+Downloaden
+Downloaden…
+Lavendel
+Van het einde geknipt
+Van het begin geknipt
+Slotfade
+Stoppen
+Looplengte
+Loopbegin
+Looppunten zoeken
+Loopeinde
+Zichtbaarheid
+Lava
+MIDI-ingang (van het instrument):
+MIDI-kanaal:
+MIDI importeren…
+MIDI-uitgang (naar het instrument):
+Main A
+Main A–D
+Main B
+Main C
+Main D
+Rest (naar stijlvolume): {0} dB
+Weergavemodus
+Geopend: {0}
+Openen uit bestand (.snxshow)
+Openen…
+Welk spoor is de melodie?
+Niet-opgeslagen wijzigingen
+Sla het pakket op en kopieer het naar de mobiel (op Android naar de map Downloads, op iPhone/iPad naar de app Bestanden), dan op de mobiel: Ontvangen → Openen uit bestand.
+Opgeslagen: {0}
+Opgeslagen: {0} / {1}
+Opslaan
+Hier opslaan
+Opslaan als…
+Opslaan…
+Voorbeeldtekstregel
+Sample-nauwkeurig knippen van stilte en uitsterven · de overige samples blijven bit-identiek
+Kwaliteit
+Tegels
+Bewegend kleurverloop
+Tweede nummer
+Annuleren
+Grootte
+Groottes herstellen
+Gemeten luidheid (LUFS)
+Zonsondergang
+Kan geen verbinding maken met het instrument.
+Geen MIDI-apparaat gevonden. Sluit het instrument aan met een USB-C- / OTG-kabel (op de USB TO HOST-poort van het instrument) of gebruik een Bluetooth-MIDI-adapter.
+Geen MIDI-apparaat gevonden. Sluit het instrument aan met een USB-kabel (USB TO HOST), zet het aan en klik op Vernieuwen.
+De pc ({0}) is niet bereikbaar. Zitten jullie op dezelfde Wi-Fi? Draait het verzenden op de pc?
+Neon
+Geen groep.
+Geen nummers. Ontvang een pakket van de pc.
+Geen instrument verbonden – de instelling is alleen in het programma toegepast.
+Taal
+Taal en weergavemodus…
+Open links een WAV-sample.
+Open links één of meer WAV-bestanden.
+Achtste
+Naam
+Info en sneltoetsen
+Naamloos nummer
+Beeld
+Beeld: tekst, bladmuziek of beide
+OTS-oproep via MIDI: wordt toegevoegd op basis van de Data List van het model
+Octaaf
+Pagina
+Pagina ontgrendelen
+Pagina vergrendelen (niet bladeren)
+Pagina's wisselen
+One Touch Settings
+Orgel
+Kolommen:
+PC
+Pc-adres (bijv. 192.168.1.20)
+Pc zoeken op het Wi-Fi-netwerk…
+Pc-modus: bewerken en ontwerpen. Tablet en Telefoon: voorbeeld, precies zoals het op de mobiel verschijnt.
+Pad / strijkers
+Paneeltransparantie
+Paneelkleur
+Registratiebanken
+Registratie
+Ritmisch raster (kwantisatie):
+Ritme
+Ritme (rechts)
+Ritmepaneel
+Ritme en stijl
+Editor ritmepaneel
+Editor ritmepaneel…
+Partij {0}: CC7 {1} → {2}
+Lagen (V1–V4)
+Koperblazers
+Eigen achtergrond voor deze balk
+Eigen achtergrondafbeelding
+Hoekafronding
+Smaragd
+SoundNexus Pro is gestart.
+SoundNexus Pro-optreedpakket
+SoundNexus Pro-project
+Stabiele sectie en looppunten zoeken
+Start
+Start / Stop
+Stop
+Stijl
+Stijl (op het instrument)
+Style Start
+Style Stop
+Stijlvolume-normalisatie
+Stijl: {0}
+Sectie:
+Secties
+Bewerken
+Editor- en live-bedieningsprogramma voor Yamaha Genos 2, Genos, Tyros 5, Tyros 4 en PSR-SX.
+Sync
+Synchroniseren met het instrument
+Sync-knop
+Berekenen
+Carbon
+Kleur
+Kleur toevoegen
+Kleur kiezen
+Kleur verwijderen
+Ook de kleuren laten draaien
+Solo
+Hoekig
+Tekst
+Tekst en akkoorden
+Balkstijl
+Balkstijl: {0}
+Balkstijlen
+Beschadigde overdracht (controlesom klopt niet). Probeer het opnieuw.
+Verdonkeren
+Help
+TAP-tempo
+Tablet
+Tabletvoorbeeld – zo ziet de interface eruit op een tablet (bewerken alleen in pc-modus)
+Tablet: drie kolommen naast elkaar. Telefoon: het nummer in het midden, klanken en ritme schuiven vanaf de zijkant in.
+Telefoon
+Telefoonvoorbeeld – zo ziet de interface eruit op een telefoon (bewerken alleen in pc-modus)
+Volledige afbeelding
+Tempo
+Tempo (BPM)
+Tempo +
+Tempo en maatsoort overnemen ({0} BPM, {1}/4)
+Tempo −
+Testmodus
+Testmodus: commando's gaan niet naar het instrument.
+Zestiende
+Transponeren
+Thema
+Thema en kleuren
+Thema en kleuren…
+Tussenruimte
+Verwijderen
+Laatste kleur verwijderen
+Galm en ruis aan het einde wegknippen
+Naadovereenkomst
+Velocitycurve
+Terug naar pc-modus
+Terug naar SoundNexus Pro
+Strijkers
+V{0}: {1} verzonden (kan. {2})
+Knippen starten
+Wachten op de mobiel…
+WAV-bestanden openen
+WAV-sample
+WAV openen
+Ruisvloer
+Piano
+[G]Tekst [D]met akkoorden\nsectie {Main A}\n# opmerking
+de overige samples zijn bit-identiek aan het origineel; geen resampling, geen wijziging van bitdiepte
+begin −{0} ms · einde −{1} ms
+formaat ongewijzigd ✓
+alle knoppen staan op het paneel
+geen (samples onaangeroerd)
+volgens paneel
+volgens thema
+naadovereenkomst {0}%
+{0} (origineel: {1})
+{0} ({1} noten)
+{0} / {1} is leeg. Opslaan: Opslaan, dan het nummer.
+{0} bestanden geselecteerd
+{0} bestanden opgeslagen in: {1}
+{0} klanken
+{0} ms ({1} samples)
+loop van {0} ms
+{0} s · {1} samples · {2}
+sample {0}
+sample {0} ({1} ms)
+kleur {0}
+{Main A}\n[C]Schrijf hier de tekst
+Transparantie
+Richting van het verloop
+Verloop: kleur toevoegen
+Verloop
+Middernachtblauw
+Oceaan
+Nieuwe bank
+Nieuwe groep
+Nieuw nummer
+Nieuw nummer…
+Nieuwe klank
+Nieuw project
+Nieuw project.
+Opnieuw
+Maten / regel
+Maatsoort

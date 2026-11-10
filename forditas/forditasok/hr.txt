@@ -1,0 +1,438 @@
+ili
+(nema mreže)
+. Stil: {0} – odaberi ga na instrumentu.
+1. Wi-Fi (preporučeno)
+2. Kao datoteka (USB kabel, Bluetooth, AirDrop)
+MIDI datoteka ne može se pročitati: {0}
+Računalo je javilo pogrešku ({0}).
+Na računalu: Datoteka → Pošalji na tablet / telefon → Pokreni slanje.
+Paket za nastup: {0} pjesama, {1} banaka, {2} KB. Na mobitelu se može samo koristiti, ne i uređivati.
+Datoteka nije SoundNexus Pro projekt ili je oštećena: {0}
+Datoteka se ne može otvoriti: {0}
+Slika je prevelika (najviše 3 MB). Smanji je i pokušaj ponovno.
+Slanje se ne može pokrenuti: {0}
+Dio prije kraja petlje pretapa se s dijelom prije početka petlje (equal-power).
+Spremanje nije uspjelo: {0}
+Projekt je izmijenjen. Nastaviti bez spremanja?
+Stil biraš na instrumentu; odavde upravljaš pokretanjem, dijelovima i tempom.
+Tekst se ne može pročitati (potreban UTF-8): {0}
+Na tabletu / telefonu: SoundNexus Pro → Primi s računala, zatim upiši ovaj kod:
+Cijeli MIDI pridružuje se pjesmi: na tabletu ga gumb „Sviraj pjesmu” svira na instrumentu.
+Spoj uvećan: kraj petlje (lijevo) → početak petlje (desno). Ravnomjeran prijelaz = nema klika.
+Upiši adresu računala i 6-znamenkasti kod.
+Umetni akord:
+Akordi
+Trenutni redak
+Zadani raspored
+Zadana zbirka zvukova
+Osnovni ton
+Osnovni ton (MIDI):
+Vrati zadano
+Primijeni
+Primijenjeno: {0}{1} dB
+Donja traka…
+Donja upravljačka traka
+Uređivač donje trake
+Uređivač donje trake…
+Zlatna
+Aurora
+Automatski
+Automatsko notiranje iz MP3/MP4: faza B
+Izgled pojedinih gumba (npr. OTS 1–4, registracija 1–8, V1–V4) postavljaš u glavnom prozoru u Prikaz → Uređivanje sučelja, klikom na gumb.
+Prijelaz se polako okreće
+Banka 1
+Banka {0}
+Banka {0} / {1}
+Bas
+Pozvano: {0} / {1}
+Uključeno
+Demo pjesma
+Demo melodija
+Demo projekt
+Učitavanje i valni oblik
+Veličina fonta
+Font
+Font i boje teksta
+Font i tekst…
+Zatvori
+Postavke
+Postavke: jezik, način PC / Tablet / Telefon
+Postavke: jezik, način Tablet / Telefon
+Prečaci: Ctrl+N novo · Ctrl+O otvori · Ctrl+S spremi · Ctrl+Shift+S spremi kao · Ctrl+E uredi pjesmu · F5 sinkronizacija · ←/→ listanje · Razmak Start/Stop
+Zona klavijature: {0} – {1}
+Stvarno izbrisati „{0}”?
+Bluetooth pretraživanje
+Break
+Grimizna
+CC7 vrijednosti odvojene razmakom
+Bez pretapanja uzorci ostaju netaknuti.
+Samo slika (bez natpisa)
+Samo na jak udarac (vel ≥ {0})
+Izreži tišinu s početka
+Analiza tišine i zamiranja, rezanje
+Spremi paket (.snxshow)
+Naziv grupe
+Izbriši grupu
+Grupe, zvukovi, redoslijed, stupci, izgled gumba
+Vršna razina
+Cilj: −18 LUFS. Upiši izmjerenu glasnoću stila i trenutne CC7 vrijednosti dionica.
+Naslov
+Pjesma
+Pjesmu gore
+Pjesmu dolje
+Pjesma uvezena: {0}
+Sviraj pjesmu
+Sviraj pjesmu na instrumentu (pridruženi MIDI)
+Uredi pjesmu
+Uredi pjesmu (Ctrl+E)
+Uredi pjesmu…
+Izbriši pjesmu
+Tekst pjesme (sredina)
+Uvezi tekst (.txt)…
+Trajanje jednog kruga
+Može se odabrati jedna ili više datoteka (skupna obrada).
+Jednobojno
+Ostalo
+Za ovu pjesmu još nema nota.\nNa računalu: Uredi pjesmu → Note → Uvezi MIDI.
+Ovoj pjesmi nije pridružen MIDI. Na računalu: Uredi pjesmu → Note → Uvezi MIDI.
+Na početak
+Redoslijed elemenata (slijeva nadesno), dodavanje, uklanjanje, izgled
+Elementi – redoslijed popisa = redoslijed trake slijeva nadesno
+Poslano: {0} BPM, {1}, slojeva: {2}{3}
+Provjera: format, dubina bita
+Provjera: spoj, format
+Zamućenje
+Dodaj prvu pjesmu
+Ukloni
+Izvođač
+Najprije se poveži s instrumentom (Instrument → Poveži).
+Najprije se poveži s instrumentom.
+Pregled
+Pregled: note
+Pregled: tekst
+Prethodna pjesma
+Ending A
+Ending B
+Ending C
+Izvornik (crveno = izrezani dio)
+Rezultat
+Uređaj:
+Alati
+POZOR: format se razlikuje
+Drveni puhači
+Obrada…
+Natpis
+Boja natpisa
+Način nastupa · demo
+Način nastupa · {0}
+Otključaj
+Sučelje
+Uređivanje sučelja (gumbi, trake)
+Uređivanje sučelja: klikni bilo koji gumb za promjenu izgleda (slika, natpis, boja, veličina); narančastim kistom u kutu traka oblikuješ cijelu traku; razdjelnici se mogu povlačiti.
+Pozor: zvuk sporog napada (npr. pad) – poslušaj nije li odrezan početak zvuka.
+Fill In
+Primljeno: {0}
+Primi s računala
+Nastavi bez spremanja
+Osvježi
+Datoteka
+Gitara
+Izgled gumba
+Gumb: {0}
+Veličina gumba
+Gumbi
+Gumbi (povuci za promjenu redoslijeda)
+Redoslijed gumba, dodavanje, uklanjanje, stupci, izgled
+Boja gumba
+Pokreni pomicanje (unutarnji sat)
+Zaustavi pomicanje
+Ako Windows vatrozid pita, dopusti pristup „Privatna mreža”.
+Ako mobitel sam ne pronađe računalo, upiši ovu adresu: {0}
+Glasnoća
+Razlika razine između dvaju krajeva
+Normalizacija glasnoće…
+Uzorak (istaknuto: petlja)
+Tonalitet
+Tonalitet: {0}
+Instrument
+Zvuk (Bank MSB / LSB / Program)
+Pošalji zvuk
+Ploča zvukova
+Uređivač ploče zvukova
+Uređivač ploče zvukova…
+Grupe zvukova (povuci za promjenu redoslijeda)
+Zvukovi
+Zvukovi (Bank MSB / LSB / Program s popisa instrumenta)
+Zvukovi (lijevo)
+Neispravan unos.
+Pogrešan kod
+Pogrešan kod.
+Kamo?
+Dodaj:
+Pozadina
+Pozadinska slika
+Boja pozadine
+Početni dio
+Intro A
+Intro B
+Intro C
+Led
+Povezano: {0}
+Poveži
+Poveži s instrumentom
+Pogreška povezivanja
+Povezivanje…
+Kapsula
+Završetak bez klika (fade 5–20 ms)
+Točke petlje bez klika za zadržane uzorke · smpl blok (Yamaha Expansion Manager, sampleri)
+Traženje…
+Boja obruba
+Debljina obruba
+Prag početka
+Boja naglaska
+Isključeno: koristi se boja ploče iz teme
+Izlaz
+Najbolje je zadržani zvuk (gudači, pad, orgulje, zbor).
+Ispuna
+Odaberi
+Note (melodija + akordi)
+Izradi note
+Note i tekst zajedno
+Inačica nota
+Note:
+Note: {0}
+Slika na gumbu
+Učitaj sliku
+Prenesi sliku
+Vidljivost slike
+Slike
+Gotovo
+Gotove teme
+Gotovo, natrag
+Gotovo. Još nije spremljeno.
+Kod (6 znamenki)
+Zbor
+Zbor, pad
+Krug
+Sljedeća pjesma
+Pošalji
+Pokreni slanje
+Pošalji na tablet / telefon
+Pošalji na tablet / telefon…
+Lokot
+Prag zamiranja
+Najkraća petlja
+Sviraj
+Sviranje na instrumentu: {0} ({1} BPM)
+Sviranje zaustavljeno.
+Zaustavi sviranje
+Zaobljeno
+Preuzeto na {0} uređaja ✓
+Preuzmi
+Preuzimanje…
+Lavanda
+Izrezano s kraja
+Izrezano s početka
+Završni fade
+Zaustavi
+Duljina petlje
+Početak petlje
+Traži točke petlje
+Kraj petlje
+Vidljivost
+Lava
+MIDI ulaz (s instrumenta):
+MIDI kanal:
+Uvezi MIDI…
+MIDI izlaz (prema instrumentu):
+Main A
+Main A–D
+Main B
+Main C
+Main D
+Ostatak (u glasnoću stila): {0} dB
+Način prikaza
+Otvoreno: {0}
+Otvori iz datoteke (.snxshow)
+Otvori…
+Koja je staza melodija?
+Nespremljene promjene
+Spremi paket, kopiraj ga na mobitel (na Androidu u mapu Preuzimanja, na iPhoneu/iPadu u aplikaciju Datoteke), zatim na mobitelu: Primi → Otvori iz datoteke.
+Spremljeno: {0}
+Spremljeno: {0} / {1}
+Spremi
+Spremi ovdje
+Spremi kao…
+Spremi…
+Primjer retka teksta
+Rezanje tišine i zamiranja precizno na uzorak · preostali uzorci ostaju bitno identični
+Kvaliteta
+Popločano
+Pokretni prijelaz
+Druga pjesma
+Odustani
+Veličina
+Vrati veličine
+Izmjerena glasnoća (LUFS)
+Zalazak sunca
+Povezivanje s instrumentom nije uspjelo.
+Nije pronađen MIDI uređaj. Spoji instrument USB-C / OTG kabelom (na utičnicu USB TO HOST instrumenta) ili koristi Bluetooth MIDI adapter.
+Nije pronađen MIDI uređaj. Spoji instrument USB kabelom (USB TO HOST), uključi ga i klikni Osvježi.
+Računalo ({0}) nije dostupno. Jeste li na istoj Wi-Fi mreži? Radi li slanje na računalu?
+Neon
+Nema grupa.
+Nema pjesama. Primi paket s računala.
+Nijedan instrument nije povezan – postavka je primijenjena samo u programu.
+Jezik
+Jezik i način prikaza…
+Otvori WAV uzorak s lijeve strane.
+Otvori jednu ili više WAV datoteka s lijeve strane.
+Osminka
+Naziv
+O programu i prečaci
+Pjesma bez naslova
+Prikaz
+Prikaz: tekst, note ili oboje
+Poziv OTS-a putem MIDI-ja: bit će dodan prema Data List modela
+Oktava
+Stranica
+Otključaj stranicu
+Zaključaj stranicu (bez listanja)
+Zamijeni stranice
+One Touch Settings
+Orgulje
+Stupci:
+PC
+Adresa računala (npr. 192.168.1.20)
+Traženje računala na Wi-Fi mreži…
+Način PC: uređivanje i dizajn. Tablet i Telefon: pregled, točno kako će izgledati na mobitelu.
+Pad / gudači
+Prozirnost ploče
+Boja ploče
+Registracijske banke
+Registracija
+Ritmička mreža (kvantizacija):
+Ritam
+Ritam (desno)
+Ploča ritma
+Ritam i stil
+Uređivač ploče ritma
+Uređivač ploče ritma…
+Dionica {0}: CC7 {1} → {2}
+Slojevi (V1–V4)
+Limeni puhači
+Vlastita pozadina za ovu traku
+Vlastita pozadinska slika
+Zaobljenost kutova
+Smaragdna
+SoundNexus Pro je pokrenut.
+SoundNexus Pro paket za nastup
+SoundNexus Pro projekt
+Traži stabilan dio i točke petlje
+Start
+Start / Stop
+Stop
+Stil
+Stil (na instrumentu)
+Style Start
+Style Stop
+Normalizacija glasnoće stila
+Stil: {0}
+Dio:
+Dijelovi
+Uređivanje
+Program za uređivanje i upravljanje uživo za Yamaha Genos 2, Genos, Tyros 5, Tyros 4 i PSR-SX.
+Sinkronizacija
+Sinkroniziraj s instrumentom
+Gumb za sinkronizaciju
+Izračunaj
+Ugljen
+Boja
+Dodaj boju
+Odaberi boju
+Izbriši boju
+Okreći i boje
+Solo
+Četvrtasto
+Tekst
+Tekst i akordi
+Stil trake
+Stil trake: {0}
+Stilovi traka
+Oštećen prijenos (kontrolni zbroj se ne podudara). Pokušaj ponovno.
+Zatamnjenje
+Pomoć
+TAP tempo
+Tablet
+Pregled za tablet – ovako sučelje izgleda na tabletu (uređivanje samo u načinu PC)
+Tablet: tri stupca jedan do drugoga. Telefon: pjesma u sredini, zvukovi i ritam izvlače se sa strane.
+Telefon
+Pregled za telefon – ovako sučelje izgleda na telefonu (uređivanje samo u načinu PC)
+Cijela slika
+Tempo
+Tempo (BPM)
+Tempo +
+Preuzmi tempo i mjeru ({0} BPM, {1}/4)
+Tempo −
+Testni način
+Testni način: naredbe se ne šalju instrumentu.
+Šesnaestinka
+Transpozicija
+Tema
+Tema i boje
+Tema i boje…
+Razmak
+Izbriši
+Izbriši zadnju boju
+Izreži jeku i šum s kraja
+Podudarnost spoja
+Krivulja dinamike
+Natrag u način PC
+Natrag u SoundNexus Pro
+Gudači
+V{0}: {1} poslano (kan. {2})
+Pokreni rezanje
+Čekanje na mobitel…
+Otvori WAV datoteke
+WAV uzorak
+Otvori WAV
+Razina šuma
+Klavir
+[G]Tekst [D]s akordima\ndio {Main A}\n# komentar
+preostali uzorci bitno su identični izvorniku; bez ponovnog uzorkovanja, bez promjene dubine bita
+početak −{0} ms · kraj −{1} ms
+format nepromijenjen ✓
+svi su gumbi na ploči
+nijedan (uzorci netaknuti)
+prema ploči
+prema temi
+podudarnost spoja {0} %
+{0} (izvornik: {1})
+{0} ({1} nota)
+{0} / {1} je prazno. Za spremanje: Spremi, zatim broj.
+Odabrano datoteka: {0}
+Spremljeno datoteka: {0} u: {1}
+Zvukova: {0}
+{0} ms ({1} uzoraka)
+petlja od {0} ms
+{0} s · {1} uzoraka · {2}
+uzorak {0}
+uzorak {0} ({1} ms)
+boja {0}
+{Main A}\n[C]Ovdje upiši tekst
+Prozirnost
+Smjer prijelaza
+Prijelaz: dodaj boju
+Prijelaz
+Ponoćno plava
+Ocean
+Nova banka
+Nova grupa
+Nova pjesma
+Nova pjesma…
+Novi zvuk
+Novi projekt
+Novi projekt.
+Ponovno
+Taktovi / redak
+Mjera

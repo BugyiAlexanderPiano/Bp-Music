@@ -1,0 +1,438 @@
+lub
+(brak sieci)
+. Styl: {0} – wybierz go na instrumencie.
+1. Wi-Fi (zalecane)
+2. Jako plik (kabel USB, Bluetooth, AirDrop)
+Nie można odczytać pliku MIDI: {0}
+Komputer zgłosił błąd ({0}).
+Na komputerze: Plik → Wyślij na tablet / telefon → Rozpocznij wysyłanie.
+Pakiet koncertowy: {0} utworów, {1} banków, {2} KB. Na urządzeniu mobilnym można go tylko używać, nie edytować.
+Plik nie jest projektem SoundNexus Pro lub jest uszkodzony: {0}
+Nie można otworzyć pliku: {0}
+Obraz jest za duży (maks. 3 MB). Zmniejsz go i spróbuj ponownie.
+Nie można rozpocząć wysyłania: {0}
+Fragment przed końcem pętli jest przenikany z fragmentem przed początkiem pętli (equal-power).
+Zapis nie powiódł się: {0}
+Projekt został zmieniony. Kontynuować bez zapisywania?
+Styl wybierasz na instrumencie; stąd sterujesz startem, sekcjami i tempem.
+Nie można odczytać tekstu (wymagane UTF-8): {0}
+Na tablecie / telefonie: SoundNexus Pro → Odbierz z komputera, a następnie wpisz ten kod:
+Cały MIDI zostaje dołączony do utworu: na tablecie przycisk „Odtwórz utwór” odtwarza go na instrumencie.
+Powiększone złącze: koniec pętli (z lewej) → początek pętli (z prawej). Płynne przejście = brak trzasku.
+Podaj adres komputera i 6-cyfrowy kod.
+Wstaw akord:
+Akordy
+Bieżący wiersz
+Układ domyślny
+Domyślna biblioteka brzmień
+Dźwięk podstawowy
+Dźwięk podstawowy (MIDI):
+Przywróć
+Zastosuj
+Zastosowano: {0}{1} dB
+Dolny pasek…
+Dolny pasek sterowania
+Edytor dolnego paska
+Edytor dolnego paska…
+Złoty
+Zorza
+Automatycznie
+Automatyczny zapis nutowy z MP3/MP4: etap B
+Wygląd poszczególnych przycisków (np. OTS 1–4, rejestracja 1–8, V1–V4) ustawisz w oknie głównym w Widok → Edycja interfejsu, klikając przycisk.
+Gradient powoli się obraca
+Bank 1
+Bank {0}
+Bank {0} / {1}
+Bas
+Przywołano: {0} / {1}
+Włączone
+Utwór demonstracyjny
+Melodia demonstracyjna
+Projekt demonstracyjny
+Wczytanie i przebieg fali
+Rozmiar czcionki
+Czcionka
+Czcionka i kolory tekstu
+Czcionka i tekst…
+Zamknij
+Ustawienia
+Ustawienia: język, tryb PC / Tablet / Telefon
+Ustawienia: język, tryb Tablet / Telefon
+Skróty: Ctrl+N nowy · Ctrl+O otwórz · Ctrl+S zapisz · Ctrl+Shift+S zapisz jako · Ctrl+E edytuj utwór · F5 synchronizacja · ←/→ strona · Spacja Start/Stop
+Strefa klawiatury: {0} – {1}
+Na pewno usunąć „{0}”?
+Wyszukiwanie Bluetooth
+Break
+Karmazyn
+Wartości CC7 oddzielone spacjami
+Bez przenikania próbki pozostają nienaruszone.
+Tylko obraz (bez napisu)
+Tylko przy mocnym uderzeniu (vel ≥ {0})
+Wytnij ciszę z początku
+Analiza ciszy i wybrzmienia, cięcie
+Zapisz pakiet (.snxshow)
+Nazwa grupy
+Usuń grupę
+Grupy, brzmienia, kolejność, kolumny, wygląd przycisków
+Poziom szczytowy
+Cel: −18 LUFS. Podaj zmierzoną głośność stylu i bieżące wartości CC7 partii.
+Tytuł
+Utwór
+Utwór wyżej
+Utwór niżej
+Zaimportowano utwór: {0}
+Odtwórz utwór
+Odtwórz utwór na instrumencie (dołączony MIDI)
+Edytuj utwór
+Edytuj utwór (Ctrl+E)
+Edytuj utwór…
+Usuń utwór
+Tekst (środek)
+Importuj tekst (.txt)…
+Czas jednego obrotu
+Można wybrać jeden lub więcej plików (przetwarzanie wsadowe).
+Jednolity
+Inne
+Ten utwór nie ma jeszcze nut.\nNa komputerze: Edytuj utwór → Nuty → Importuj MIDI.
+Do tego utworu nie dołączono MIDI. Na komputerze: Edytuj utwór → Nuty → Importuj MIDI.
+Na początek
+Kolejność elementów (od lewej do prawej), dodawanie, usuwanie, wygląd
+Elementy – kolejność listy = kolejność paska od lewej do prawej
+Wysłano: {0} BPM, {1}, warstwy: {2}{3}
+Kontrola: format, głębia bitowa
+Kontrola: złącze, format
+Rozmycie
+Dodaj pierwszy utwór
+Usuń
+Wykonawca
+Najpierw połącz się z instrumentem (Instrument → Połącz).
+Najpierw połącz się z instrumentem.
+Podgląd
+Podgląd: nuty
+Podgląd: tekst
+Poprzedni utwór
+Ending A
+Ending B
+Ending C
+Oryginał (czerwony = wycięta część)
+Wynik
+Urządzenie:
+Narzędzia
+UWAGA: format się różni
+Drewniane dęte
+Przetwarzanie…
+Napis
+Kolor napisu
+Tryb koncertowy · demo
+Tryb koncertowy · {0}
+Odblokuj
+Interfejs
+Edycja interfejsu (przyciski, paski)
+Edycja interfejsu: kliknij dowolny przycisk, aby zmienić jego wygląd (obraz, napis, kolor, rozmiar); pomarańczowym pędzlem w rogu pasków zmieniasz cały pasek; linie podziału można przeciągać.
+Uwaga: dźwięk o wolnym ataku (np. pad) – posłuchaj, czy początek dźwięku nie został ucięty.
+Fill In
+Odebrano: {0}
+Odbierz z komputera
+Kontynuuj bez zapisywania
+Odśwież
+Plik
+Gitara
+Wygląd przycisku
+Przycisk: {0}
+Rozmiar przycisków
+Przyciski
+Przyciski (przeciągnij, aby zmienić kolejność)
+Kolejność przycisków, dodawanie, usuwanie, kolumny, wygląd
+Kolor przycisku
+Rozpocznij przewijanie (zegar wewnętrzny)
+Zatrzymaj przewijanie
+Jeśli zapora systemu Windows zapyta, zezwól na dostęp „Sieć prywatna”.
+Jeśli urządzenie mobilne samo nie znajdzie komputera, wpisz ten adres: {0}
+Głośność
+Różnica poziomów między oboma końcami
+Normalizacja głośności…
+Próbka (wyróżniona: pętla)
+Tonacja
+Tonacja: {0}
+Instrument
+Brzmienie (Bank MSB / LSB / Program)
+Wyślij brzmienie
+Panel brzmień
+Edytor panelu brzmień
+Edytor panelu brzmień…
+Grupy brzmień (przeciągnij, aby zmienić kolejność)
+Brzmienia
+Brzmienia (Bank MSB / LSB / Program z listy instrumentu)
+Brzmienia (lewo)
+Nieprawidłowe dane.
+Błędny kod
+Błędny kod.
+Dokąd?
+Dodaj:
+Tło
+Obraz tła
+Kolor tła
+Sekcja początkowa
+Intro A
+Intro B
+Intro C
+Lód
+Połączono: {0}
+Połącz
+Połącz z instrumentem
+Błąd połączenia
+Łączenie…
+Kapsuła
+Zakończenie bez trzasku (zanikanie 5–20 ms)
+Punkty pętli bez trzasków dla próbek wybrzmiewających · blok smpl (Yamaha Expansion Manager, samplery)
+Wyszukiwanie…
+Kolor obramowania
+Grubość obramowania
+Próg początku
+Kolor akcentu
+Wyłączone: używany jest kolor panelu z motywu
+Zakończ
+Najlepszy jest dźwięk wybrzmiewający (smyczki, pad, organy, chór).
+Wypełnij
+Wybierz
+Nuty (melodia + akordy)
+Utwórz nuty
+Nuty i tekst razem
+Wariant nut
+Nuty:
+Nuty: {0}
+Obraz na przycisku
+Wczytaj obraz
+Prześlij obraz
+Widoczność obrazu
+Obrazy
+Gotowe
+Gotowe motywy
+Gotowe, wróć
+Gotowe. Jeszcze nie zapisano.
+Kod (6 cyfr)
+Chór
+Chór, pad
+Koło
+Następny utwór
+Wyślij
+Rozpocznij wysyłanie
+Wyślij na tablet / telefon
+Wyślij na tablet / telefon…
+Kłódka
+Próg wybrzmienia
+Najkrótsza pętla
+Odtwórz
+Odtwarzanie na instrumencie: {0} ({1} BPM)
+Odtwarzanie zatrzymane.
+Zatrzymaj odtwarzanie
+Zaokrąglony
+Pobrano na {0} urządzenia ✓
+Pobierz
+Pobieranie…
+Lawenda
+Wycięto z końca
+Wycięto z początku
+Wyciszenie końcowe
+Zatrzymaj
+Długość pętli
+Początek pętli
+Szukaj punktów pętli
+Koniec pętli
+Widoczność
+Lawa
+Wejście MIDI (z instrumentu):
+Kanał MIDI:
+Importuj MIDI…
+Wyjście MIDI (do instrumentu):
+Main A
+Main A–D
+Main B
+Main C
+Main D
+Reszta (do głośności stylu): {0} dB
+Tryb wyświetlania
+Otwarto: {0}
+Otwórz z pliku (.snxshow)
+Otwórz…
+Która ścieżka to melodia?
+Niezapisane zmiany
+Zapisz pakiet i skopiuj go na urządzenie mobilne (na Androidzie do folderu Pobrane, na iPhonie/iPadzie do aplikacji Pliki), a następnie na urządzeniu: Odbierz → Otwórz z pliku.
+Zapisano: {0}
+Zapisano: {0} / {1}
+Zapisz
+Zapisz tutaj
+Zapisz jako…
+Zapisz…
+Przykładowy wiersz tekstu
+Cięcie ciszy i wybrzmienia z dokładnością do próbki · pozostałe próbki są identyczne co do bitu
+Jakość
+Kafelki
+Ruchomy gradient
+Drugi utwór
+Anuluj
+Rozmiar
+Przywróć rozmiary
+Zmierzona głośność (LUFS)
+Zachód słońca
+Nie udało się połączyć z instrumentem.
+Nie znaleziono urządzenia MIDI. Podłącz instrument kablem USB-C / OTG (do gniazda USB TO HOST instrumentu) lub użyj adaptera Bluetooth MIDI.
+Nie znaleziono urządzenia MIDI. Podłącz instrument kablem USB (USB TO HOST), włącz go i kliknij Odśwież.
+Komputer ({0}) jest nieosiągalny. Czy jesteście w tej samej sieci Wi-Fi? Czy na komputerze działa wysyłanie?
+Neon
+Brak grup.
+Brak utworów. Odbierz pakiet z komputera.
+Brak podłączonego instrumentu – ustawienie zastosowano tylko w programie.
+Język
+Język i tryb wyświetlania…
+Otwórz próbkę WAV po lewej stronie.
+Otwórz jeden lub więcej plików WAV po lewej stronie.
+Ósemka
+Nazwa
+O programie i skróty
+Utwór bez tytułu
+Widok
+Widok: tekst, nuty lub oba
+Wywołanie OTS przez MIDI: zostanie dodane na podstawie Data List modelu
+Oktawa
+Strona
+Odblokuj stronę
+Zablokuj stronę (bez przewijania)
+Zamień strony
+One Touch Settings
+Organy
+Kolumny:
+PC
+Adres komputera (np. 192.168.1.20)
+Szukanie komputera w sieci Wi-Fi…
+Tryb PC: edycja i projektowanie. Tablet i Telefon: podgląd, dokładnie tak, jak będzie wyglądać na urządzeniu mobilnym.
+Pad / smyczki
+Przezroczystość panelu
+Kolor panelu
+Banki rejestracji
+Rejestracja
+Siatka rytmiczna (kwantyzacja):
+Rytm
+Rytm (prawo)
+Panel rytmu
+Rytm i styl
+Edytor panelu rytmu
+Edytor panelu rytmu…
+Partia {0}: CC7 {1} → {2}
+Warstwy (V1–V4)
+Blacha
+Własne tło dla tego paska
+Własny obraz tła
+Zaokrąglenie rogów
+Szmaragd
+SoundNexus Pro uruchomiony.
+Pakiet koncertowy SoundNexus Pro
+Projekt SoundNexus Pro
+Szukaj stabilnego fragmentu i punktów pętli
+Start
+Start / Stop
+Stop
+Styl
+Styl (na instrumencie)
+Style Start
+Style Stop
+Normalizacja głośności stylu
+Styl: {0}
+Sekcja:
+Sekcje
+Edycja
+Program do edycji i sterowania na żywo dla Yamaha Genos 2, Genos, Tyros 5, Tyros 4 i PSR-SX.
+Synchronizacja
+Synchronizuj z instrumentem
+Przycisk synchronizacji
+Oblicz
+Węgiel
+Kolor
+Dodaj kolor
+Wybierz kolor
+Usuń kolor
+Obracaj także kolory
+Solo
+Kwadratowy
+Tekst
+Tekst i akordy
+Styl paska
+Styl paska: {0}
+Style pasków
+Uszkodzony transfer (niezgodna suma kontrolna). Spróbuj ponownie.
+Przyciemnienie
+Pomoc
+Tempo TAP
+Tablet
+Podgląd tabletu – tak wygląda interfejs na tablecie (edycja tylko w trybie PC)
+Tablet: trzy kolumny obok siebie. Telefon: utwór pośrodku, brzmienia i rytm wysuwane z boków.
+Telefon
+Podgląd telefonu – tak wygląda interfejs na telefonie (edycja tylko w trybie PC)
+Cały obraz
+Tempo
+Tempo (BPM)
+Tempo +
+Przejmij tempo i metrum ({0} BPM, {1}/4)
+Tempo −
+Tryb testowy
+Tryb testowy: polecenia nie są wysyłane do instrumentu.
+Szesnastka
+Transpozycja
+Motyw
+Motyw i kolory
+Motyw i kolory…
+Odstęp
+Usuń
+Usuń ostatni kolor
+Wytnij pogłos i szum z końca
+Zgodność złącza
+Krzywa dynamiki
+Wróć do trybu PC
+Wróć do SoundNexus Pro
+Smyczki
+V{0}: wysłano {1} (kan. {2})
+Rozpocznij cięcie
+Oczekiwanie na urządzenie mobilne…
+Otwórz pliki WAV
+Próbka WAV
+Otwórz WAV
+Poziom szumu
+Fortepian
+[G]Tekst [D]z akordami\nsekcja {Main A}\n# komentarz
+pozostałe próbki są identyczne co do bitu z oryginałem; bez ponownego próbkowania, bez zmiany głębi bitowej
+początek −{0} ms · koniec −{1} ms
+format bez zmian ✓
+wszystkie przyciski są na panelu
+brak (próbki nienaruszone)
+według panelu
+według motywu
+zgodność złącza {0}%
+{0} (oryginał: {1})
+{0} ({1} nut)
+{0} / {1} jest pusty. Aby zapisać: Zapisz, potem numer.
+Wybrano plików: {0}
+Zapisano plików: {0} w: {1}
+Brzmień: {0}
+{0} ms ({1} próbek)
+pętla {0} ms
+{0} s · {1} próbek · {2}
+próbka {0}
+próbka {0} ({1} ms)
+kolor {0}
+{Main A}\n[C]Tu wpisz tekst
+Przezroczystość
+Kierunek gradientu
+Gradient: dodaj kolor
+Gradient
+Granat nocny
+Ocean
+Nowy bank
+Nowa grupa
+Nowy utwór
+Nowy utwór…
+Nowe brzmienie
+Nowy projekt
+Nowy projekt.
+Ponów
+Takty / wiersz
+Metrum

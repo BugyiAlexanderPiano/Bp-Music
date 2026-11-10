@@ -5,6 +5,7 @@
 //          csomagot. A letöltés SHA-256 ellenőrzéssel történik, és csak hibátlan csomag
 //          kerül mentésre.
 //  Fájl:   ugyanaz a csomag .alsshow fájlként (USB-kábel, Bluetooth, AirDrop, felhő).
+import '../i18n/i18n.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -89,7 +90,7 @@ class ShowServer {
       res.write('SNX');
     } else {
       res.statusCode = HttpStatus.forbidden;
-      res.write('Hibás kód');
+      res.write(tr('Hibás kód'));
     }
     await res.close();
   }
@@ -157,19 +158,19 @@ Future<Project> downloadShow(String host, String code, {int port = transferPort}
   try {
     final req = await client.getUrl(Uri(scheme: 'http', host: host.trim(), port: port, path: '/show', queryParameters: {'code': code.trim()}));
     final res = await req.close();
-    if (res.statusCode == HttpStatus.forbidden) throw TransferException('Hibás kód.');
-    if (res.statusCode != HttpStatus.ok) throw TransferException('A PC hibát jelzett (${res.statusCode}).');
+    if (res.statusCode == HttpStatus.forbidden) throw TransferException(tr('Hibás kód.'));
+    if (res.statusCode != HttpStatus.ok) throw TransferException(tr('A PC hibát jelzett ({0}).', [res.statusCode]));
     final bytes = <int>[];
     await for (final chunk in res) {
       bytes.addAll(chunk);
     }
     final expected = res.headers.value('x-als-sha256');
     if (expected != null && sha256Hex(bytes) != expected) {
-      throw TransferException('Sérült átvitel (ellenőrzőösszeg eltér). Próbáld újra.');
+      throw TransferException(tr('Sérült átvitel (ellenőrzőösszeg eltér). Próbáld újra.'));
     }
     return parseShowPackage(bytes);
   } on SocketException catch (e) {
-    throw TransferException('Nem érhető el a PC (${e.message}). Ugyanazon a Wi-Fin vagytok? A PC-n fut a küldés?');
+    throw TransferException(tr('Nem érhető el a PC ({0}). Ugyanazon a Wi-Fin vagytok? A PC-n fut a küldés?', [e.message]));
   } finally {
     client.close(force: true);
   }

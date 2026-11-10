@@ -1,5 +1,6 @@
 // lib/ui/panel_editors.dart — külön szerkesztőablakok (csak PC-n):
 //   Hangszín-panel · Ritmus-panel · Alsó vezérlősáv
+import '../i18n/i18n.dart';
 import 'package:flutter/material.dart';
 
 import '../model/project.dart';
@@ -28,7 +29,7 @@ class _EditorScaffold extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(gradient: LinearGradient(colors: [t.accent.withValues(alpha: 0.35), Colors.transparent])),
               child: Row(children: [
-                IconButton(tooltip: 'Kész, vissza', onPressed: () => Navigator.pop(context), icon: const Icon(Icons.arrow_back)),
+                IconButton(tooltip: tr('Kész, vissza'), onPressed: () => Navigator.pop(context), icon: const Icon(Icons.arrow_back)),
                 Icon(icon, color: t.accent, size: 28),
                 const SizedBox(width: 12),
                 Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -38,7 +39,7 @@ class _EditorScaffold extends StatelessWidget {
                 const Spacer(),
                 ...actions,
                 const SizedBox(width: 8),
-                FilledButton.icon(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.check), label: const Text('Kész')),
+                FilledButton.icon(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.check), label: Text(tr('Kész'))),
               ]),
             ),
             Expanded(child: body),
@@ -67,7 +68,7 @@ Widget _head(String s) => Padding(
     );
 
 Widget _columnsPicker(int value, ValueChanged<int> onChanged) => Row(children: [
-      const Text('Oszlopok: '),
+      Text(tr('Oszlopok: ')),
       SegmentedButton<int>(
         segments: const [
           ButtonSegment(value: 1, label: Text('1')),
@@ -108,14 +109,14 @@ class _VoicePanelEditorPageState extends State<VoicePanelEditorPage> {
     final g = groups.isEmpty ? null : groups[group];
     return _EditorScaffold(
       project: p,
-      title: 'Hangszín-panel szerkesztő',
-      subtitle: 'Csoportok, hangszínek, sorrend, oszlopok, gombok kinézete',
+      title: tr('Hangszín-panel szerkesztő'),
+      subtitle: tr('Csoportok, hangszínek, sorrend, oszlopok, gombok kinézete'),
       icon: Icons.piano,
       actions: [
         TextButton.icon(
           onPressed: () => showPanelStyleDialog(context, p, 'left', () => _ch(() {})),
           icon: const Icon(Icons.format_paint),
-          label: const Text('Sáv stílusa'),
+          label: Text(tr('Sáv stílusa')),
         ),
         TextButton.icon(
           onPressed: () => _ch(() {
@@ -125,13 +126,13 @@ class _VoicePanelEditorPageState extends State<VoicePanelEditorPage> {
             group = 0;
           }),
           icon: const Icon(Icons.restart_alt),
-          label: const Text('Alap hangszín-tár'),
+          label: Text(tr('Alap hangszín-tár')),
         ),
       ],
       body: Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         // Csoportok
         _box(p, width: 270, Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          _head('Hangszíncsoportok (húzással átrendezhető)'),
+          _head(tr('Hangszíncsoportok (húzással átrendezhető)')),
           Expanded(
             child: ReorderableListView.builder(
               buildDefaultDragHandles: false,
@@ -145,11 +146,11 @@ class _VoicePanelEditorPageState extends State<VoicePanelEditorPage> {
                 key: ValueKey(groups[i]),
                 selected: i == group,
                 leading: ReorderableDragStartListener(index: i, child: Icon(groups[i].icon)),
-                title: Text(groups[i].name),
-                subtitle: Text('${groups[i].voices.length} hangszín'),
+                title: Text(tr(groups[i].name)),
+                subtitle: Text(tr('{0} hangszín', [groups[i].voices.length])),
                 onTap: () => setState(() => group = i),
                 trailing: IconButton(
-                  tooltip: 'Csoport törlése',
+                  tooltip: tr('Csoport törlése'),
                   icon: const Icon(Icons.delete_outline),
                   onPressed: () => _ch(() => groups.removeAt(i)),
                 ),
@@ -158,11 +159,11 @@ class _VoicePanelEditorPageState extends State<VoicePanelEditorPage> {
           ),
           OutlinedButton.icon(
             onPressed: () => _ch(() {
-              groups.add(VoiceGroup('Új csoport', 'folder', []));
+              groups.add(VoiceGroup(tr('Új csoport'), 'folder', []));
               group = groups.length - 1;
             }),
             icon: const Icon(Icons.add),
-            label: const Text('Új csoport'),
+            label: Text(tr('Új csoport')),
           ),
           const SizedBox(height: 10),
           _columnsPicker(p.leftColumns, (v) => _ch(() => p.leftColumns = v)),
@@ -170,14 +171,14 @@ class _VoicePanelEditorPageState extends State<VoicePanelEditorPage> {
         // Kiválasztott csoport hangszínei
         Expanded(
           child: _box(p, g == null
-              ? const Center(child: Text('Nincs csoport.'))
+              ? Center(child: Text(tr('Nincs csoport.')))
               : Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
                   Row(children: [
                     Expanded(
                       child: TextFormField(
                         key: ValueKey('gname$group'),
                         initialValue: g.name,
-                        decoration: const InputDecoration(labelText: 'Csoport neve'),
+                        decoration: InputDecoration(labelText: tr('Csoport neve')),
                         onChanged: (v) => _ch(() => g.name = v),
                       ),
                     ),
@@ -191,11 +192,11 @@ class _VoicePanelEditorPageState extends State<VoicePanelEditorPage> {
                     OutlinedButton.icon(
                       onPressed: () => showItemStyleDialog(context, p, 'group:${g.name}', g.name, () => _ch(() {})),
                       icon: const Icon(Icons.brush),
-                      label: const Text('Gomb kinézete'),
+                      label: Text(tr('Gomb kinézete')),
                     ),
                   ]),
                   const SizedBox(height: 12),
-                  _head('Hangszínek (Bank MSB / LSB / Program a hangszer listájából)'),
+                  _head(tr('Hangszínek (Bank MSB / LSB / Program a hangszer listájából)')),
                   Expanded(
                     child: ReorderableListView.builder(
                       buildDefaultDragHandles: false,
@@ -232,17 +233,17 @@ class _VoicePanelEditorPageState extends State<VoicePanelEditorPage> {
                                     child: TextFormField(
                                       key: ValueKey('vn$i${v.hashCode}'),
                                       initialValue: v.name,
-                                      decoration: const InputDecoration(labelText: 'Név', isDense: true),
+                                      decoration: InputDecoration(labelText: tr('Név'), isDense: true),
                                       onChanged: (t) => _ch(() => v.name = t),
                                     ),
                                   ),
                                   IconButton(
-                                    tooltip: 'Gomb kinézete',
+                                    tooltip: tr('Gomb kinézete'),
                                     icon: const Icon(Icons.brush),
                                     onPressed: () => showItemStyleDialog(context, p, 'voice:${v.name}', v.name, () => _ch(() {})),
                                   ),
                                   IconButton(
-                                    tooltip: 'Törlés',
+                                    tooltip: tr('Törlés'),
                                     icon: const Icon(Icons.delete_outline),
                                     onPressed: () => _ch(() => g.voices.removeAt(i)),
                                   ),
@@ -250,7 +251,7 @@ class _VoicePanelEditorPageState extends State<VoicePanelEditorPage> {
                                 Row(children: [
                                   DropdownButton<String>(
                                     value: _categories.containsKey(v.category) ? v.category : '',
-                                    items: [for (final e in _categories.entries) DropdownMenuItem(value: e.key, child: Text(e.value))],
+                                    items: [for (final e in _categories.entries) DropdownMenuItem(value: e.key, child: Text(tr(e.value)))],
                                     onChanged: (c) => _ch(() => v.category = c!),
                                   ),
                                   const SizedBox(width: 10),
@@ -270,23 +271,23 @@ class _VoicePanelEditorPageState extends State<VoicePanelEditorPage> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: OutlinedButton.icon(
-                      onPressed: () => _ch(() => g.voices.add(VoicePreset('Új hangszín', '', 0))),
+                      onPressed: () => _ch(() => g.voices.add(VoicePreset(tr('Új hangszín'), '', 0))),
                       icon: const Icon(Icons.add),
-                      label: const Text('Új hangszín'),
+                      label: Text(tr('Új hangszín')),
                     ),
                   ),
                 ])),
         ),
         // Előnézet
         _box(p, width: 250, Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          _head('Előnézet'),
+          _head(tr('Előnézet')),
           Expanded(
             child: LayoutBuilder(builder: (ctx, box) {
               final w = (box.maxWidth - (p.leftColumns - 1) * 6) / p.leftColumns;
               return SingleChildScrollView(
                 child: Wrap(spacing: 6, runSpacing: 6, children: [
                   for (final gg in groups)
-                    AlsButton(project: p, panel: 'left', id: 'group:${gg.name}', label: gg.name, icon: gg.icon,
+                    AlsButton(project: p, panel: 'left', id: 'group:${gg.name}', label: tr(gg.name), icon: gg.icon,
                         width: w, height: 42, alignLeft: p.leftColumns == 1, selected: g == gg, onTap: () {}),
                 ]),
               );
@@ -322,27 +323,27 @@ class _RhythmPanelEditorPageState extends State<RhythmPanelEditorPage> {
     final missing = [for (final k in rhythmCatalog.keys) if (!items.contains(k)) k];
     return _EditorScaffold(
       project: p,
-      title: 'Ritmus-panel szerkesztő',
-      subtitle: 'Gombok sorrendje, hozzáadás, eltávolítás, oszlopok, kinézet',
+      title: tr('Ritmus-panel szerkesztő'),
+      subtitle: tr('Gombok sorrendje, hozzáadás, eltávolítás, oszlopok, kinézet'),
       icon: Icons.queue_music,
       actions: [
         TextButton.icon(
           onPressed: () => showPanelStyleDialog(context, p, 'right', () => _ch(() {})),
           icon: const Icon(Icons.format_paint),
-          label: const Text('Sáv stílusa'),
+          label: Text(tr('Sáv stílusa')),
         ),
         TextButton.icon(
           onPressed: () => _ch(() => items
             ..clear()
             ..addAll(defaultRhythmItems)),
           icon: const Icon(Icons.restart_alt),
-          label: const Text('Alap elrendezés'),
+          label: Text(tr('Alap elrendezés')),
         ),
       ],
       body: Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         Expanded(
           child: _box(p, Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-            _head('Gombok (húzással átrendezhető)'),
+            _head(tr('Gombok (húzással átrendezhető)')),
             Expanded(
               child: ReorderableListView.builder(
                 buildDefaultDragHandles: false,
@@ -354,26 +355,26 @@ class _RhythmPanelEditorPageState extends State<RhythmPanelEditorPage> {
                 itemBuilder: (ctx, i) => ListTile(
                   key: ValueKey(items[i]),
                   leading: ReorderableDragStartListener(index: i, child: const Icon(Icons.drag_indicator)),
-                  title: Text(rhythmCatalog[items[i]] ?? items[i]),
+                  title: Text(tr(rhythmCatalog[items[i]] ?? items[i])),
                   trailing: Row(mainAxisSize: MainAxisSize.min, children: [
                     IconButton(
-                      tooltip: 'Gomb kinézete',
+                      tooltip: tr('Gomb kinézete'),
                       icon: const Icon(Icons.brush),
-                      onPressed: () => showItemStyleDialog(context, p, 'r:${items[i]}', rhythmCatalog[items[i]] ?? items[i], () => _ch(() {})),
+                      onPressed: () => showItemStyleDialog(context, p, 'r:${items[i]}', tr(rhythmCatalog[items[i]] ?? items[i]), () => _ch(() {})),
                     ),
-                    IconButton(tooltip: 'Eltávolítás', icon: const Icon(Icons.remove_circle_outline), onPressed: () => _ch(() => items.removeAt(i))),
+                    IconButton(tooltip: tr('Eltávolítás'), icon: const Icon(Icons.remove_circle_outline), onPressed: () => _ch(() => items.removeAt(i))),
                   ]),
                 ),
               ),
             ),
             const SizedBox(height: 8),
             Row(children: [
-              const Text('Hozzáadás: '),
+              Text(tr('Hozzáadás: ')),
               Expanded(
                 child: Wrap(spacing: 6, runSpacing: 6, children: [
                   for (final k in missing)
-                    ActionChip(avatar: const Icon(Icons.add, size: 16), label: Text(rhythmCatalog[k]!), onPressed: () => _ch(() => items.add(k))),
-                  if (missing.isEmpty) const Text('minden gomb a panelen van'),
+                    ActionChip(avatar: const Icon(Icons.add, size: 16), label: Text(tr(rhythmCatalog[k]!)), onPressed: () => _ch(() => items.add(k))),
+                  if (missing.isEmpty) Text(tr('minden gomb a panelen van')),
                 ]),
               ),
             ]),
@@ -382,14 +383,14 @@ class _RhythmPanelEditorPageState extends State<RhythmPanelEditorPage> {
           ])),
         ),
         _box(p, width: 320, Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          _head('Előnézet'),
+          _head(tr('Előnézet')),
           Expanded(
             child: LayoutBuilder(builder: (ctx, box) {
               final w = (box.maxWidth - (p.rhythmColumns - 1) * 8) / p.rhythmColumns;
               return SingleChildScrollView(
                 child: Wrap(spacing: 8, runSpacing: 8, children: [
                   for (final k in items)
-                    AlsButton(project: p, panel: 'right', id: 'r:$k', label: rhythmCatalog[k] ?? k, width: w, height: 40, onTap: () {}),
+                    AlsButton(project: p, panel: 'right', id: 'r:$k', label: tr(rhythmCatalog[k] ?? k), width: w, height: 40, onTap: () {}),
                 ]),
               );
             }),
@@ -423,25 +424,25 @@ class _BottomBarEditorPageState extends State<BottomBarEditorPage> {
     final mods = p.bottomModules;
     return _EditorScaffold(
       project: p,
-      title: 'Alsó vezérlősáv szerkesztő',
-      subtitle: 'Elemek sorrendje (balról jobbra), hozzáadás, eltávolítás, kinézet',
+      title: tr('Alsó vezérlősáv szerkesztő'),
+      subtitle: tr('Elemek sorrendje (balról jobbra), hozzáadás, eltávolítás, kinézet'),
       icon: Icons.view_day,
       actions: [
         TextButton.icon(
           onPressed: () => showPanelStyleDialog(context, p, 'bottom', () => _ch(() {})),
           icon: const Icon(Icons.format_paint),
-          label: const Text('Sáv stílusa'),
+          label: Text(tr('Sáv stílusa')),
         ),
         TextButton.icon(
           onPressed: () => _ch(() => mods
             ..clear()
             ..addAll(defaultBottomModules)),
           icon: const Icon(Icons.restart_alt),
-          label: const Text('Alap elrendezés'),
+          label: Text(tr('Alap elrendezés')),
         ),
       ],
       body: _box(p, Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-        _head('Elemek – a lista sorrendje = a sáv sorrendje balról jobbra'),
+        _head(tr('Elemek – a lista sorrendje = a sáv sorrendje balról jobbra')),
         Expanded(
           child: ReorderableListView.builder(
             buildDefaultDragHandles: false,
@@ -453,25 +454,24 @@ class _BottomBarEditorPageState extends State<BottomBarEditorPage> {
             itemBuilder: (ctx, i) => ListTile(
               key: ValueKey('$i-${mods[i]}'),
               leading: ReorderableDragStartListener(index: i, child: const Icon(Icons.drag_indicator)),
-              title: Text(bottomCatalog[mods[i]] ?? mods[i]),
-              trailing: IconButton(tooltip: 'Eltávolítás', icon: const Icon(Icons.remove_circle_outline), onPressed: () => _ch(() => mods.removeAt(i))),
+              title: Text(tr(bottomCatalog[mods[i]] ?? mods[i])),
+              trailing: IconButton(tooltip: tr('Eltávolítás'), icon: const Icon(Icons.remove_circle_outline), onPressed: () => _ch(() => mods.removeAt(i))),
             ),
           ),
         ),
         const SizedBox(height: 8),
         Row(children: [
-          const Text('Hozzáadás: '),
+          Text(tr('Hozzáadás: ')),
           Expanded(
             child: Wrap(spacing: 6, runSpacing: 6, children: [
               for (final e in bottomCatalog.entries)
                 if (e.key == 'spacer' || !mods.contains(e.key))
-                  ActionChip(avatar: const Icon(Icons.add, size: 16), label: Text(e.value), onPressed: () => _ch(() => mods.add(e.key))),
+                  ActionChip(avatar: const Icon(Icons.add, size: 16), label: Text(tr(e.value)), onPressed: () => _ch(() => mods.add(e.key))),
             ]),
           ),
         ]),
         const SizedBox(height: 8),
-        Text('Az egyes gombok (pl. OTS 1–4, regiszter 1–8, V1–V4) kinézetét a fő ablakban, '
-            'a Nézet → Felület szerkesztése módban, a gombra kattintva állíthatod.',
+        Text(tr('Az egyes gombok (pl. OTS 1–4, regiszter 1–8, V1–V4) kinézetét a fő ablakban, a Nézet → Felület szerkesztése módban, a gombra kattintva állíthatod.'),
             style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.6))),
       ])),
     );

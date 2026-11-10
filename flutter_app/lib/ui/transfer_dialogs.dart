@@ -1,4 +1,5 @@
 // lib/ui/transfer_dialogs.dart — küldés a PC-ről, fogadás a tableten / telefonon
+import '../i18n/i18n.dart';
 import 'dart:async';
 import 'dart:io';
 
@@ -8,7 +9,8 @@ import 'package:flutter/material.dart';
 import '../model/project.dart';
 import '../transfer/transfer.dart';
 
-const _showTypes = [XTypeGroup(label: 'SoundNexus Pro fellépő csomag', extensions: [showExtension, ...legacyShowExtensions])];
+List<XTypeGroup> get _showTypes =>
+    [XTypeGroup(label: tr('SoundNexus Pro fellépő csomag'), extensions: const [showExtension, ...legacyShowExtensions])];
 
 // ---------------------------------------------------------------------------
 // PC: küldés tabletre / telefonra
@@ -32,7 +34,7 @@ Future<void> showSendDialog(BuildContext context, Project p) async {
           final list = await server.start(payload, p.name);
           setD(() => ips = list);
         } catch (e) {
-          setD(() => error = 'A küldés nem indítható: $e');
+          setD(() => error = tr('A küldés nem indítható: {0}', [e]));
         }
       }
 
@@ -45,26 +47,25 @@ Future<void> showSendDialog(BuildContext context, Project p) async {
         final path = loc.path.toLowerCase().endsWith('.$showExtension') ? loc.path : '${loc.path}.$showExtension';
         await File(path).writeAsBytes(payload, flush: true);
         if (ctx.mounted) {
-          ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(content: Text('Mentve: $path')));
+          ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(content: Text(tr('Mentve: {0}', [path]))));
         }
       }
 
       return AlertDialog(
-        title: const Text('Küldés tabletre / telefonra'),
+        title: Text(tr('Küldés tabletre / telefonra')),
         content: SizedBox(
           width: 520,
           child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text('A fellépő csomag: ${p.songs.length} dal, ${p.banks.length} bank, $sizeKb KB. '
-                'A mobilon csak használni lehet, szerkeszteni nem.'),
+            Text(tr('A fellépő csomag: {0} dal, {1} bank, {2} KB. A mobilon csak használni lehet, szerkeszteni nem.', [p.songs.length, p.banks.length, sizeKb])),
             const SizedBox(height: 16),
-            const Text('1. Wi-Fi (ajánlott)', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
+            Text(tr('1. Wi-Fi (ajánlott)'), style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
             const SizedBox(height: 6),
             if (error != null)
               Text(error!, style: const TextStyle(color: Colors.redAccent))
             else if (ips == null)
-              FilledButton.icon(onPressed: start, icon: const Icon(Icons.wifi_tethering), label: const Text('Küldés indítása'))
+              FilledButton.icon(onPressed: start, icon: const Icon(Icons.wifi_tethering), label: Text(tr('Küldés indítása')))
             else ...[
-              const Text('A tableten / telefonon: SoundNexus Pro → Fogadás PC-ről, majd add meg ezt a kódot:'),
+              Text(tr('A tableten / telefonon: SoundNexus Pro → Fogadás PC-ről, majd add meg ezt a kódot:')),
               const SizedBox(height: 8),
               Center(
                 child: SelectableText(
@@ -73,27 +74,26 @@ Future<void> showSendDialog(BuildContext context, Project p) async {
                 ),
               ),
               const SizedBox(height: 6),
-              Text('Ha a mobil nem találja magától a gépet, írd be ezt a címet: ${ips!.isEmpty ? '(nincs hálózat)' : ips!.join('  vagy  ')}'),
+              Text(tr('Ha a mobil nem találja magától a gépet, írd be ezt a címet: {0}', [ips!.isEmpty ? tr('(nincs hálózat)') : ips!.join(tr('  vagy  '))])),
               const SizedBox(height: 6),
               Row(children: [
                 const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2)),
                 const SizedBox(width: 10),
-                Text(downloads == 0 ? 'Várakozás a mobilra…' : 'Letöltve $downloads eszközre ✓'),
+                Text(downloads == 0 ? tr('Várakozás a mobilra…') : tr('Letöltve {0} eszközre ✓', [downloads])),
               ]),
               if (Platform.isWindows)
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(top: 8),
-                  child: Text('Ha a Windows tűzfal rákérdez, engedélyezd a „Magánhálózat” hozzáférést.',
+                  child: Text(tr('Ha a Windows tűzfal rákérdez, engedélyezd a „Magánhálózat” hozzáférést.'),
                       style: TextStyle(fontSize: 12)),
                 ),
             ],
             const SizedBox(height: 18),
-            const Text('2. Fájlként (USB-kábel, Bluetooth, AirDrop)', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
+            Text(tr('2. Fájlként (USB-kábel, Bluetooth, AirDrop)'), style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
             const SizedBox(height: 6),
-            const Text('Mentsd a csomagot, másold a mobilra (Androidon a Letöltések mappába, iPhone/iPaden a Fájlok appba), '
-                'majd a mobilon: Fogadás → Megnyitás fájlból.'),
+            Text(tr('Mentsd a csomagot, másold a mobilra (Androidon a Letöltések mappába, iPhone/iPaden a Fájlok appba), majd a mobilon: Fogadás → Megnyitás fájlból.')),
             const SizedBox(height: 8),
-            OutlinedButton.icon(onPressed: saveFile, icon: const Icon(Icons.save_alt), label: const Text('Csomag mentése (.snxshow)')),
+            OutlinedButton.icon(onPressed: saveFile, icon: const Icon(Icons.save_alt), label: Text(tr('Csomag mentése (.snxshow)'))),
           ]),
         ),
         actions: [
@@ -102,7 +102,7 @@ Future<void> showSendDialog(BuildContext context, Project p) async {
               await server.stop();
               if (ctx.mounted) Navigator.pop(ctx);
             },
-            child: const Text('Bezárás'),
+            child: Text(tr('Bezárás')),
           ),
         ],
       );
@@ -136,12 +136,12 @@ Future<Project?> showReceiveDialog(BuildContext context) async {
 
       Future<void> download() async {
         if (ipCtrl.text.trim().isEmpty || codeCtrl.text.replaceAll(' ', '').length != 6) {
-          setD(() => status = 'Add meg a PC címét és a 6 jegyű kódot.');
+          setD(() => status = tr('Add meg a PC címét és a 6 jegyű kódot.'));
           return;
         }
         setD(() {
           busy = true;
-          status = 'Letöltés…';
+          status = tr('Letöltés…');
         });
         try {
           final p = await downloadShow(ipCtrl.text, codeCtrl.text.replaceAll(' ', ''));
@@ -163,23 +163,23 @@ Future<Project?> showReceiveDialog(BuildContext context) async {
           await saveShowOnDevice(p);
           if (ctx.mounted) Navigator.pop(ctx, p);
         } catch (e) {
-          setD(() => status = 'A fájl nem nyitható meg: $e');
+          setD(() => status = tr('A fájl nem nyitható meg: {0}', [e]));
         }
       }
 
       return AlertDialog(
-        title: const Text('Fogadás PC-ről'),
+        title: Text(tr('Fogadás PC-ről')),
         content: SizedBox(
           width: 460,
           child: SingleChildScrollView(
             child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const Text('A PC-n: Fájl → Küldés tabletre / telefonra → Küldés indítása.'),
+              Text(tr('A PC-n: Fájl → Küldés tabletre / telefonra → Küldés indítása.')),
               const SizedBox(height: 12),
               if (found.isEmpty)
-                const Row(children: [
+                Row(children: [
                   SizedBox(width: 14, height: 14, child: CircularProgressIndicator(strokeWidth: 2)),
                   SizedBox(width: 8),
-                  Expanded(child: Text('PC keresése a Wi-Fi hálózaton…')),
+                  Expanded(child: Text(tr('PC keresése a Wi-Fi hálózaton…'))),
                 ])
               else
                 for (final pc in found)
@@ -191,25 +191,25 @@ Future<Project?> showReceiveDialog(BuildContext context) async {
                     selected: ipCtrl.text == pc.address,
                     onTap: () => setD(() => ipCtrl.text = pc.address),
                   ),
-              TextField(controller: ipCtrl, decoration: const InputDecoration(labelText: 'PC címe (pl. 192.168.1.20)')),
+              TextField(controller: ipCtrl, decoration: InputDecoration(labelText: tr('PC címe (pl. 192.168.1.20)'))),
               TextField(
                 controller: codeCtrl,
                 keyboardType: TextInputType.number,
                 style: const TextStyle(fontSize: 24, letterSpacing: 4),
-                decoration: const InputDecoration(labelText: 'Kód (6 számjegy)'),
+                decoration: InputDecoration(labelText: tr('Kód (6 számjegy)')),
               ),
               if (status != null) Padding(padding: const EdgeInsets.only(top: 10), child: Text(status!)),
               const SizedBox(height: 14),
-              OutlinedButton.icon(onPressed: fromFile, icon: const Icon(Icons.folder_open), label: const Text('Megnyitás fájlból (.snxshow)')),
+              OutlinedButton.icon(onPressed: fromFile, icon: const Icon(Icons.folder_open), label: Text(tr('Megnyitás fájlból (.snxshow)'))),
             ]),
           ),
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Mégse')),
+          TextButton(onPressed: () => Navigator.pop(ctx), child: Text(tr('Mégse'))),
           FilledButton.icon(
             onPressed: busy ? null : download,
             icon: const Icon(Icons.download),
-            label: const Text('Letöltés'),
+            label: Text(tr('Letöltés')),
           ),
         ],
       );

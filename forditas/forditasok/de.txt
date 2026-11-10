@@ -1,0 +1,438 @@
+oder
+(kein Netzwerk)
+. Style: {0} – wähle ihn am Instrument aus.
+1. WLAN (empfohlen)
+2. Als Datei (USB-Kabel, Bluetooth, AirDrop)
+Die MIDI-Datei kann nicht gelesen werden: {0}
+Der PC hat einen Fehler gemeldet ({0}).
+Am PC: Datei → An Tablet / Handy senden → Senden starten.
+Auftrittspaket: {0} Songs, {1} Bänke, {2} KB. Auf dem Mobilgerät nur nutzbar, nicht bearbeitbar.
+Die Datei ist kein SoundNexus-Pro-Projekt oder beschädigt: {0}
+Die Datei kann nicht geöffnet werden: {0}
+Das Bild ist zu groß (max. 3 MB). Verkleinere es und versuche es erneut.
+Senden kann nicht gestartet werden: {0}
+Der Teil vor dem Loop-Ende wird mit dem Teil vor dem Loop-Anfang überblendet (Equal-Power).
+Speichern fehlgeschlagen: {0}
+Das Projekt wurde geändert. Ohne Speichern fortfahren?
+Den Style wählst du am Instrument; von hier steuerst du Start, Abschnitte und Tempo.
+Der Text kann nicht gelesen werden (UTF-8 erforderlich): {0}
+Auf dem Tablet / Handy: SoundNexus Pro → Vom PC empfangen, dann diesen Code eingeben:
+Das komplette MIDI wird an den Song angehängt: Auf dem Tablet spielt die Taste „Song abspielen“ es am Instrument ab.
+Die Nahtstelle vergrößert: Loop-Ende (links) → Loop-Anfang (rechts). Gleichmäßiger Übergang = kein Knacken.
+Gib die PC-Adresse und den 6-stelligen Code ein.
+Akkord einfügen:
+Akkorde
+Aktuelle Zeile
+Standardlayout
+Standard-Voice-Bibliothek
+Grundton
+Grundton (MIDI):
+Zurücksetzen
+Anwenden
+Angewendet: {0}{1} dB
+Untere Leiste…
+Untere Steuerleiste
+Editor der unteren Steuerleiste
+Editor der unteren Steuerleiste…
+Gold
+Aurora
+Automatisch
+Automatische Notation aus MP3/MP4: Phase B
+Das Aussehen einzelner Tasten (z. B. OTS 1–4, Registrierung 1–8, V1–V4) stellst du im Hauptfenster unter Ansicht → Oberfläche bearbeiten ein, indem du auf die Taste klickst.
+Der Verlauf dreht sich langsam
+Bank 1
+Bank {0}
+Bank {0} / {1}
+Bass
+Abgerufen: {0} / {1}
+Ein
+Demo-Song
+Demo-Melodie
+Demo-Projekt
+Laden und Wellenform
+Schriftgröße
+Schriftart
+Schriftart und Textfarben
+Schrift und Text…
+Schließen
+Einstellungen
+Einstellungen: Sprache, PC- / Tablet- / Handy-Modus
+Einstellungen: Sprache, Tablet- / Handy-Modus
+Tastenkürzel: Strg+N neu · Strg+O öffnen · Strg+S speichern · Strg+Umschalt+S speichern unter · Strg+E Song bearbeiten · F5 Sync · ←/→ blättern · Leertaste Start/Stop
+Tastaturzone: {0} – {1}
+„{0}“ wirklich löschen?
+Bluetooth-Suche
+Break
+Purpur
+CC7-Werte durch Leerzeichen getrennt
+Ohne Crossfade bleiben die Samples unverändert.
+Nur Bild (ohne Beschriftung)
+Nur bei starkem Anschlag (Vel ≥ {0})
+Stille am Anfang entfernen
+Stille und Ausklang analysieren, schneiden
+Paket speichern (.snxshow)
+Gruppenname
+Gruppe löschen
+Gruppen, Voices, Reihenfolge, Spalten, Tastenaussehen
+Spitzenpegel
+Ziel: −18 LUFS. Gib die gemessene Lautheit des Styles und die aktuellen CC7-Werte der Parts ein.
+Titel
+Song
+Song nach oben
+Song nach unten
+Song importiert: {0}
+Song abspielen
+Song am Instrument abspielen (angehängtes MIDI)
+Song bearbeiten
+Song bearbeiten (Strg+E)
+Song bearbeiten…
+Song löschen
+Liedtext (Mitte)
+Liedtext importieren (.txt)…
+Umlaufzeit
+Eine oder mehrere Dateien wählbar (Stapelverarbeitung).
+Einfarbig
+Sonstiges
+Für diesen Song gibt es noch keine Noten.\nAm PC: Song bearbeiten → Noten → MIDI importieren.
+An diesen Song ist kein MIDI angehängt. Am PC: Song bearbeiten → Noten → MIDI importieren.
+Zum Anfang
+Reihenfolge der Elemente (von links nach rechts), hinzufügen, entfernen, Aussehen
+Elemente – Listenreihenfolge = Leistenreihenfolge von links nach rechts
+Gesendet: {0} BPM, {1}, {2} Layer{3}
+Prüfung: Format, Bittiefe
+Prüfung: Nahtstelle, Format
+Weichzeichnen
+Ersten Song hinzufügen
+Entfernen
+Interpret
+Verbinde dich zuerst mit dem Instrument (Instrument → Verbinden).
+Verbinde dich zuerst mit dem Instrument.
+Vorschau
+Vorschau: Noten
+Vorschau: Text
+Vorheriger Song
+Ending A
+Ending B
+Ending C
+Original (rot = abgeschnittener Teil)
+Ergebnis
+Gerät:
+Werkzeuge
+ACHTUNG: Format weicht ab
+Holzbläser
+Verarbeitung…
+Beschriftung
+Beschriftungsfarbe
+Auftrittsmodus · Demo
+Auftrittsmodus · {0}
+Entsperren
+Oberfläche
+Oberfläche bearbeiten (Tasten, Leisten)
+Oberfläche bearbeiten: Klicke auf eine Taste, um ihr Aussehen zu ändern (Bild, Beschriftung, Farbe, Größe); mit dem orangen Pinsel in der Ecke der Leisten gestaltest du die ganze Leiste; die Trennlinien sind verschiebbar.
+Achtung: Klang mit langsamem Einschwingen (z. B. Pad) – hör nach, ob der Anfang nicht abgeschnitten wurde.
+Fill In
+Empfangen: {0}
+Vom PC empfangen
+Ohne Speichern fortfahren
+Aktualisieren
+Datei
+Gitarre
+Tastenaussehen
+Taste: {0}
+Tastengröße
+Tasten
+Tasten (per Ziehen sortierbar)
+Tastenreihenfolge, hinzufügen, entfernen, Spalten, Aussehen
+Tastenfarbe
+Scrollen starten (interne Uhr)
+Scrollen stoppen
+Falls die Windows-Firewall nachfragt, erlaube den Zugriff für „Private Netzwerke“.
+Falls das Mobilgerät den Rechner nicht selbst findet, gib diese Adresse ein: {0}
+Lautstärke
+Pegelunterschied zwischen den beiden Enden
+Lautstärke-Normalisierung…
+Sample (hervorgehoben: der Loop)
+Tonart
+Tonart: {0}
+Instrument
+Voice (Bank MSB / LSB / Program)
+Voice senden
+Voice-Panel
+Voice-Panel-Editor
+Voice-Panel-Editor…
+Voice-Gruppen (per Ziehen sortierbar)
+Voices
+Voices (Bank MSB / LSB / Program aus der Liste des Instruments)
+Voices (links)
+Ungültige Eingabe.
+Falscher Code
+Falscher Code.
+Wohin?
+Hinzufügen:
+Hintergrund
+Hintergrundbild
+Hintergrundfarbe
+Startabschnitt
+Intro A
+Intro B
+Intro C
+Eis
+Verbunden: {0}
+Verbinden
+Mit dem Instrument verbinden
+Verbindungsfehler
+Verbinde…
+Kapsel
+Knackfreier Abschluss (5–20 ms Fade)
+Knackfreie Loop-Punkte für gehaltene Samples · smpl-Block (Yamaha Expansion Manager, Sampler)
+Suche…
+Rahmenfarbe
+Rahmenbreite
+Einsatz-Schwelle
+Akzentfarbe
+Wenn aus, wird die Panelfarbe des Themas verwendet
+Beenden
+Ein gehaltener Klang (Streicher, Pad, Orgel, Chor) eignet sich am besten.
+Füllen
+Auswählen
+Noten (Melodie + Akkorde)
+Noten erstellen
+Noten und Text zusammen
+Notenvariante
+Noten:
+Noten: {0}
+Bild auf der Taste
+Bild laden
+Bild hochladen
+Bildsichtbarkeit
+Bilder
+Fertig
+Fertige Themen
+Fertig, zurück
+Fertig. Noch nicht gespeichert.
+Code (6 Ziffern)
+Chor
+Chor, Pad
+Kreis
+Nächster Song
+Senden
+Senden starten
+An Tablet / Handy senden
+An Tablet / Handy senden…
+Schloss
+Ausklang-Schwelle
+Kürzester Loop
+Wiedergabe
+Wiedergabe am Instrument: {0} ({1} BPM)
+Wiedergabe gestoppt.
+Wiedergabe stoppen
+Abgerundet
+Auf {0} Geräte geladen ✓
+Herunterladen
+Wird geladen…
+Lavendel
+Am Ende abgeschnitten
+Am Anfang abgeschnitten
+Schluss-Fade
+Stopp
+Loop-Länge
+Loop-Anfang
+Loop-Punkte suchen
+Loop-Ende
+Sichtbarkeit
+Lava
+MIDI-Eingang (vom Instrument):
+MIDI-Kanal:
+MIDI importieren…
+MIDI-Ausgang (zum Instrument):
+Main A
+Main A–D
+Main B
+Main C
+Main D
+Rest (in die Style-Lautstärke): {0} dB
+Anzeigemodus
+Geöffnet: {0}
+Aus Datei öffnen (.snxshow)
+Öffnen…
+Welche Spur ist die Melodie?
+Ungespeicherte Änderungen
+Speichere das Paket, kopiere es aufs Mobilgerät (bei Android in den Download-Ordner, bei iPhone/iPad in die Dateien-App), dann auf dem Mobilgerät: Empfangen → Aus Datei öffnen.
+Gespeichert: {0}
+Gespeichert: {0} / {1}
+Speichern
+Hier speichern
+Speichern unter…
+Speichern…
+Beispiel-Textzeile
+Samplegenaues Schneiden von Stille und Ausklang · die übrigen Samples bleiben bitgleich
+Qualität
+Kacheln
+Bewegter Farbverlauf
+Zweiter Song
+Abbrechen
+Größe
+Größen zurücksetzen
+Gemessene Lautheit (LUFS)
+Sonnenuntergang
+Verbindung zum Instrument fehlgeschlagen.
+Kein MIDI-Gerät gefunden. Schließe das Instrument mit einem USB-C- / OTG-Kabel an (an die USB-TO-HOST-Buchse des Instruments) oder verwende einen Bluetooth-MIDI-Adapter.
+Kein MIDI-Gerät gefunden. Schließe das Instrument per USB-Kabel an (USB TO HOST), schalte es ein und klicke auf Aktualisieren.
+Der PC ({0}) ist nicht erreichbar. Seid ihr im selben WLAN? Läuft das Senden am PC?
+Neon
+Keine Gruppe.
+Keine Songs. Empfange ein Paket vom PC.
+Kein Instrument verbunden – die Einstellung wurde nur im Programm übernommen.
+Sprache
+Sprache und Anzeigemodus…
+Öffne links ein WAV-Sample.
+Öffne links eine oder mehrere WAV-Dateien.
+Achtel
+Name
+Info und Tastenkürzel
+Unbenannter Song
+Ansicht
+Ansicht: Text, Noten oder beides
+OTS-Abruf per MIDI: wird anhand der Data List des Modells ergänzt
+Oktave
+Seite
+Seite entsperren
+Seite sperren (kein Blättern)
+Seiten tauschen
+One Touch Settings
+Orgel
+Spalten:
+PC
+PC-Adresse (z. B. 192.168.1.20)
+PC wird im WLAN gesucht…
+PC-Modus: Bearbeiten und Gestalten. Tablet und Handy: Vorschau, genau so, wie es auf dem Mobilgerät erscheint.
+Pad / Streicher
+Panel-Transparenz
+Panelfarbe
+Registrierungsbänke
+Registrierung
+Rhythmisches Raster (Quantisierung):
+Rhythmus
+Rhythmus (rechts)
+Rhythmus-Panel
+Rhythmus und Style
+Rhythmus-Panel-Editor
+Rhythmus-Panel-Editor…
+Part {0}: CC7 {1} → {2}
+Layer (V1–V4)
+Blechbläser
+Eigener Hintergrund für diese Leiste
+Eigenes Hintergrundbild
+Eckenrundung
+Smaragd
+SoundNexus Pro gestartet.
+SoundNexus-Pro-Auftrittspaket
+SoundNexus-Pro-Projekt
+Stabilen Abschnitt und Loop-Punkte suchen
+Start
+Start / Stop
+Stop
+Style
+Style (am Instrument)
+Style Start
+Style Stop
+Style-Lautstärke-Normalisierung
+Style: {0}
+Abschnitt:
+Abschnitte
+Bearbeiten
+Editor- und Live-Steuerprogramm für Yamaha Genos 2, Genos, Tyros 5, Tyros 4 und PSR-SX.
+Sync
+Mit dem Instrument synchronisieren
+Sync-Taste
+Berechnen
+Carbon
+Farbe
+Farbe hinzufügen
+Farbe wählen
+Farbe löschen
+Farben ebenfalls drehen
+Solo
+Eckig
+Text
+Text und Akkorde
+Leistenstil
+Leistenstil: {0}
+Leistenstile
+Beschädigte Übertragung (Prüfsumme stimmt nicht). Bitte erneut versuchen.
+Abdunkeln
+Hilfe
+TAP-Tempo
+Tablet
+Tablet-Vorschau – so erscheint die Oberfläche auf einem Tablet (Bearbeiten nur im PC-Modus)
+Tablet: drei Spalten nebeneinander. Handy: der Song in der Mitte, Voices und Rhythmus seitlich ausziehbar.
+Handy
+Handy-Vorschau – so erscheint die Oberfläche auf einem Handy (Bearbeiten nur im PC-Modus)
+Ganzes Bild
+Tempo
+Tempo (BPM)
+Tempo +
+Tempo und Taktart übernehmen ({0} BPM, {1}/4)
+Tempo −
+Testmodus
+Testmodus: Befehle werden nicht an das Instrument gesendet.
+Sechzehntel
+Transponieren
+Thema
+Thema und Farben
+Thema und Farben…
+Abstand
+Löschen
+Letzte Farbe löschen
+Nachhall und Rauschen am Ende entfernen
+Nahtübereinstimmung
+Anschlagkurve
+Zurück in den PC-Modus
+Zurück zu SoundNexus Pro
+Streicher
+V{0}: {1} gesendet (Kan. {2})
+Schneiden starten
+Warte auf das Mobilgerät…
+WAV-Dateien öffnen
+WAV-Sample
+WAV öffnen
+Rauschpegel
+Klavier
+[G]Text [D]mit Akkorden\n{Main A} Abschnitt\n# Kommentar
+die übrigen Samples sind bitgleich mit dem Original; kein Resampling, keine Änderung der Bittiefe
+Anfang −{0} ms · Ende −{1} ms
+Format unverändert ✓
+alle Tasten sind im Panel
+keiner (Samples unverändert)
+laut Panel
+laut Thema
+Nahtübereinstimmung {0}%
+{0} (Original: {1})
+{0} ({1} Noten)
+{0} / {1} ist leer. Zum Speichern: Speichern, dann die Nummer.
+{0} Dateien ausgewählt
+{0} Dateien gespeichert in: {1}
+{0} Voices
+{0} ms ({1} Samples)
+{0} ms langer Loop
+{0} s · {1} Samples · {2}
+Sample {0}
+Sample {0} ({1} ms)
+Farbe {0}
+{Main A}\n[C]Schreibe hier den Text
+Transparenz
+Verlaufsrichtung
+Verlauf: Farbe hinzufügen
+Verlauf
+Mitternachtsblau
+Ozean
+Neue Bank
+Neue Gruppe
+Neuer Song
+Neuer Song…
+Neue Voice
+Neues Projekt
+Neues Projekt.
+Erneut
+Takte / Zeile
+Taktart

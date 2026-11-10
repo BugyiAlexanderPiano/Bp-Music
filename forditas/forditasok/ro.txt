@@ -1,0 +1,438 @@
+sau
+(fără rețea)
+. Stil: {0} – selectează-l pe instrument.
+1. Wi-Fi (recomandat)
+2. Ca fișier (cablu USB, Bluetooth, AirDrop)
+Fișierul MIDI nu poate fi citit: {0}
+PC-ul a semnalat o eroare ({0}).
+Pe PC: Fișier → Trimite pe tabletă / telefon → Pornește trimiterea.
+Pachet de concert: {0} melodii, {1} bănci, {2} KB. Pe mobil poate fi doar folosit, nu editat.
+Fișierul nu este un proiect SoundNexus Pro sau este deteriorat: {0}
+Fișierul nu poate fi deschis: {0}
+Imaginea este prea mare (max. 3 MB). Micșoreaz-o și încearcă din nou.
+Trimiterea nu poate porni: {0}
+Partea dinaintea sfârșitului buclei se mixează cu partea dinaintea începutului buclei (equal-power).
+Salvarea a eșuat: {0}
+Proiectul s-a modificat. Continui fără salvare?
+Stilul îl alegi pe instrument; de aici controlezi pornirea, secțiunile și tempoul.
+Textul nu poate fi citit (necesită UTF-8): {0}
+Pe tabletă / telefon: SoundNexus Pro → Primește de la PC, apoi introdu acest cod:
+Întregul MIDI se atașează la melodie: pe tabletă, butonul „Redă melodia” îl cântă pe instrument.
+Îmbinarea mărită: sfârșitul buclei (stânga) → începutul buclei (dreapta). Tranziție lină = fără clic.
+Introdu adresa PC-ului și codul de 6 cifre.
+Inserează acord:
+Acorduri
+Rândul curent
+Aranjament implicit
+Bibliotecă de voci implicită
+Nota de bază
+Nota de bază (MIDI):
+Resetare
+Aplică
+Aplicat: {0}{1} dB
+Bara de jos…
+Bara de control de jos
+Editorul barei de jos
+Editorul barei de jos…
+Auriu
+Auroră
+Automat
+Transcriere automată din MP3/MP4: etapa B
+Aspectul fiecărui buton (de ex. OTS 1–4, registrație 1–8, V1–V4) îl setezi în fereastra principală din Vizualizare → Editare interfață, dând clic pe buton.
+Gradientul se rotește încet
+Banca 1
+Banca {0}
+Banca {0} / {1}
+Bas
+Apelat: {0} / {1}
+Activat
+Melodie demo
+Linie melodică demo
+Proiect demo
+Încărcare și formă de undă
+Dimensiunea fontului
+Font
+Font și culori ale textului
+Font și text…
+Închide
+Setări
+Setări: limbă, mod PC / Tabletă / Telefon
+Setări: limbă, mod Tabletă / Telefon
+Scurtături: Ctrl+N nou · Ctrl+O deschide · Ctrl+S salvează · Ctrl+Shift+S salvează ca · Ctrl+E editează melodia · F5 sincronizare · ←/→ pagină · Spațiu Start/Stop
+Zonă de claviatură: {0} – {1}
+Sigur ștergi „{0}”?
+Căutare Bluetooth
+Break
+Purpuriu
+Valori CC7 separate prin spații
+Fără crossfade, eșantioanele rămân neatinse.
+Doar imagine (fără etichetă)
+Doar la atingere puternică (vel ≥ {0})
+Taie liniștea de la început
+Analiză liniște și stingere, tăiere
+Salvează pachetul (.snxshow)
+Numele grupului
+Șterge grupul
+Grupuri, voci, ordine, coloane, aspectul butoanelor
+Nivel de vârf
+Țintă: −18 LUFS. Introdu volumul măsurat al stilului și valorile CC7 actuale ale părților.
+Titlu
+Melodie
+Melodia mai sus
+Melodia mai jos
+Melodie importată: {0}
+Redă melodia
+Redă melodia pe instrument (MIDI atașat)
+Editează melodia
+Editează melodia (Ctrl+E)
+Editează melodia…
+Șterge melodia
+Versuri (centru)
+Importă versuri (.txt)…
+Durata unei rotații
+Se pot alege unul sau mai multe fișiere (procesare în lot).
+Uniform
+Altele
+Această melodie nu are încă partitură.\nPe PC: Editează melodia → Partitură → Importă MIDI.
+La această melodie nu este atașat niciun MIDI. Pe PC: Editează melodia → Partitură → Importă MIDI.
+La început
+Ordinea elementelor (de la stânga la dreapta), adăugare, eliminare, aspect
+Elemente – ordinea listei = ordinea barei de la stânga la dreapta
+Trimis: {0} BPM, {1}, straturi: {2}{3}
+Verificare: format, adâncime de biți
+Verificare: îmbinare, format
+Estompare
+Adaugă prima melodie
+Elimină
+Artist
+Conectează-te mai întâi la instrument (Instrument → Conectare).
+Conectează-te mai întâi la instrument.
+Previzualizare
+Previzualizare: partitură
+Previzualizare: text
+Melodia anterioară
+Ending A
+Ending B
+Ending C
+Original (roșu = partea tăiată)
+Rezultat
+Dispozitiv:
+Instrumente
+ATENȚIE: formatul diferă
+Suflători de lemn
+Procesare…
+Etichetă
+Culoarea etichetei
+Mod concert · demo
+Mod concert · {0}
+Deblochează
+Interfață
+Editare interfață (butoane, bare)
+Editare interfață: dă clic pe orice buton pentru a-i schimba aspectul (imagine, etichetă, culoare, dimensiune); cu pensula portocalie din colțul barelor stilizezi întreaga bară; liniile de separare se pot trage.
+Atenție: sunet cu atac lent (de ex. pad) – ascultă dacă începutul sunetului nu a fost tăiat.
+Fill In
+Primit: {0}
+Primește de la PC
+Continuă fără salvare
+Reîmprospătează
+Fișier
+Chitară
+Aspectul butonului
+Buton: {0}
+Dimensiunea butoanelor
+Butoane
+Butoane (trage pentru reordonare)
+Ordinea butoanelor, adăugare, eliminare, coloane, aspect
+Culoarea butonului
+Pornește derularea (ceas intern)
+Oprește derularea
+Dacă paravanul de protecție Windows întreabă, permite accesul „Rețea privată”.
+Dacă mobilul nu găsește singur calculatorul, introdu această adresă: {0}
+Volum
+Diferența de nivel între cele două capete
+Normalizare volum…
+Eșantion (evidențiat: bucla)
+Tonalitate
+Tonalitate: {0}
+Instrument
+Voce (Bank MSB / LSB / Program)
+Trimite vocea
+Panou de voci
+Editorul panoului de voci
+Editorul panoului de voci…
+Grupuri de voci (trage pentru reordonare)
+Voci
+Voci (Bank MSB / LSB / Program din lista instrumentului)
+Voci (stânga)
+Date invalide.
+Cod greșit
+Cod greșit.
+Unde?
+Adaugă:
+Fundal
+Imagine de fundal
+Culoare de fundal
+Secțiunea de start
+Intro A
+Intro B
+Intro C
+Gheață
+Conectat: {0}
+Conectare
+Conectare la instrument
+Eroare de conectare
+Se conectează…
+Capsulă
+Final fără clic (fade 5–20 ms)
+Puncte de buclă fără clic pentru eșantioane susținute · bloc smpl (Yamaha Expansion Manager, samplere)
+Se caută…
+Culoarea chenarului
+Grosimea chenarului
+Prag de atac
+Culoare de accent
+Dezactivat: se folosește culoarea panoului din temă
+Ieșire
+Cel mai bine merge un sunet susținut (corzi, pad, orgă, cor).
+Umplere
+Selectează
+Partitură (melodie + acorduri)
+Creează partitura
+Partitură și text împreună
+Varianta partiturii
+Partitură:
+Partitură: {0}
+Imagine pe buton
+Încarcă imagine
+Încarcă imagine
+Vizibilitatea imaginii
+Imagini
+Gata
+Teme predefinite
+Gata, înapoi
+Gata. Încă nesalvat.
+Cod (6 cifre)
+Cor
+Cor, pad
+Cerc
+Melodia următoare
+Trimite
+Pornește trimiterea
+Trimite pe tabletă / telefon
+Trimite pe tabletă / telefon…
+Lacăt
+Prag de stingere
+Cea mai scurtă buclă
+Redare
+Redare pe instrument: {0} ({1} BPM)
+Redare oprită.
+Oprește redarea
+Rotunjit
+Descărcat pe {0} dispozitive ✓
+Descarcă
+Se descarcă…
+Lavandă
+Tăiat de la sfârșit
+Tăiat de la început
+Fade final
+Oprește
+Lungimea buclei
+Începutul buclei
+Caută punctele buclei
+Sfârșitul buclei
+Vizibilitate
+Lavă
+Intrare MIDI (de la instrument):
+Canal MIDI:
+Importă MIDI…
+Ieșire MIDI (spre instrument):
+Main A
+Main A–D
+Main B
+Main C
+Main D
+Rest (în volumul stilului): {0} dB
+Mod de afișare
+Deschis: {0}
+Deschide din fișier (.snxshow)
+Deschide…
+Care pistă este melodia?
+Modificări nesalvate
+Salvează pachetul, copiază-l pe mobil (pe Android în dosarul Descărcări, pe iPhone/iPad în aplicația Fișiere), apoi pe mobil: Primește → Deschide din fișier.
+Salvat: {0}
+Salvat: {0} / {1}
+Salvează
+Salvează aici
+Salvează ca…
+Salvează…
+Rând de versuri exemplu
+Tăiere a liniștii și stingerii la nivel de eșantion · eșantioanele rămase sunt identice bit cu bit
+Calitate
+Mozaic
+Gradient animat
+A doua melodie
+Anulează
+Dimensiune
+Resetează dimensiunile
+Volum măsurat (LUFS)
+Apus
+Nu s-a putut conecta la instrument.
+Nu s-a găsit niciun dispozitiv MIDI. Conectează instrumentul cu un cablu USB-C / OTG (la mufa USB TO HOST a instrumentului) sau folosește un adaptor MIDI Bluetooth.
+Nu s-a găsit niciun dispozitiv MIDI. Conectează instrumentul cu un cablu USB (USB TO HOST), pornește-l, apoi dă clic pe Reîmprospătează.
+PC-ul ({0}) nu este accesibil. Sunteți pe aceeași rețea Wi-Fi? Rulează trimiterea pe PC?
+Neon
+Niciun grup.
+Nicio melodie. Primește un pachet de la PC.
+Niciun instrument conectat – setarea s-a aplicat doar în program.
+Limbă
+Limbă și mod de afișare…
+Deschide un eșantion WAV în stânga.
+Deschide unul sau mai multe fișiere WAV în stânga.
+Optime
+Nume
+Despre și scurtături
+Melodie fără titlu
+Vizualizare
+Vizualizare: text, partitură sau ambele
+Apel OTS prin MIDI: va fi adăugat pe baza Data List a modelului
+Octavă
+Pagină
+Deblochează pagina
+Blochează pagina (fără derulare)
+Schimbă paginile
+One Touch Settings
+Orgă
+Coloane:
+PC
+Adresa PC-ului (de ex. 192.168.1.20)
+Se caută PC-ul în rețeaua Wi-Fi…
+Mod PC: editare și design. Tabletă și Telefon: previzualizare, exact cum va apărea pe mobil.
+Pad / corzi
+Transparența panoului
+Culoarea panoului
+Bănci de registrație
+Registrație
+Grilă ritmică (cuantizare):
+Ritm
+Ritm (dreapta)
+Panou ritm
+Ritm și stil
+Editorul panoului de ritm
+Editorul panoului de ritm…
+Partea {0}: CC7 {1} → {2}
+Straturi (V1–V4)
+Alămuri
+Fundal propriu pentru această bară
+Imagine de fundal proprie
+Rotunjirea colțurilor
+Smarald
+SoundNexus Pro a pornit.
+Pachet de concert SoundNexus Pro
+Proiect SoundNexus Pro
+Caută secțiunea stabilă și punctele buclei
+Start
+Start / Stop
+Stop
+Stil
+Stil (pe instrument)
+Style Start
+Style Stop
+Normalizarea volumului stilului
+Stil: {0}
+Secțiune:
+Secțiuni
+Editare
+Program de editare și control live pentru Yamaha Genos 2, Genos, Tyros 5, Tyros 4 și PSR-SX.
+Sincronizare
+Sincronizează cu instrumentul
+Buton de sincronizare
+Calculează
+Cărbune
+Culoare
+Adaugă culoare
+Alege culoarea
+Șterge culoarea
+Rotește și culorile
+Solo
+Pătrat
+Text
+Text și acorduri
+Stilul barei
+Stilul barei: {0}
+Stilurile barelor
+Transfer deteriorat (suma de control nu corespunde). Încearcă din nou.
+Întunecare
+Ajutor
+Tempo TAP
+Tabletă
+Previzualizare tabletă – așa apare interfața pe tabletă (editare doar în modul PC)
+Tabletă: trei coloane alăturate. Telefon: melodia la mijloc, vocile și ritmul glisează din lateral.
+Telefon
+Previzualizare telefon – așa apare interfața pe telefon (editare doar în modul PC)
+Imagine întreagă
+Tempo
+Tempo (BPM)
+Tempo +
+Preia tempoul și măsura ({0} BPM, {1}/4)
+Tempo −
+Mod test
+Mod test: comenzile nu sunt trimise la instrument.
+Șaisprezecime
+Transpunere
+Temă
+Temă și culori
+Temă și culori…
+Spațiere
+Șterge
+Șterge ultima culoare
+Taie reverberația și zgomotul de la sfârșit
+Potrivirea îmbinării
+Curbă de velocitate
+Înapoi la modul PC
+Înapoi la SoundNexus Pro
+Corzi
+V{0}: {1} trimis (can. {2})
+Pornește tăierea
+Se așteaptă mobilul…
+Deschide fișiere WAV
+Eșantion WAV
+Deschide WAV
+Nivel de zgomot
+Pian
+[G]Text [D]cu acorduri\nsecțiunea {Main A}\n# comentariu
+eșantioanele rămase sunt identice bit cu bit cu originalul; fără reeșantionare, fără schimbarea adâncimii de biți
+început −{0} ms · sfârșit −{1} ms
+format neschimbat ✓
+toate butoanele sunt pe panou
+niciunul (eșantioane neatinse)
+după panou
+după temă
+potrivirea îmbinării {0}%
+{0} (original: {1})
+{0} ({1} note)
+{0} / {1} este gol. Pentru memorare: Salvează, apoi numărul.
+Fișiere selectate: {0}
+{0} fișiere salvate în: {1}
+Voci: {0}
+{0} ms ({1} eșantioane)
+buclă de {0} ms
+{0} s · {1} eșantioane · {2}
+eșantionul {0}
+eșantionul {0} ({1} ms)
+culoarea {0}
+{Main A}\n[C]Scrie textul aici
+Transparență
+Direcția gradientului
+Gradient: adaugă culoare
+Gradient
+Albastru de miezul nopții
+Ocean
+Bancă nouă
+Grup nou
+Melodie nouă
+Melodie nouă…
+Voce nouă
+Proiect nou
+Proiect nou.
+Reîncearcă
+Măsuri / rând
+Măsură

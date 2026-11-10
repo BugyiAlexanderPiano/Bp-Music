@@ -15,7 +15,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 
+import '../i18n/i18n.dart';
 import '../midi/midi_backend.dart';
+import '../settings.dart';
 import '../model/project.dart';
 import '../reader/teleprompter_controller.dart';
 import '../transfer/transfer.dart';
@@ -33,8 +35,7 @@ import 'song_view.dart';
 
 /// PC = szerkesztő mód. (Teszteléshez az SNX_FORCE_MOBILE=1 környezeti változóval
 /// a PC is elindítható fellépő módban.)
-bool get isDesktop =>
-    (Platform.isWindows || Platform.isMacOS || Platform.isLinux) && Platform.environment['SNX_FORCE_MOBILE'] != '1';
+bool get isDesktop => AppSettings.instance.effective() == UiMode.pc;
 
 class Section {
   const Section(this.label, this.code);
@@ -46,9 +47,9 @@ const intros = [Section('Intro A', 0x00), Section('Intro B', 0x01), Section('Int
 const mains = [Section('Main A', 0x08), Section('Main B', 0x09), Section('Main C', 0x0A), Section('Main D', 0x0B)];
 const endings = [Section('Ending A', 0x20), Section('Ending B', 0x21), Section('Ending C', 0x22)];
 
-const _projectTypes = [
-  XTypeGroup(label: 'SoundNexus Pro projekt', extensions: [Project.fileExtension, ...Project.legacyExtensions]),
-];
+List<XTypeGroup> get _projectTypes => [
+      XTypeGroup(label: tr('SoundNexus Pro projekt'), extensions: const [Project.fileExtension, ...Project.legacyExtensions]),
+    ];
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -57,12 +58,14 @@ class HomePage extends StatefulWidget {
     required this.initialPath,
     required this.onProjectReplaced,
     required this.onThemeChanged,
+    required this.onSettingsChanged,
   });
 
   final Project project;
   final String? initialPath;
   final ValueChanged<Project> onProjectReplaced;
   final VoidCallback onThemeChanged;
+  final VoidCallback onSettingsChanged;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -109,7 +112,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   bool saveMode = false;
   int? activeReg;
 
-  final logLines = <String>['SoundNexus Pro elindult.'];
+  final logLines = <String>[tr('SoundNexus Pro elindult.')];
 
   // -------------------------------------------------------------------------
   @override
@@ -119,7 +122,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     _rebuildReader();
     _ticker = createTicker(_onTick)..start();
     // Teszteléshez (CI képernyőképek): SNX_OPEN=sample | loop | voices | rhythm | bottom
-    final open = isDesktop ? Platform.environment['SNX_OPEN'] : null;
+    final open = AppSettings.platformIsDesktop ? Platform.environment['SNX_OPEN'] : null;
     if (open != null && open.isNotEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         final page = switch (open) {
@@ -131,9 +134,25 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           _ => null,
         };
         if (page != null) _openEditor(page);
+        switch (open) {
+          case 'settings':
+            _settingsDialog();
+          case 'song':
+            _editSong();
+          case 'theme':
+            showThemeDialog(context, p, () => _changed(theme: true));
+          case 'send':
+            showSendDialog(context, p);
+          case 'connect':
+            _connectDialog();
+          case 'slot':
+            showSlotDialog(context, 0, p.slots[0], () {}, () {});
+          case 'about':
+            _about();
+        }
       });
     }
-    if (!isDesktop) {
+    if (!AppSettings.platformIsDesktop) {
       // Fellépő mód: az utoljára fogadott csomag betöltése
       loadShowOnDevice().then((show) {
         if (show != null && mounted) widget.onProjectReplaced(show);
@@ -185,7 +204,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   }
 
   void _writeAutosave() {
-    if (!isDesktop) return; // a mobilon a fogadott csomag a forrás
+    if (!AppSettings.platformIsDesktop) return; // a mobilon a fogadott csomag a forrás
     try {
       Project.appDataDir.createSync(recursive: true);
       Project.autosaveFile.writeAsStringSync(p.toFileString());
@@ -228,16 +247,16 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       player.stop();
       reader.stop();
       setState(() {});
-      log('Lejátszás leállítva.');
+      log(tr('Lejátszás leállítva.'));
       return;
     }
     final sc = song?.score;
     if (sc?.midiB64 == null) {
-      log('Ehhez a dalhoz nincs csatolt MIDI. A PC-n: Dal szerkesztése → Kotta → MIDI importálása.');
+      log(tr('Ehhez a dalhoz nincs csatolt MIDI. A PC-n: Dal szerkesztése → Kotta → MIDI importálása.'));
       return;
     }
     if (!connected) {
-      log('Előbb kapcsolódj a hangszerhez.');
+      log(tr('Előbb kapcsolódj a hangszerhez.'));
       return;
     }
     player.onFinished = () {
@@ -250,7 +269,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       ..setBpm(bpm)
       ..startInternal();
     setState(() {});
-    log('Lejátszás a hangszeren: ${song!.title} (${bpm.round()} BPM)');
+    log(tr('Lejátszás a hangszeren: {0} ({1} BPM)', [song!.title, bpm.round()]));
   }
 
   void _onTick(Duration elapsed) {
@@ -289,11 +308,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     final r = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Mentetlen változások'),
-        content: const Text('A projekt módosult. Folytatod mentés nélkül?'),
+        title: Text(tr('Mentetlen változások')),
+        content: Text(tr('A projekt módosult. Folytatod mentés nélkül?')),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Mégse')),
-          FilledButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('Folytatás mentés nélkül')),
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(tr('Mégse'))),
+          FilledButton(onPressed: () => Navigator.pop(ctx, true), child: Text(tr('Folytatás mentés nélkül'))),
         ],
       ),
     );
@@ -303,13 +322,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   Future<void> _newProject() async {
     if (!await _confirmDiscard()) return;
     final np = Project()
-      ..songs.add(Song(title: 'Új dal', body: '{Main A}\n[C]Ide írd a szöveget'));
+      ..songs.add(Song(title: tr('Új dal'), body: tr('{Main A}\n[C]Ide írd a szöveget')));
     np.theme.loadJson(p.theme.toJson());
     np.layout.loadJson(p.layout.toJson());
     currentPath = null;
     dirty = false;
     widget.onProjectReplaced(np);
-    log('Új projekt.');
+    log(tr('Új projekt.'));
   }
 
   Future<void> _openProject() async {
@@ -321,9 +340,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       currentPath = f.path;
       dirty = false;
       widget.onProjectReplaced(np);
-      log('Megnyitva: ${f.path}');
+      log(tr('Megnyitva: {0}', [f.path]));
     } catch (e) {
-      log('A fájl nem SoundNexus Pro projekt vagy sérült: $e');
+      log(tr('A fájl nem SoundNexus Pro projekt vagy sérült: {0}', [e]));
     }
   }
 
@@ -346,14 +365,14 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         dirty = false;
       });
       _writeAutosave();
-      log('Mentve: $path');
+      log(tr('Mentve: {0}', [path]));
     } catch (e) {
-      log('A mentés nem sikerült: $e');
+      log(tr('A mentés nem sikerült: {0}', [e]));
     }
   }
 
   Future<void> _importLyrics() async {
-    final f = await openFile(acceptedTypeGroups: const [XTypeGroup(label: 'Szöveg', extensions: ['txt', 'cho', 'pro'])]);
+    final f = await openFile(acceptedTypeGroups: [XTypeGroup(label: tr('Szöveg'), extensions: ['txt', 'cho', 'pro'])]);
     if (f == null) return;
     try {
       final text = (await File(f.path).readAsString()).replaceAll('\r\n', '\n');
@@ -361,9 +380,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       setState(() => p.songs.add(Song(title: title, body: text)));
       _changed();
       _goToPage(p.songs.length - 1);
-      log('Dal importálva: $title');
+      log(tr('Dal importálva: {0}', [title]));
     } catch (e) {
-      log('A szöveg nem olvasható (UTF-8 kell): $e');
+      log(tr('A szöveg nem olvasható (UTF-8 kell): {0}', [e]));
     }
   }
 
@@ -387,7 +406,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   }
 
   Future<void> _addSong() async {
-    final s = Song(title: 'Új dal', body: '{Main A}\n[C]Ide írd a szöveget');
+    final s = Song(title: tr('Új dal'), body: tr('{Main A}\n[C]Ide írd a szöveget'));
     final edited = await showSongEditor(context, s, p.theme, p.banks.length);
     if (edited == null) return;
     setState(() => p.songs.insert(p.songs.isEmpty ? 0 : page + 1, edited));
@@ -401,11 +420,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     final ok = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Dal törlése'),
-        content: Text('Biztosan törlöd: „${s.title}”?'),
+        title: Text(tr('Dal törlése')),
+        content: Text(tr('Biztosan törlöd: „{0}”?', [s.title])),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Mégse')),
-          FilledButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('Törlés')),
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(tr('Mégse'))),
+          FilledButton(onPressed: () => Navigator.pop(ctx, true), child: Text(tr('Törlés'))),
         ],
       ),
     );
@@ -463,7 +482,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           }
 
           return AlertDialog(
-            title: const Text('Kapcsolódás a hangszerhez'),
+            title: Text(tr('Kapcsolódás a hangszerhez')),
             content: SizedBox(
               width: 460,
               child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -471,13 +490,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   Padding(
                     padding: const EdgeInsets.only(bottom: 12),
                     child: Text(mobile
-                        ? 'Nem található MIDI-eszköz. Csatlakoztasd a hangszert USB-C / OTG kábellel '
-                            '(a hangszer USB TO HOST aljzatába), vagy keress Bluetooth MIDI adaptert.'
-                        : 'Nem található MIDI-eszköz. Csatlakoztasd a hangszert USB-kábellel '
-                            '(USB TO HOST), kapcsold be, majd kattints a Frissítés gombra.'),
+                        ? tr('Nem található MIDI-eszköz. Csatlakoztasd a hangszert USB-C / OTG kábellel (a hangszer USB TO HOST aljzatába), vagy keress Bluetooth MIDI adaptert.')
+                        : tr('Nem található MIDI-eszköz. Csatlakoztasd a hangszert USB-kábellel (USB TO HOST), kapcsold be, majd kattints a Frissítés gombra.')),
                   ),
                 if (mobile) ...[
-                  const Text('Eszköz:'),
+                  Text(tr('Eszköz:')),
                   DropdownButton<int>(
                     isExpanded: true,
                     value: outSel,
@@ -489,7 +506,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     onChanged: (v) => setD(() => outSel = inSel = v),
                   ),
                 ] else ...[
-                  const Text('MIDI bemenet (a hangszerről):'),
+                  Text(tr('MIDI bemenet (a hangszerről):')),
                   DropdownButton<int>(
                     isExpanded: true,
                     value: inSel,
@@ -498,7 +515,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     onChanged: (v) => setD(() => inSel = v),
                   ),
                   const SizedBox(height: 8),
-                  const Text('MIDI kimenet (a hangszer felé):'),
+                  Text(tr('MIDI kimenet (a hangszer felé):')),
                   DropdownButton<int>(
                     isExpanded: true,
                     value: outSel,
@@ -511,18 +528,18 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               ]),
             ),
             actions: [
-              TextButton(onPressed: scanning ? null : () => refresh(), child: const Text('Frissítés')),
+              TextButton(onPressed: scanning ? null : () => refresh(), child: Text(tr('Frissítés'))),
               if (mobile)
                 TextButton.icon(
                   onPressed: scanning ? null : () => refresh(bt: true),
                   icon: const Icon(Icons.bluetooth_searching),
-                  label: const Text('Bluetooth keresés'),
+                  label: Text(tr('Bluetooth keresés')),
                 ),
               if (midi.supportsTestMode)
-                TextButton(onPressed: () => Navigator.pop(ctx, 'test'), child: const Text('Teszt mód')),
+                TextButton(onPressed: () => Navigator.pop(ctx, 'test'), child: Text(tr('Teszt mód'))),
               FilledButton(
                 onPressed: outSel == null ? null : () => Navigator.pop(ctx, 'connect'),
-                child: const Text('Kapcsolódás'),
+                child: Text(tr('Kapcsolódás')),
               ),
             ],
           );
@@ -539,17 +556,17 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     setState(() {
       connected = ok;
       testMode = result == 'test';
-      connectionLabel = !ok ? 'Kapcsolódási hiba' : (testMode ? 'Teszt mód' : outs[outSel!].name);
+      connectionLabel = !ok ? tr('Kapcsolódási hiba') : (testMode ? tr('Teszt mód') : outs[outSel!].name);
     });
     if (!ok) {
-      log('Nem sikerült kapcsolódni a hangszerhez.');
+      log(tr('Nem sikerült kapcsolódni a hangszerhez.'));
       return;
     }
     midi.onRealtime(_onRealtime);
     for (var i = 0; i < p.slots.length; i++) {
       _applyZone(i);
     }
-    log(testMode ? 'Teszt mód: a parancsok nem mennek hangszerre.' : 'Kapcsolódva: $connectionLabel');
+    log(testMode ? tr('Teszt mód: a parancsok nem mennek hangszerre.') : tr('Kapcsolódva: {0}', [connectionLabel]));
   }
 
   void _applyZone(int i) {
@@ -564,11 +581,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   void _sendVoice(int i) {
     final s = p.slots[i];
     if (!connected) {
-      log('Előbb kapcsolódj a hangszerhez (Hangszer → Kapcsolódás).');
+      log(tr('Előbb kapcsolódj a hangszerhez (Hangszer → Kapcsolódás).'));
       return;
     }
     midi.voice(s.channel, s.msb, s.lsb, s.program, s.volume);
-    log('V${i + 1}: ${s.name} elküldve (ch${s.channel + 1})');
+    log(tr('V{0}: {1} elküldve (ch{2})', [i + 1, s.name, s.channel + 1]));
   }
 
   void _assignVoice(int i, VoicePreset v) {
@@ -641,9 +658,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     }
     reader.reset();
     final msg = connected
-        ? 'Elküldve: ${s.bpm.round()} BPM, ${mains.firstWhere((m) => m.code == s.mainSection, orElse: () => mains.first).label}, '
-            '$layers réteg${s.style.isNotEmpty ? '. Stílus: ${s.style} – ezt válaszd ki a hangszeren.' : '.'}'
-        : 'Nincs hangszer csatlakoztatva – a beállítás csak a programban történt meg.';
+        ? tr('Elküldve: {0} BPM, {1}, {2} réteg{3}', [s.bpm.round(), mains.firstWhere((m) => m.code == s.mainSection, orElse: () => mains.first).label, layers, s.style.isNotEmpty ? tr('. Stílus: {0} – ezt válaszd ki a hangszeren.', [s.style]) : '.'])
+        : tr('Nincs hangszer csatlakoztatva – a beállítás csak a programban történt meg.');
     log(msg);
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
   }
@@ -661,7 +677,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         activeReg = i;
       });
       _changed();
-      log('Mentve: ${p.banks[bank].name} / ${i + 1}');
+      log(tr('Mentve: {0} / {1}', [p.banks[bank].name, i + 1]));
       return;
     }
     _recallReg(bank, i);
@@ -671,7 +687,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     if (b >= p.banks.length) return;
     final r = p.banks[b].slots[i];
     if (r == null) {
-      if (!quiet) log('${p.banks[b].name} / ${i + 1} üres. Mentéshez: Mentés, majd a szám.');
+      if (!quiet) log(tr('{0} / {1} üres. Mentéshez: Mentés, majd a szám.', [p.banks[b].name, i + 1]));
       return;
     }
     setState(() {
@@ -690,10 +706,66 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         midi.voice(p.slots[k].channel, p.slots[k].msb, p.slots[k].lsb, p.slots[k].program, p.slots[k].volume);
       }
     }
-    if (!quiet) log('Behívva: ${p.banks[b].name} / ${i + 1}');
+    if (!quiet) log(tr('Behívva: {0} / {1}', [p.banks[b].name, i + 1]));
   }
 
   // ---- eszközök ----
+  /// Nyelv és megjelenési mód
+  Future<void> _settingsDialog() async {
+    final st = AppSettings.instance;
+    var lang = st.lang;
+    var mode = st.mode;
+    final desktop = AppSettings.platformIsDesktop;
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setD) => AlertDialog(
+          title: Text(tr('Beállítások')),
+          content: SizedBox(
+            width: 460,
+            child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(tr('Nyelv'), style: const TextStyle(fontWeight: FontWeight.w600)),
+              DropdownButton<String>(
+                isExpanded: true,
+                value: lang,
+                items: [for (final e in languages.entries) DropdownMenuItem(value: e.key, child: Text(e.value))],
+                onChanged: (v) => setD(() => lang = v!),
+              ),
+              const SizedBox(height: 16),
+              Text(tr('Megjelenési mód'), style: const TextStyle(fontWeight: FontWeight.w600)),
+              const SizedBox(height: 6),
+              SegmentedButton<UiMode>(
+                segments: [
+                  if (desktop) ButtonSegment(value: UiMode.pc, icon: const Icon(Icons.desktop_windows), label: Text(tr('PC'))),
+                  if (!desktop) ButtonSegment(value: UiMode.auto, icon: const Icon(Icons.auto_mode), label: Text(tr('Automatikus'))),
+                  ButtonSegment(value: UiMode.tablet, icon: const Icon(Icons.tablet_mac), label: Text(tr('Tablet'))),
+                  ButtonSegment(value: UiMode.phone, icon: const Icon(Icons.smartphone), label: Text(tr('Telefon'))),
+                ],
+                selected: {desktop && mode == UiMode.auto ? UiMode.pc : (!desktop && mode == UiMode.pc ? UiMode.auto : mode)},
+                onSelectionChanged: (v) => setD(() => mode = v.first),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                desktop
+                    ? tr('PC mód: szerkesztés és tervezés. Tablet és Telefon: előnézet, pontosan úgy, ahogy a mobilon fog megjelenni.')
+                    : tr('Tablet: három oszlop egymás mellett. Telefon: középen a dal, a hangszínek és a ritmus oldalról kihúzható.'),
+                style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.65)),
+              ),
+            ]),
+          ),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(tr('Mégse'))),
+            FilledButton(onPressed: () => Navigator.pop(ctx, true), child: Text(tr('Alkalmaz'))),
+          ],
+        ),
+      ),
+    );
+    if (ok != true) return;
+    st.lang = lang;
+    st.mode = mode;
+    widget.onSettingsChanged();
+  }
+
   void _editorChanged() {
     _changed(theme: true);
     setState(_rebuildReader);
@@ -708,11 +780,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         context: context,
         applicationName: 'SoundNexus Pro',
         applicationVersion: '0.5',
-        children: const [
-          Text('Szerkesztő és élő vezérlő program Yamaha Genos 2, Genos, Tyros 5, Tyros 4 és PSR-SX hangszerekhez.'),
+        children: [
+          Text(tr('Szerkesztő és élő vezérlő program Yamaha Genos 2, Genos, Tyros 5, Tyros 4 és PSR-SX hangszerekhez.')),
           SizedBox(height: 8),
-          Text('Billentyűparancsok: Ctrl+N új · Ctrl+O megnyitás · Ctrl+S mentés · Ctrl+Shift+S mentés másként · '
-              'Ctrl+E dal szerkesztése · F5 szinkron · ←/→ lapozás · Szóköz Start/Stop'),
+          Text(tr('Billentyűparancsok: Ctrl+N új · Ctrl+O megnyitás · Ctrl+S mentés · Ctrl+Shift+S mentés másként · Ctrl+E dal szerkesztése · F5 szinkron · ←/→ lapozás · Szóköz Start/Stop')),
         ],
       );
 
@@ -720,7 +791,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   // Felület
   // -------------------------------------------------------------------------
   bool get _compact => MediaQuery.sizeOf(context).width < 1300;
-  bool get _phone => !isDesktop && MediaQuery.sizeOf(context).width < 900;
+  bool get _phone => AppSettings.instance.effective(width: MediaQuery.sizeOf(context).width) == UiMode.phone;
   bool get _canEdit => isDesktop; // minden tervezés és szerkesztés csak PC-n
 
   SingleActivator _key(LogicalKeyboardKey k, {bool shift = false}) =>
@@ -804,7 +875,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               right: 4,
               bottom: 4,
               child: IconButton.filled(
-                tooltip: 'Sáv stílusa: ${panelNames[key]}',
+                tooltip: tr('Sáv stílusa: {0}', [tr(panelNames[key] ?? key)]),
                 style: IconButton.styleFrom(backgroundColor: Colors.orangeAccent, foregroundColor: Colors.black),
                 onPressed: () => showPanelStyleDialog(context, p, key, () => _changed(theme: true)),
                 icon: const Icon(Icons.format_paint, size: 18),
@@ -845,77 +916,80 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             ),
             children: [
               SubmenuButton(menuChildren: [
-                item('Új projekt', _newProject, icon: Icons.note_add_outlined, shortcut: _key(LogicalKeyboardKey.keyN)),
-                item('Megnyitás…', _openProject, icon: Icons.folder_open_outlined, shortcut: _key(LogicalKeyboardKey.keyO)),
+                item(tr('Új projekt'), _newProject, icon: Icons.note_add_outlined, shortcut: _key(LogicalKeyboardKey.keyN)),
+                item(tr('Megnyitás…'), _openProject, icon: Icons.folder_open_outlined, shortcut: _key(LogicalKeyboardKey.keyO)),
                 const Divider(height: 1),
-                item('Mentés', () => _saveProject(), icon: Icons.save_outlined, shortcut: _key(LogicalKeyboardKey.keyS)),
-                item('Mentés másként…', () => _saveProject(saveAs: true), icon: Icons.save_as_outlined,
+                item(tr('Mentés'), () => _saveProject(), icon: Icons.save_outlined, shortcut: _key(LogicalKeyboardKey.keyS)),
+                item(tr('Mentés másként…'), () => _saveProject(saveAs: true), icon: Icons.save_as_outlined,
                     shortcut: _key(LogicalKeyboardKey.keyS, shift: true)),
                 const Divider(height: 1),
-                item('Küldés tabletre / telefonra…', () => showSendDialog(context, p), icon: Icons.send_to_mobile),
-                item('Dalszöveg importálása (.txt)…', _importLyrics, icon: Icons.file_download_outlined),
+                item(tr('Küldés tabletre / telefonra…'), () => showSendDialog(context, p), icon: Icons.send_to_mobile),
+                item(tr('Dalszöveg importálása (.txt)…'), _importLyrics, icon: Icons.file_download_outlined),
                 const Divider(height: 1),
-                item('Kilépés', _exit, icon: Icons.logout),
-              ], child: const Text('Fájl')),
+                item(tr('Kilépés'), _exit, icon: Icons.logout),
+              ], child: Text(tr('Fájl'))),
               SubmenuButton(menuChildren: [
-                item('Új dal…', _addSong, icon: Icons.add),
-                item('Dal szerkesztése…', song == null ? null : _editSong, icon: Icons.edit_outlined,
+                item(tr('Új dal…'), _addSong, icon: Icons.add),
+                item(tr('Dal szerkesztése…'), song == null ? null : _editSong, icon: Icons.edit_outlined,
                     shortcut: _key(LogicalKeyboardKey.keyE)),
-                item('Dal törlése', song == null ? null : _deleteSong, icon: Icons.delete_outline),
+                item(tr('Dal törlése'), song == null ? null : _deleteSong, icon: Icons.delete_outline),
                 const Divider(height: 1),
-                item('Dal előrébb', page > 0 ? () => _moveSong(-1) : null, icon: Icons.arrow_back),
-                item('Dal hátrébb', page < p.songs.length - 1 ? () => _moveSong(1) : null, icon: Icons.arrow_forward),
-              ], child: const Text('Szerkesztés')),
+                item(tr('Dal előrébb'), page > 0 ? () => _moveSong(-1) : null, icon: Icons.arrow_back),
+                item(tr('Dal hátrébb'), page < p.songs.length - 1 ? () => _moveSong(1) : null, icon: Icons.arrow_forward),
+              ], child: Text(tr('Szerkesztés'))),
               SubmenuButton(menuChildren: [
-                item('Téma és színek…', () => showThemeDialog(context, p, () => _changed(theme: true)),
+                item(tr('Téma és színek…'), () => showThemeDialog(context, p, () => _changed(theme: true)),
                     icon: Icons.palette_outlined),
-                item('Betűtípus és szöveg…', () => showFontDialog(context, p.theme, () {
+                item(tr('Betűtípus és szöveg…'), () => showFontDialog(context, p.theme, () {
                       _changed(theme: true);
                       setState(_rebuildReader);
                     }), icon: Icons.text_fields),
-                item('Hangszín-panel szerkesztő…', () => _openEditor(VoicePanelEditorPage(project: p, onChanged: _editorChanged)),
+                item(tr('Hangszín-panel szerkesztő…'), () => _openEditor(VoicePanelEditorPage(project: p, onChanged: _editorChanged)),
                     icon: Icons.piano),
-                item('Ritmus-panel szerkesztő…', () => _openEditor(RhythmPanelEditorPage(project: p, onChanged: _editorChanged)),
+                item(tr('Ritmus-panel szerkesztő…'), () => _openEditor(RhythmPanelEditorPage(project: p, onChanged: _editorChanged)),
                     icon: Icons.queue_music),
-                item('Alsó vezérlősáv szerkesztő…', () => _openEditor(BottomBarEditorPage(project: p, onChanged: _editorChanged)),
+                item(tr('Alsó vezérlősáv szerkesztő…'), () => _openEditor(BottomBarEditorPage(project: p, onChanged: _editorChanged)),
                     icon: Icons.view_day),
                 SubmenuButton(menuChildren: [
                   for (final k in panelKeys)
-                    item(panelNames[k]!, () => showPanelStyleDialog(context, p, k, () => _changed(theme: true)),
+                    item(tr(panelNames[k]!), () => showPanelStyleDialog(context, p, k, () => _changed(theme: true)),
                         icon: Icons.format_paint),
-                ], leadingIcon: const Icon(Icons.dashboard_outlined, size: 18), child: const Text('Sávok stílusa')),
+                ], leadingIcon: const Icon(Icons.dashboard_outlined, size: 18), child: Text(tr('Sávok stílusa'))),
                 const Divider(height: 1),
-                check('Felület szerkesztése (gombok, sávok)', editLayout, () => setState(() => editLayout = !editLayout)),
-                check('Hangszín panel', p.layout.showLeft, () {
+                item(tr('Nyelv és megjelenési mód…'), _settingsDialog, icon: Icons.language),
+                const Divider(height: 1),
+                check(tr('Felület szerkesztése (gombok, sávok)'), editLayout, () => setState(() => editLayout = !editLayout)),
+                check(tr('Hangszín panel'), p.layout.showLeft, () {
                   setState(() => p.layout.showLeft = !p.layout.showLeft);
                   _changed();
                 }),
-                check('Ritmus panel', p.layout.showRight, () {
+                check(tr('Ritmus panel'), p.layout.showRight, () {
                   setState(() => p.layout.showRight = !p.layout.showRight);
                   _changed();
                 }),
-              ], child: const Text('Nézet')),
+              ], child: Text(tr('Nézet'))),
               SubmenuButton(menuChildren: [
-                item('Kapcsolódás…', coreError != null ? null : _connectDialog, icon: Icons.usb),
-                item('Szinkron a hangszerre', song == null ? null : _syncSong, icon: Icons.sync,
+                item(tr('Kapcsolódás…'), coreError != null ? null : _connectDialog, icon: Icons.usb),
+                item(tr('Szinkron a hangszerre'), song == null ? null : _syncSong, icon: Icons.sync,
                     shortcut: const SingleActivator(LogicalKeyboardKey.f5)),
                 const Divider(height: 1),
-                item('Stílus Start', _start, icon: Icons.play_arrow),
-                item('Stílus Stop', _stop, icon: Icons.stop),
-              ], child: const Text('Hangszer')),
+                item(tr('Stílus Start'), _start, icon: Icons.play_arrow),
+                item(tr('Stílus Stop'), _stop, icon: Icons.stop),
+              ], child: Text(tr('Hangszer'))),
               SubmenuButton(menuChildren: [
                 item('SoundNexus Sample Studio…', coreError != null ? null : () => _openEditor(SampleStudioPage(project: p)),
                     icon: Icons.content_cut),
                 item('SoundNexus Loop Studio…', coreError != null ? null : () => _openEditor(LoopStudioPage(project: p)),
                     icon: Icons.all_inclusive),
-                item('Hangerő-normalizálás…', () => showNormalizeDialog(context), icon: Icons.equalizer),
-              ], child: const Text('Eszközök')),
+                item(tr('Hangerő-normalizálás…'), () => showNormalizeDialog(context), icon: Icons.equalizer),
+              ], child: Text(tr('Eszközök'))),
               SubmenuButton(menuChildren: [
-                item('Névjegy és billentyűparancsok', _about, icon: Icons.info_outline),
-              ], child: const Text('Súgó')),
+                item(tr('Névjegy és billentyűparancsok'), _about, icon: Icons.info_outline),
+              ], child: Text(tr('Súgó'))),
             ],
           ),
         ),
+        IconButton(tooltip: tr('Beállítások: nyelv, PC / Tablet / Telefon mód'), onPressed: _settingsDialog, icon: const Icon(Icons.settings)),
         Icon(Icons.circle, size: 11, color: connected ? (testMode ? Colors.amber : Colors.greenAccent) : Colors.redAccent),
         const SizedBox(width: 6),
         ConstrainedBox(
@@ -926,21 +1000,21 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         OutlinedButton.icon(
           onPressed: coreError != null ? null : _connectDialog,
           icon: const Icon(Icons.usb, size: 18),
-          label: Text(connected ? 'Újra' : (_compact ? 'MIDI' : 'Kapcsolódás')),
+          label: Text(connected ? tr('Újra') : (_compact ? 'MIDI' : tr('Kapcsolódás'))),
         ),
         const SizedBox(width: 8),
         if (!_compact) ...[
           OutlinedButton.icon(
             onPressed: () => showSendDialog(context, p),
             icon: const Icon(Icons.send_to_mobile, size: 18),
-            label: const Text('Küldés'),
+            label: Text(tr('Küldés')),
           ),
           const SizedBox(width: 8),
         ],
         FilledButton.icon(
           onPressed: song == null ? null : _syncSong,
           icon: const Icon(Icons.sync, size: 18),
-          label: Text(_compact ? 'Szinkron' : 'Szinkron a hangszerre'),
+          label: Text(_compact ? tr('Szinkron') : tr('Szinkron a hangszerre')),
         ),
         const SizedBox(width: 6),
       ]),
@@ -958,7 +1032,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         if (_phone)
           Builder(
             builder: (ctx) => IconButton(
-              tooltip: 'Hangszínek',
+              tooltip: tr('Hangszínek'),
               onPressed: () => Scaffold.of(ctx).openDrawer(),
               icon: const Icon(Icons.piano),
             ),
@@ -968,20 +1042,21 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         Expanded(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(p.name, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontWeight: FontWeight.w700)),
-            Text(p.sourceInfo == null ? 'Fellépő mód · bemutató' : 'Fellépő mód · ${p.sourceInfo}',
+            Text(p.sourceInfo == null ? tr('Fellépő mód · bemutató') : tr('Fellépő mód · {0}', [p.sourceInfo]),
                 maxLines: 1, overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontSize: 11, color: Colors.white.withValues(alpha: 0.6))),
           ]),
         ),
         Icon(Icons.circle, size: 11, color: connected ? Colors.greenAccent : Colors.redAccent),
-        IconButton(tooltip: 'Kapcsolódás a hangszerhez', onPressed: _connectDialog, icon: const Icon(Icons.usb)),
+        IconButton(tooltip: tr('Beállítások: nyelv, Tablet / Telefon mód'), onPressed: _settingsDialog, icon: const Icon(Icons.settings)),
+        IconButton(tooltip: tr('Kapcsolódás a hangszerhez'), onPressed: _connectDialog, icon: const Icon(Icons.usb)),
         IconButton(
-          tooltip: 'Fogadás PC-ről',
+          tooltip: tr('Fogadás PC-ről'),
           onPressed: () async {
             final show = await showReceiveDialog(context);
             if (show != null) {
               widget.onProjectReplaced(show);
-              log('Fogadva: ${show.name}');
+              log(tr('Fogadva: {0}', [show.name]));
             }
           },
           icon: const Icon(Icons.download_for_offline_outlined),
@@ -989,12 +1064,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         FilledButton.icon(
           onPressed: song == null ? null : _syncSong,
           icon: const Icon(Icons.sync, size: 18),
-          label: const Text('Szinkron'),
+          label: Text(tr('Szinkron')),
         ),
         if (_phone)
           Builder(
             builder: (ctx) => IconButton(
-              tooltip: 'Ritmus',
+              tooltip: tr('Ritmus'),
               onPressed: () => Scaffold.of(ctx).openEndDrawer(),
               icon: const Icon(Icons.queue_music),
             ),
@@ -1010,14 +1085,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         child: Row(children: [
           const Icon(Icons.dashboard_customize_outlined, size: 18),
           const SizedBox(width: 8),
-          const Expanded(
-            child: Text('Felület szerkesztése: kattints bármely gombra a kinézetéhez (kép, felirat, szín, méret); '
-                'a sávok sarkában lévő narancs ecsettel az egész sávot alakítod; a választóvonalak húzhatók.'),
+          Expanded(
+            child: Text(tr('Felület szerkesztése: kattints bármely gombra a kinézetéhez (kép, felirat, szín, méret); a sávok sarkában lévő narancs ecsettel az egész sávot alakítod; a választóvonalak húzhatók.')),
           ),
           TextButton.icon(
             onPressed: () => _openEditor(BottomBarEditorPage(project: p, onChanged: _editorChanged)),
             icon: const Icon(Icons.view_day),
-            label: const Text('Alsó sáv…'),
+            label: Text(tr('Alsó sáv…')),
           ),
           TextButton.icon(
             onPressed: () {
@@ -1025,12 +1099,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               _changed();
             },
             icon: const Icon(Icons.swap_horiz),
-            label: const Text('Oldalak cseréje'),
+            label: Text(tr('Oldalak cseréje')),
           ),
           TextButton.icon(
             onPressed: () => showThemeDialog(context, p, () => _changed(theme: true)),
             icon: const Icon(Icons.palette_outlined),
-            label: const Text('Téma'),
+            label: Text(tr('Téma')),
           ),
           TextButton.icon(
             onPressed: () {
@@ -1038,9 +1112,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               _changed();
             },
             icon: const Icon(Icons.restart_alt),
-            label: const Text('Méretek alaphelyzetbe'),
+            label: Text(tr('Méretek alaphelyzetbe')),
           ),
-          FilledButton(onPressed: () => setState(() => editLayout = false), child: const Text('Kész')),
+          FilledButton(onPressed: () => setState(() => editLayout = false), child: Text(tr('Kész'))),
         ]),
       );
 
@@ -1148,10 +1222,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     final groups = p.voiceGroups;
     final cols = p.leftColumns.clamp(1, 3);
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      _title('Hangszínek',
+      _title(tr('Hangszínek'),
           trailing: _canEdit
               ? IconButton(
-                  tooltip: 'Hangszín-panel szerkesztő',
+                  tooltip: tr('Hangszín-panel szerkesztő'),
                   icon: const Icon(Icons.tune, size: 18),
                   onPressed: () => _openEditor(VoicePanelEditorPage(project: p, onChanged: _editorChanged)),
                 )
@@ -1172,7 +1246,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                       project: p,
                       panel: 'left',
                       id: 'group:${groups[g].name}',
-                      label: groups[g].name,
+                      label: tr(groups[g].name),
                       icon: groups[g].icon,
                       width: w,
                       height: 44,
@@ -1238,12 +1312,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       'endingB' => sec('Ending B', 0x21),
       'endingC' => sec('Ending C', 0x22),
       'fill' => ('Fill In', _fill, false, null),
-      'sync' => ('Szinkron', song == null ? null : _syncSong, false, Icons.sync),
+      'sync' => (tr('Szinkron'), song == null ? null : _syncSong, false, Icons.sync),
       'tap' => ('TAP', _tapTempo, false, Icons.touch_app),
-      'tempoDown' => ('Tempó −', () => _setTempo(bpm - 1), false, Icons.remove),
-      'tempoUp' => ('Tempó +', () => _setTempo(bpm + 1), false, Icons.add),
-      'playScore' => (player.playing ? 'Leállítás' : 'Dal lejátszása', _togglePlay, player.playing, player.playing ? Icons.stop_circle : Icons.play_circle),
-      'lock' => (locked ? 'Feloldás' : 'Lakat', () => setState(() => locked = !locked), locked, locked ? Icons.lock : Icons.lock_open),
+      'tempoDown' => (tr('Tempó −'), () => _setTempo(bpm - 1), false, Icons.remove),
+      'tempoUp' => (tr('Tempó +'), () => _setTempo(bpm + 1), false, Icons.add),
+      'playScore' => (player.playing ? tr('Leállítás') : tr('Dal lejátszása'), _togglePlay, player.playing, player.playing ? Icons.stop_circle : Icons.play_circle),
+      'lock' => (locked ? tr('Feloldás') : tr('Lakat'), () => setState(() => locked = !locked), locked, locked ? Icons.lock : Icons.lock_open),
       _ => (k, null, false, null),
     };
   }
@@ -1256,10 +1330,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       final avail = box.maxWidth.isFinite ? box.maxWidth : 280;
       final btnW = (avail - 28 - (cols - 1) * 8) / cols;
       return ListView(padding: const EdgeInsets.only(bottom: 12), children: [
-        _title('Ritmus és stílus',
+        _title(tr('Ritmus és stílus'),
             trailing: _canEdit
                 ? IconButton(
-                    tooltip: 'Ritmus-panel szerkesztő',
+                    tooltip: tr('Ritmus-panel szerkesztő'),
                     icon: const Icon(Icons.tune, size: 18),
                     onPressed: () => _openEditor(RhythmPanelEditorPage(project: p, onChanged: _editorChanged)),
                   )
@@ -1290,7 +1364,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   height: big ? 54 : 40,
                   selected: sel,
                   editMode: edit,
-                  onEdit: () => _editItem('r:$k', rhythmCatalog[k] ?? k),
+                  onEdit: () => _editItem('r:$k', tr(rhythmCatalog[k] ?? k)),
                   onTap: onTap,
                 );
               }),
@@ -1299,7 +1373,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         const SizedBox(height: 14),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 14),
-          child: Text('A stílust a hangszeren választod ki; innen az indítás, a szakaszok és a tempó vezérelhető.',
+          child: Text(tr('A stílust a hangszeren választod ki; innen az indítás, a szakaszok és a tempó vezérelhető.'),
               style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.55))),
         ),
       ]);
@@ -1343,13 +1417,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         padding: const EdgeInsets.fromLTRB(8, 6, 8, 2),
         child: Row(children: [
           IconButton(
-            tooltip: 'Előző dal',
+            tooltip: tr('Előző dal'),
             onPressed: locked || page == 0 ? null : () => _goToPage(page - 1),
             icon: const Icon(Icons.chevron_left),
           ),
           Text(n == 0 ? '0 / 0' : '${page + 1} / $n', style: const TextStyle(fontWeight: FontWeight.w600)),
           IconButton(
-            tooltip: 'Következő dal',
+            tooltip: tr('Következő dal'),
             onPressed: locked || page >= n - 1 ? null : () => _goToPage(page + 1),
             icon: const Icon(Icons.chevron_right),
           ),
@@ -1375,13 +1449,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           const Spacer(),
           // Nézet: szöveg / kotta / mindkettő (a tableten is választható)
           PopupMenuButton<ReaderView>(
-            tooltip: 'Nézet: szöveg, kotta vagy mindkettő',
+            tooltip: tr('Nézet: szöveg, kotta vagy mindkettő'),
             initialValue: p.readerView,
             onSelected: _setView,
-            itemBuilder: (_) => const [
-              PopupMenuItem(value: ReaderView.text, child: Text('Szöveg és akkordok')),
-              PopupMenuItem(value: ReaderView.score, child: Text('Kotta (dallam + akkordok)')),
-              PopupMenuItem(value: ReaderView.both, child: Text('Kotta és szöveg együtt')),
+            itemBuilder: (_) => [
+              PopupMenuItem(value: ReaderView.text, child: Text(tr('Szöveg és akkordok'))),
+              PopupMenuItem(value: ReaderView.score, child: Text(tr('Kotta (dallam + akkordok)'))),
+              PopupMenuItem(value: ReaderView.both, child: Text(tr('Kotta és szöveg együtt'))),
             ],
             icon: Icon(switch (p.readerView) {
               ReaderView.text => Icons.subject,
@@ -1391,7 +1465,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           ),
           if (s != null && s.scores.length > 1)
             PopupMenuButton<int>(
-              tooltip: 'Kotta-változat',
+              tooltip: tr('Kotta-változat'),
               initialValue: s.activeScore,
               onSelected: (v) => setState(() {
                 s.activeScore = v;
@@ -1401,12 +1475,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               icon: const Icon(Icons.library_music),
             ),
           IconButton(
-            tooltip: player.playing ? 'Lejátszás leállítása' : 'Dal lejátszása a hangszeren (csatolt MIDI)',
+            tooltip: player.playing ? tr('Lejátszás leállítása') : tr('Dal lejátszása a hangszeren (csatolt MIDI)'),
             onPressed: s?.score?.midiB64 == null ? null : _togglePlay,
             icon: Icon(player.playing ? Icons.stop_circle : Icons.play_circle_fill, color: player.playing ? Colors.greenAccent : null),
           ),
           IconButton(
-            tooltip: 'Elejére',
+            tooltip: tr('Elejére'),
             onPressed: () => setState(() {
               reader.reset();
               _scrolls[page]?.jumpTo(0);
@@ -1414,7 +1488,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             icon: const Icon(Icons.skip_previous),
           ),
           IconButton(
-            tooltip: reader.running ? 'Görgetés megállítása' : 'Görgetés indítása (belső óra)',
+            tooltip: reader.running ? tr('Görgetés megállítása') : tr('Görgetés indítása (belső óra)'),
             onPressed: () => setState(() {
               if (reader.running) {
                 reader.stop();
@@ -1426,15 +1500,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             icon: Icon(reader.running ? Icons.pause_circle_outline : Icons.play_circle_outline),
           ),
           IconButton(
-            tooltip: locked ? 'Oldal feloldása' : 'Oldal lezárása (nem lapoz el)',
+            tooltip: locked ? tr('Oldal feloldása') : tr('Oldal lezárása (nem lapoz el)'),
             isSelected: locked,
             style: locked ? IconButton.styleFrom(backgroundColor: Colors.orange.withValues(alpha: 0.3)) : null,
             onPressed: () => setState(() => locked = !locked),
             icon: Icon(locked ? Icons.lock : Icons.lock_open),
           ),
           if (_canEdit) ...[
-            IconButton(tooltip: 'Dal szerkesztése (Ctrl+E)', onPressed: s == null ? null : _editSong, icon: const Icon(Icons.edit_note)),
-            IconButton(tooltip: 'Új dal', onPressed: _addSong, icon: const Icon(Icons.add_circle_outline)),
+            IconButton(tooltip: tr('Dal szerkesztése (Ctrl+E)'), onPressed: s == null ? null : _editSong, icon: const Icon(Icons.edit_note)),
+            IconButton(tooltip: tr('Új dal'), onPressed: _addSong, icon: const Icon(Icons.add_circle_outline)),
           ],
         ]),
       ),
@@ -1443,8 +1517,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         child: n == 0
             ? Center(
                 child: _canEdit
-                    ? FilledButton.icon(onPressed: _addSong, icon: const Icon(Icons.add), label: const Text('Első dal hozzáadása'))
-                    : const Text('Nincs dal. Fogadj egy csomagot a PC-ről.'),
+                    ? FilledButton.icon(onPressed: _addSong, icon: const Icon(Icons.add), label: Text(tr('Első dal hozzáadása')))
+                    : Text(tr('Nincs dal. Fogadj egy csomagot a PC-ről.')),
               )
             : ScrollConfiguration(
                 behavior: ScrollConfiguration.of(context).copyWith(dragDevices: {
@@ -1505,7 +1579,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     final bank0 = bank.clamp(0, p.banks.length - 1);
     Widget? module(String k) => switch (k) {
           'layers' => group(
-              'Rétegek (V1–V4)',
+              tr('Rétegek (V1–V4)'),
               compact
                   ? Column(children: [
                       Row(children: [_slotTile(0), _slotTile(1)]),
@@ -1521,27 +1595,27 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 child: Wrap(spacing: 4, runSpacing: 4, children: [
                   for (var i = 1; i <= 4; i++)
                     Tooltip(
-                      message: 'OTS-hívás MIDI-n: a modell Data List-je alapján kerül be',
+                      message: tr('OTS-hívás MIDI-n: a modell Data List-je alapján kerül be'),
                       child: btn('ots:$i', '$i', null, w: compact ? 40 : 44, h: compact ? 40 : 44),
                     ),
                 ]),
               ),
             ),
           'tempo' => group(
-              'Tempó',
+              tr('Tempó'),
               Row(children: [
-                btn('btn:tempo-', '', () => _setTempo(bpm - 1), icon: Icons.remove, name: 'Tempó −'),
+                btn('btn:tempo-', '', () => _setTempo(bpm - 1), icon: Icons.remove, name: tr('Tempó −')),
                 SizedBox(
                   width: 88,
                   child: Center(child: Text('${bpm.round()}', style: const TextStyle(fontSize: 32, fontWeight: FontWeight.w700))),
                 ),
-                btn('btn:tempo+', '', () => _setTempo(bpm + 1), icon: Icons.add, name: 'Tempó +'),
+                btn('btn:tempo+', '', () => _setTempo(bpm + 1), icon: Icons.add, name: tr('Tempó +')),
                 const SizedBox(width: 6),
                 btn('btn:tap', 'TAP', _tapTempo, w: 60),
               ]),
             ),
           'regs' => group(
-              'Regiszter bankok',
+              tr('Regiszter bankok'),
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Row(children: [
                   DropdownButton<int>(
@@ -1555,10 +1629,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   ),
                   if (_canEdit) ...[
                     IconButton(
-                      tooltip: 'Új bank',
+                      tooltip: tr('Új bank'),
                       onPressed: () {
                         setState(() {
-                          p.banks.add(RegBank('Bank ${p.banks.length + 1}'));
+                          p.banks.add(RegBank(tr('Bank {0}', [p.banks.length + 1])));
                           bank = p.banks.length - 1;
                         });
                         _changed();
@@ -1568,7 +1642,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     TextButton.icon(
                       onPressed: () => setState(() => saveMode = !saveMode),
                       icon: Icon(Icons.save, size: 18, color: saveMode ? Colors.orangeAccent : null),
-                      label: Text(saveMode ? 'Hová?' : 'Mentés'),
+                      label: Text(saveMode ? tr('Hová?') : tr('Mentés')),
                     ),
                   ],
                 ]),
@@ -1582,7 +1656,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 ),
               ]),
             ),
-          'startStop' => group('Stílus', Row(children: [
+          'startStop' => group(tr('Stílus'), Row(children: [
               btn('btn:start', 'Start', _start, sel: styleRunning, icon: Icons.play_arrow, w: 96),
               const SizedBox(width: 6),
               btn('btn:stop', 'Stop', _stop, icon: Icons.stop, w: 96),
@@ -1595,10 +1669,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                       sel: lastSection == m.code || (lastSection == null && m.code == currentMain), name: m.label),
                 ),
             ])),
-          'sync' => group('Hangszer', btn('btn:sync', 'Szinkron', song == null ? null : _syncSong, icon: Icons.sync, w: 130)),
-          'playScore' => group('Dal', btn('btn:play', player.playing ? 'Leállítás' : 'Lejátszás', _togglePlay,
+          'sync' => group(tr('Hangszer'), btn('btn:sync', tr('Szinkron'), song == null ? null : _syncSong, icon: Icons.sync, w: 130)),
+          'playScore' => group(tr('Dal'), btn('btn:play', player.playing ? tr('Leállítás') : tr('Lejátszás'), _togglePlay,
               sel: player.playing, icon: player.playing ? Icons.stop_circle : Icons.play_circle, w: 140)),
-          'lock' => group('Oldal', btn('btn:lock', locked ? 'Feloldás' : 'Lakat', () => setState(() => locked = !locked),
+          'lock' => group(tr('Oldal'), btn('btn:lock', locked ? tr('Feloldás') : tr('Lakat'), () => setState(() => locked = !locked),
               sel: locked, icon: locked ? Icons.lock : Icons.lock_open, w: 120)),
           'spacer' => const SizedBox(width: 40),
           _ => null,
