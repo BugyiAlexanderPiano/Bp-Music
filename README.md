@@ -1,4 +1,6 @@
-# ALS – Yamaha Arranger Live Suite (projektváz)
+# SoundNexus Pro
+
+Szerkesztő (Windows, Mac) és fellépő alkalmazás (Android tablet, telefon) Yamaha Genos 2, Genos, Tyros 5, Tyros 4 és PSR-SX hangszerekhez.
 
 ## Letöltés
 
@@ -6,9 +8,9 @@
 
 | Fájl | Eszköz | Szerep | Indítás |
 | --- | --- | --- | --- |
-| `ALS-Program-Windows.zip` | Windows 10/11 PC | Szerkesztő | Kicsomagolás után az `ALS` mappában az **`ALS.exe`** |
-| `ALS-Program-macOS.zip` | Mac, macOS 12+ (Intel és Apple Silicon; 2015-ös MacBook Pro/Air is) | Szerkesztő | Első indításkor: jobb klikk → Megnyitás → Megnyitás |
-| `ALS-Android.apk` | Android 7.0+ tablet, telefon | Fellépő mód | Másold a készülékre, nyisd meg, engedélyezd az ismeretlen forrásból való telepítést |
+| `SoundNexusPro-Windows.zip` | Windows 10/11 PC | Szerkesztő | Kicsomagolás után a **`SoundNexus Pro.exe`** |
+| `SoundNexusPro-macOS.zip` | Mac, macOS 12+ (Intel és Apple Silicon; 2015-ös MacBook Pro/Air is) | Szerkesztő | Első indításkor: jobb klikk → Megnyitás → Megnyitás |
+| `SoundNexusPro-Android.apk` | Android 7.0+ tablet, telefon | Fellépő mód | Másold a készülékre, nyisd meg, engedélyezd az ismeretlen forrásból való telepítést |
 | iPad / iPhone | iOS | Fellépő mód | A kód iOS-re is lefordul; telepítéshez Apple fejlesztői fiók kell (évi 99 USD), ennek beállítása után kerül be a kiadásba |
 
 ## Munkafolyamat
@@ -19,10 +21,32 @@
 2. **Küldés a mobilra** (Fájl → Küldés tabletre / telefonra):
    - **Wi-Fi:** „Küldés indítása” → a mobilon „Fogadás PC-ről” (letöltés ikon) → a mobil megtalálja a gépet → 6 jegyű kód → Letöltés.
      Az átvitel ellenőrzőösszeggel védett; sérült csomag nem kerül mentésre.
-   - **Fájl:** „Csomag mentése (.alsshow)” → USB-kábellel, Bluetooth-on vagy AirDroppal a mobilra → a mobilon „Megnyitás fájlból”.
+   - **Fájl:** „Csomag mentése (.snxshow)” → USB-kábellel, Bluetooth-on vagy AirDroppal a mobilra → a mobilon „Megnyitás fájlból”.
 3. **Fellépés a mobilról.** A tablet / telefon csak használja a csomagot, szerkeszteni nem lehet rajta.
    Hangszer-kapcsolat: USB-C / OTG kábel a hangszer **USB TO HOST** aljzatába, vagy Bluetooth MIDI adapter (pl. Yamaha UD-BT01, MD-BT01).
    A PC-re a fellépéshez nincs szükség.
+
+### Eszközök (Eszközök menü, csak PC)
+
+- **SoundNexus Sample Studio** – csend vágása az elejéről, utózengés/zaj a végéről, kötegelt feldolgozás.
+  Mintapontos: a megmaradó minták bitre azonosak az eredetivel (16/24/32 bit, float), nincs újramintavételezés;
+  a fájl egyéb adatai (pl. metaadatok, loop pontok) megmaradnak. A végén megkérdezi, hova mentse.
+- **SoundNexus Loop Studio** – kitartott hangminták (vonós, pad, orgona, kórus) kattanásmentes loop pontjai
+  automatikusan; a WAV-ba szabványos `smpl` blokkba írja (Yamaha Expansion Manager, samplerek). Crossfade opcionális.
+
+### Felület (csak PC-n szerkeszthető)
+
+- Hangszín-panel két (vagy 1–3) oszlopban; **Nézet → Hangszín-panel szerkesztő**: csoportok, hangszínek
+  (név, kategória, Bank MSB/LSB, Program), sorrend, gombok kinézete
+- **Ritmus-panel szerkesztő** és **Alsó vezérlősáv szerkesztő**: elemek átrendezése, hozzáadása, eltávolítása
+- Téma: 12 kész téma, egyszínű / átmenetes / **mozgó átmenet**, saját háttérkép (kitöltés, elmosás, sötétítés)
+
+### Kotta
+
+- **Dal szerkesztése → Kotta → MIDI importálása**: a dallamsáv kiválasztása, ritmikai rács, tempó átvétele
+- Középső sáv nézetei: **Szöveg**, **Kotta** (dallam + akkordok), **Mindkettő**; a kotta a tempóval görget
+- **Dal lejátszása a hangszeren**: a csatolt MIDI-t a hangszer játssza le, a görgetéssel együtt (tableten is)
+- Több kotta-változat egy dalhoz; a tableten választható, melyik látszik
 
 ### Mi kerül a hangszerre?
 
@@ -34,7 +58,8 @@ Fájlt a hangszer csak pendrive-ról (USB TO DEVICE) olvas.
 ### Következő szakaszok
 
 - ~~2. Tabletes / telefonos fellépő mód és átvitel a PC-ről~~ – kész
-3. Regiszter bank szerkesztő, aktiváló kód és Instrument Info alapú másolásvédelem
+- **B. szakasz:** automatikus kottázás MP3/MP4 felvételből helyi AI-val (hangszer-szétválasztás + hangfelismerés)
+- Regiszter bank szerkesztő, aktiváló kód és Instrument Info alapú másolásvédelem
 
 Az `ALS-Windows.zip` a parancssori segédeszköz (fejlesztéshez, teszteléshez).
 

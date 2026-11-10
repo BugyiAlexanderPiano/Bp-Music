@@ -153,6 +153,8 @@ jobs:
   # 4) macOS program (univerzális: Intel + Apple Silicon, macOS 10.15+ — a 2015-ös MacBookokon is fut)
   macos:
     runs-on: macos-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -215,6 +217,15 @@ jobs:
         with:
           name: SoundNexusPro-macOS
           path: SoundNexusPro-macOS.zip
+
+      - name: Feltöltés a Releases oldalra
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh release view latest >/dev/null 2>&1 || gh release create latest --title "SoundNexus Pro – legfrissebb program" --notes "Feltöltés folyamatban."
+          gh release upload latest SoundNexusPro-macOS.zip --clobber
 
   # 5) Android (tablet, telefon): APK
   android:
@@ -292,10 +303,11 @@ jobs:
         working-directory: flutter_app
         run: flutter build ios --release --no-codesign
 
-  # 7) Közzététel a Releases oldalon (csak a main ágon)
+  # 7) Közzététel a Releases oldalon (csak a main ágon). A Mac-csomagot a macos lépés
+  #    maga tölti fel, amikor elkészül (a GitHub Mac-gépei néha órákig foglaltak).
   release:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: [msvc, launcher, gui, macos, android, ios]
+    needs: [msvc, launcher, gui, android]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -303,15 +315,9 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: ALS-Windows
-
       - uses: actions/download-artifact@v4
         with:
           name: SoundNexusPro-Windows
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: SoundNexusPro-macOS
-
       - uses: actions/download-artifact@v4
         with:
           name: SoundNexusPro-Android
@@ -321,11 +327,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
         run: |
-          gh release delete latest --yes --cleanup-tag || true
-          gh release create latest SoundNexusPro-Windows.zip SoundNexusPro-macOS.zip SoundNexusPro-Android.apk ALS-Windows.zip \
-            --target "${{ github.sha }}" \
-            --title "SoundNexus Pro – legfrissebb program (Windows, macOS, Android)" \
-            --notes "**SoundNexusPro-Windows.zip** – Windows 10/11 szerkesztő: kicsomagolás után a **SoundNexus Pro.exe**.
+          NOTES="**SoundNexusPro-Windows.zip** – Windows 10/11 szerkesztő: kicsomagolás után a **SoundNexus Pro.exe**.
 
           **SoundNexusPro-macOS.zip** – Mac szerkesztő (Intel és Apple Silicon, macOS 12+). Első indításkor: jobb klikk → Megnyitás → Megnyitás.
 
@@ -333,4 +335,12 @@ jobs:
 
           ALS-Windows.zip – parancssori segédeszköz (fejlesztőknek).
 
-          Commit: ${{ github.sha }}"
+          Utolsó frissítés: ${{ github.sha }}"
+          gh release view latest >/dev/null 2>&1 || gh release create latest --title "SoundNexus Pro – legfrissebb program" --notes "$NOTES"
+          for f in SoundNexusPro-Windows.zip SoundNexusPro-Android.apk ALS-Windows.zip; do
+            gh release upload latest "$f" --clobber
+          done
+          for old in ALS-Program-Windows.zip ALS-Program-macOS.zip ALS-Android.apk; do
+            gh release delete-asset latest "$old" -y || true
+          done
+          gh release edit latest --title "SoundNexus Pro – legfrissebb program (Windows, macOS, Android)" --notes "$NOTES"
