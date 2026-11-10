@@ -8,60 +8,146 @@ import 'package:flutter/material.dart';
 // Hangszín-tár: fő csoportok és alkategóriák (GM-példák; a Genos saját bankjait
 // a modellprofil adja majd)
 // ---------------------------------------------------------------------------
+const groupIcons = <String, IconData>{
+  'piano': Icons.piano, 'organ': Icons.view_week, 'guitar': Icons.music_note, 'bass': Icons.graphic_eq,
+  'strings': Icons.waves, 'choir': Icons.blur_on, 'brass': Icons.campaign, 'wind': Icons.air,
+  'drums': Icons.album, 'synth': Icons.tune, 'mic': Icons.mic, 'star': Icons.star, 'folder': Icons.folder,
+};
+
 class VoicePreset {
-  const VoicePreset(this.name, this.category, this.program, {this.msb = 0, this.lsb = 0});
-  final String name, category;
-  final int msb, lsb, program;
+  VoicePreset(this.name, this.category, this.program, {this.msb = 0, this.lsb = 0});
+  String name, category;
+  int msb, lsb, program;
+
+  Map<String, dynamic> toJson() => {'name': name, 'category': category, 'program': program, 'msb': msb, 'lsb': lsb};
+  factory VoicePreset.fromJson(Map<String, dynamic> j) => VoicePreset(
+        j['name'] as String? ?? 'Hangszín',
+        j['category'] as String? ?? '',
+        j['program'] as int? ?? 0,
+        msb: j['msb'] as int? ?? 0,
+        lsb: j['lsb'] as int? ?? 0,
+      );
 }
 
 class VoiceGroup {
-  const VoiceGroup(this.name, this.icon, this.voices);
-  final String name;
-  final IconData icon;
+  VoiceGroup(this.name, this.iconKey, this.voices);
+  String name, iconKey;
   final List<VoicePreset> voices;
+  IconData get icon => groupIcons[iconKey] ?? Icons.folder;
+
+  Map<String, dynamic> toJson() => {'name': name, 'icon': iconKey, 'voices': [for (final v in voices) v.toJson()]};
+  factory VoiceGroup.fromJson(Map<String, dynamic> j) => VoiceGroup(
+        j['name'] as String? ?? 'Csoport',
+        j['icon'] as String? ?? 'folder',
+        [for (final v in j['voices'] as List? ?? const []) VoicePreset.fromJson(v as Map<String, dynamic>)],
+      );
 }
 
-const voiceGroups = <VoiceGroup>[
-  VoiceGroup('Zongora', Icons.piano, [
-    VoicePreset('Grand Piano', 'piano', 0), VoicePreset('Bright Piano', 'piano', 1),
-    VoicePreset('E. Piano 1', 'piano', 4), VoicePreset('E. Piano 2', 'piano', 5),
-    VoicePreset('Harpsichord', 'piano', 6),
-  ]),
-  VoiceGroup('Orgona, harmonika', Icons.view_week, [
-    VoicePreset('Drawbar Organ', 'organ', 16), VoicePreset('Jazz Organ', 'organ', 17),
-    VoicePreset('Rock Organ', 'organ', 18), VoicePreset('Church Organ', 'organ', 19),
-    VoicePreset('Accordion', 'lead', 21),
-  ]),
-  VoiceGroup('Gitár', Icons.music_note, [
-    VoicePreset('Nylon Guitar', 'lead', 24), VoicePreset('Steel Guitar', 'lead', 25),
-    VoicePreset('Jazz Guitar', 'lead', 26), VoicePreset('Clean Guitar', 'lead', 27),
-    VoicePreset('Overdrive', 'lead', 29),
-  ]),
-  VoiceGroup('Basszus', Icons.graphic_eq, [
-    VoicePreset('Acoustic Bass', 'bass', 32), VoicePreset('Finger Bass', 'bass', 33),
-    VoicePreset('Pick Bass', 'bass', 34), VoicePreset('Fretless', 'bass', 35),
-    VoicePreset('Synth Bass', 'bass', 38),
-  ]),
-  VoiceGroup('Vonósok', Icons.waves, [
-    VoicePreset('Strings', 'pad', 48), VoicePreset('Slow Strings', 'pad', 49),
-    VoicePreset('Synth Strings', 'pad', 50), VoicePreset('Violin', 'lead', 40),
-    VoicePreset('Cello', 'lead', 42),
-  ]),
-  VoiceGroup('Kórus, pad', Icons.blur_on, [
-    VoicePreset('Choir Aahs', 'choir', 52), VoicePreset('Voice Oohs', 'choir', 53),
-    VoicePreset('Warm Pad', 'pad', 89), VoicePreset('Polysynth', 'pad', 90),
-    VoicePreset('Halo Pad', 'pad', 94),
-  ]),
-  VoiceGroup('Rézfúvósok', Icons.campaign, [
-    VoicePreset('Trumpet', 'lead', 56), VoicePreset('Trombone', 'lead', 57),
-    VoicePreset('Brass Section', 'lead', 61), VoicePreset('Synth Brass', 'lead', 62),
-  ]),
-  VoiceGroup('Fafúvósok', Icons.air, [
-    VoicePreset('Alto Sax', 'lead', 65), VoicePreset('Tenor Sax', 'lead', 66),
-    VoicePreset('Clarinet', 'lead', 71), VoicePreset('Flute', 'lead', 73),
-    VoicePreset('Pan Flute', 'lead', 75),
-  ]),
+/// Alap hangszín-tár (GM-példák; a Genos saját bankjai a szerkesztőben felvehetők)
+List<VoiceGroup> defaultVoiceGroups() => [
+      VoiceGroup('Zongora', 'piano', [
+        VoicePreset('Grand Piano', 'piano', 0), VoicePreset('Bright Piano', 'piano', 1),
+        VoicePreset('E. Piano 1', 'piano', 4), VoicePreset('E. Piano 2', 'piano', 5),
+        VoicePreset('Harpsichord', 'piano', 6),
+      ]),
+      VoiceGroup('Orgona', 'organ', [
+        VoicePreset('Drawbar Organ', 'organ', 16), VoicePreset('Jazz Organ', 'organ', 17),
+        VoicePreset('Rock Organ', 'organ', 18), VoicePreset('Church Organ', 'organ', 19),
+        VoicePreset('Accordion', 'lead', 21),
+      ]),
+      VoiceGroup('Gitár', 'guitar', [
+        VoicePreset('Nylon Guitar', 'lead', 24), VoicePreset('Steel Guitar', 'lead', 25),
+        VoicePreset('Jazz Guitar', 'lead', 26), VoicePreset('Clean Guitar', 'lead', 27),
+        VoicePreset('Overdrive', 'lead', 29),
+      ]),
+      VoiceGroup('Basszus', 'bass', [
+        VoicePreset('Acoustic Bass', 'bass', 32), VoicePreset('Finger Bass', 'bass', 33),
+        VoicePreset('Pick Bass', 'bass', 34), VoicePreset('Fretless', 'bass', 35),
+        VoicePreset('Synth Bass', 'bass', 38),
+      ]),
+      VoiceGroup('Vonósok', 'strings', [
+        VoicePreset('Strings', 'pad', 48), VoicePreset('Slow Strings', 'pad', 49),
+        VoicePreset('Synth Strings', 'pad', 50), VoicePreset('Violin', 'lead', 40),
+        VoicePreset('Cello', 'lead', 42),
+      ]),
+      VoiceGroup('Kórus, pad', 'choir', [
+        VoicePreset('Choir Aahs', 'choir', 52), VoicePreset('Voice Oohs', 'choir', 53),
+        VoicePreset('Warm Pad', 'pad', 89), VoicePreset('Polysynth', 'pad', 90),
+        VoicePreset('Halo Pad', 'pad', 94),
+      ]),
+      VoiceGroup('Rézfúvós', 'brass', [
+        VoicePreset('Trumpet', 'lead', 56), VoicePreset('Trombone', 'lead', 57),
+        VoicePreset('Brass Section', 'lead', 61), VoicePreset('Synth Brass', 'lead', 62),
+      ]),
+      VoiceGroup('Fafúvós', 'wind', [
+        VoicePreset('Alto Sax', 'lead', 65), VoicePreset('Tenor Sax', 'lead', 66),
+        VoicePreset('Clarinet', 'lead', 71), VoicePreset('Flute', 'lead', 73),
+        VoicePreset('Pan Flute', 'lead', 75),
+      ]),
+    ];
+
+// ---------------------------------------------------------------------------
+// Ritmus-panel gombjai és az alsó sáv moduljai (sorrend = megjelenés)
+// ---------------------------------------------------------------------------
+const rhythmCatalog = <String, String>{
+  'start': 'Start', 'stop': 'Stop',
+  'introA': 'Intro A', 'introB': 'Intro B', 'introC': 'Intro C',
+  'mainA': 'Main A', 'mainB': 'Main B', 'mainC': 'Main C', 'mainD': 'Main D',
+  'fill': 'Fill In', 'break': 'Break',
+  'endingA': 'Ending A', 'endingB': 'Ending B', 'endingC': 'Ending C',
+  'sync': 'Szinkron', 'tap': 'TAP tempó', 'tempoDown': 'Tempó −', 'tempoUp': 'Tempó +',
+  'playScore': 'Dal lejátszása', 'lock': 'Lakat',
+};
+const defaultRhythmItems = [
+  'start', 'stop', 'introA', 'introB', 'introC', 'mainA', 'mainB', 'mainC', 'mainD', 'fill', 'break',
+  'endingA', 'endingB', 'endingC',
 ];
+
+const bottomCatalog = <String, String>{
+  'layers': 'Rétegek (V1–V4)', 'ots': 'One Touch Settings', 'tempo': 'Tempó', 'regs': 'Regiszter bankok',
+  'startStop': 'Start / Stop', 'mains': 'Main A–D', 'sync': 'Szinkron gomb', 'playScore': 'Dal lejátszása',
+  'lock': 'Lakat', 'spacer': 'Térköz',
+};
+const defaultBottomModules = ['layers', 'ots', 'tempo', 'regs'];
+
+// ---------------------------------------------------------------------------
+// Kotta (dallam + akkordok)
+// ---------------------------------------------------------------------------
+class ScoreNote {
+  ScoreNote(this.start, this.beats, this.pitch);
+  double start, beats; // negyedekben
+  int pitch;
+  List<num> toJson() => [start, beats, pitch];
+  factory ScoreNote.fromJson(List<dynamic> j) => ScoreNote((j[0] as num).toDouble(), (j[1] as num).toDouble(), j[2] as int);
+}
+
+class SongScore {
+  SongScore({required this.name, this.midiB64, this.melodyTrack = 0, List<ScoreNote>? notes, this.beatsPerBar = 4, this.bpm})
+      : notes = notes ?? [];
+  String name;
+  String? midiB64;      // a teljes MIDI fájl (lejátszáshoz)
+  int melodyTrack;
+  final List<ScoreNote> notes;
+  int beatsPerBar;
+  double? bpm;
+
+  Map<String, dynamic> toJson() => {
+        'name': name, 'midi': midiB64, 'melodyTrack': melodyTrack, 'beatsPerBar': beatsPerBar, 'bpm': bpm,
+        'notes': [for (final n in notes) n.toJson()],
+      };
+  factory SongScore.fromJson(Map<String, dynamic> j) => SongScore(
+        name: j['name'] as String? ?? 'Kotta',
+        midiB64: j['midi'] as String?,
+        melodyTrack: j['melodyTrack'] as int? ?? 0,
+        beatsPerBar: j['beatsPerBar'] as int? ?? 4,
+        bpm: (j['bpm'] as num?)?.toDouble(),
+        notes: [for (final n in j['notes'] as List? ?? const []) ScoreNote.fromJson(n as List<dynamic>)],
+      );
+}
+
+enum ReaderView { text, score, both }
+
+
 
 // ---------------------------------------------------------------------------
 // Virtuális réteg (V1–V4)
@@ -142,7 +228,9 @@ class Song {
     this.transpose = 0,
     this.body = '',
     this.registration,
-  });
+    List<SongScore>? scores,
+    this.activeScore = 0,
+  }) : scores = scores ?? [];
 
   String title, artist, key, timeSig, style;
   double bpm;
@@ -150,12 +238,18 @@ class Song {
   String body;
   /// A dalhoz kötött regisztráció (bank, hely) — a szinkron gomb ezt is behívja
   ({int bank, int slot})? registration;
+  /// Csatolt kották (a tableten választható, melyik látszik)
+  final List<SongScore> scores;
+  int activeScore;
+  SongScore? get score => scores.isEmpty ? null : scores[activeScore.clamp(0, scores.length - 1)];
 
   Map<String, dynamic> toJson() => {
         'title': title, 'artist': artist, 'key': key, 'bpm': bpm, 'timeSig': timeSig,
         'style': style, 'mainSection': mainSection, 'barsPerLine': barsPerLine,
         'transpose': transpose, 'body': body,
         if (registration != null) 'registration': {'bank': registration!.bank, 'slot': registration!.slot},
+        'scores': [for (final sc in scores) sc.toJson()],
+        'activeScore': activeScore,
       };
 
   factory Song.fromJson(Map<String, dynamic> j) {
@@ -172,6 +266,8 @@ class Song {
       transpose: j['transpose'] as int? ?? 0,
       body: j['body'] as String? ?? '',
       registration: r == null ? null : (bank: r['bank'] as int, slot: r['slot'] as int),
+      scores: [for (final sc in j['scores'] as List? ?? const []) SongScore.fromJson(sc as Map<String, dynamic>)],
+      activeScore: j['activeScore'] as int? ?? 0,
     );
   }
 
@@ -200,6 +296,13 @@ class ThemeSettings {
   Color chordColor = const Color(0xFFFFC34D);
   Color sectionColor = const Color(0xFFB79CFF);
   Color highlight = const Color(0xFF4F8CFF);
+  // Mozgó színátmenet és háttérkép
+  bool animate = false;
+  double animSeconds = 18;           // egy teljes kör ideje
+  bool animateHue = false;           // a színek lassú körbeforgatása is
+  String? bgImage;                   // kép azonosító a Project.images-ben
+  String bgFit = 'cover';            // cover | contain | tile
+  double bgBlur = 0, bgDarken = 0.35, bgOpacity = 1.0;
 
   Map<String, dynamic> toJson() => {
         'mode': mode.name,
@@ -209,6 +312,8 @@ class ThemeSettings {
         'radius': radius, 'fontFamily': fontFamily, 'fontSize': fontSize,
         'textColor': textColor.toARGB32(), 'chordColor': chordColor.toARGB32(),
         'sectionColor': sectionColor.toARGB32(), 'highlight': highlight.toARGB32(),
+        'animate': animate, 'animSeconds': animSeconds, 'animateHue': animateHue,
+        'bgImage': bgImage, 'bgFit': bgFit, 'bgBlur': bgBlur, 'bgDarken': bgDarken, 'bgOpacity': bgOpacity,
       };
 
   void loadJson(Map<String, dynamic> j) {
@@ -228,6 +333,14 @@ class ThemeSettings {
     chordColor = c('chordColor', chordColor);
     sectionColor = c('sectionColor', sectionColor);
     highlight = c('highlight', highlight);
+    animate = j['animate'] as bool? ?? false;
+    animSeconds = (j['animSeconds'] as num? ?? animSeconds).toDouble();
+    animateHue = j['animateHue'] as bool? ?? false;
+    bgImage = j['bgImage'] as String?;
+    bgFit = j['bgFit'] as String? ?? 'cover';
+    bgBlur = (j['bgBlur'] as num? ?? 0).toDouble();
+    bgDarken = (j['bgDarken'] as num? ?? 0.35).toDouble();
+    bgOpacity = (j['bgOpacity'] as num? ?? 1.0).toDouble();
   }
 
   Decoration get backgroundDecoration => mode == BackgroundMode.solid || background.length < 2
@@ -382,6 +495,12 @@ class Project {
   final theme = ThemeSettings();
   final layout = LayoutSettings();
   final panels = {for (final k in panelKeys) k: PanelStyle()};
+  final voiceGroups = defaultVoiceGroups();
+  int leftColumns = 2;
+  final rhythmItems = List<String>.of(defaultRhythmItems);
+  int rhythmColumns = 2;
+  final bottomModules = List<String>.of(defaultBottomModules);
+  ReaderView readerView = ReaderView.text;
   final items = <String, ItemStyle>{};
   /// Beágyazott képek: azonosító → base64 (PNG/JPG), hogy a csomag egyetlen fájl legyen
   final images = <String, String>{};
@@ -394,6 +513,7 @@ class Project {
   /// A már nem használt képek törlése (kisebb fájl, gyorsabb átvitel)
   void pruneImages() {
     final used = <String>{
+      if (theme.bgImage != null) theme.bgImage!,
       for (final ps in panels.values)
         if (ps.backgroundImage != null) ps.backgroundImage!,
       for (final it in items.values)
@@ -413,6 +533,12 @@ class Project {
         'panels': {for (final e in panels.entries) e.key: e.value.toJson()},
         'items': {for (final e in items.entries) if (!e.value.isEmpty) e.key: e.value.toJson()},
         'images': images,
+        'voiceGroups': [for (final g in voiceGroups) g.toJson()],
+        'leftColumns': leftColumns,
+        'rhythmItems': rhythmItems,
+        'rhythmColumns': rhythmColumns,
+        'bottomModules': bottomModules,
+        'readerView': readerView.name,
         'readOnly': readOnly,
         if (sourceInfo != null) 'sourceInfo': sourceInfo,
       };
@@ -452,13 +578,59 @@ class Project {
         p.images[e.key] = e.value as String;
       }
     }
+    final vg = j['voiceGroups'];
+    if (vg is List && vg.isNotEmpty) {
+      p.voiceGroups
+        ..clear()
+        ..addAll([for (final g in vg) VoiceGroup.fromJson(g as Map<String, dynamic>)]);
+    }
+    p.leftColumns = (j['leftColumns'] as int? ?? 2).clamp(1, 3);
+    final ri = j['rhythmItems'];
+    if (ri is List) {
+      p.rhythmItems
+        ..clear()
+        ..addAll([for (final x in ri) if (rhythmCatalog.containsKey(x)) x as String]);
+    }
+    p.rhythmColumns = (j['rhythmColumns'] as int? ?? 2).clamp(1, 3);
+    final bm = j['bottomModules'];
+    if (bm is List) {
+      p.bottomModules
+        ..clear()
+        ..addAll([for (final x in bm) if (bottomCatalog.containsKey(x)) x as String]);
+    }
+    p.readerView = ReaderView.values.firstWhere((v) => v.name == j['readerView'], orElse: () => ReaderView.text);
     p.readOnly = j['readOnly'] as bool? ?? false;
     p.sourceInfo = j['sourceInfo'] as String?;
     return p;
   }
 
+  /// Saját, egyszerű bemutató-dallam G-dúrban (nem létező dal) a kottanézethez
+  static SongScore _demoScore() {
+    const bars = [
+      [67, 71, 74, 71], [69, 72, 74, 72], [71, 69, 67, 64], [62, 66, 69, 67],
+      [67, 67, 71, 74], [76, 74, 72, 71], [72, 71, 69, 67], [66, 67, 69, 62],
+    ];
+    final notes = <ScoreNote>[];
+    for (var b = 0; b < 22; b++) {
+      final pat = bars[b % bars.length];
+      if (b % 4 == 3) {
+        notes
+          ..add(ScoreNote(b * 4.0, 2, pat[0]))
+          ..add(ScoreNote(b * 4.0 + 2, 1.5, pat[2]))
+          ..add(ScoreNote(b * 4.0 + 3.5, 0.5, pat[3]));
+      } else {
+        for (var k = 0; k < 4; k++) {
+          notes.add(ScoreNote(b * 4.0 + k, 1, pat[k]));
+        }
+      }
+    }
+    return SongScore(name: 'Bemutató dallam', notes: notes, beatsPerBar: 4, bpm: 96);
+  }
+
   factory Project.demo() {
-    final p = Project()..name = 'Bemutató projekt';
+    final p = Project()
+      ..name = 'Bemutató projekt'
+      ..readerView = ReaderView.both;
     p.songs.addAll([
       Song(
         title: 'Bemutató dal',
@@ -466,6 +638,7 @@ class Project {
         key: 'G',
         bpm: 96,
         style: '8Beat Pop',
+        scores: [_demoScore()],
         body: '''{Intro} 4 ütem
 [G]Ide írd a dal [D]szövegét
 [Em]Az akkordok szögletes [C]zárójelbe kerülnek

@@ -90,6 +90,12 @@ int32_t als_tempo(double bpm) {
   return withSession([&](als::Session& s) { s.tempo(bpm); });
 }
 
+int32_t als_send_raw(const uint8_t* data, int32_t len) {
+  if (!data || len <= 0) return -3;
+  std::vector<uint8_t> bytes(data, data + len);
+  return withSession([&](als::Session& s) { s.transport().sendBurst(bytes, 0); });
+}
+
 int32_t als_set_zone(int32_t slot, int32_t enabled, int32_t low, int32_t high, int32_t velLow,
                      int32_t velHigh, int32_t transpose, float curve, int32_t outCh) {
   als::Zone z;

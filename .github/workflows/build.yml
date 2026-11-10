@@ -127,10 +127,15 @@ jobs:
         shell: pwsh
         run: |
           .github\scripts\screenshot.ps1 -Exe "$PWD\gui_pkg\SoundNexus Pro\SoundNexus Pro.exe" -Out "$PWD\screenshot.png" -Tag pc
-          $env:ALS_EDIT_MODE = '1'
+          $env:SNX_EDIT_MODE = '1'
           .github\scripts\screenshot.ps1 -Exe "$PWD\gui_pkg\SoundNexus Pro\SoundNexus Pro.exe" -Out "$PWD\screenshot_edit.png" -Tag edit
-          $env:ALS_EDIT_MODE = ''
-          $env:ALS_FORCE_MOBILE = '1'
+          $env:SNX_EDIT_MODE = ''
+          $env:SNX_OPEN = 'sample'
+          .github\scripts\screenshot.ps1 -Exe "$PWD\gui_pkg\SoundNexus Pro\SoundNexus Pro.exe" -Out "$PWD\screenshot_sample.png" -Tag sample
+          $env:SNX_OPEN = 'voices'
+          .github\scripts\screenshot.ps1 -Exe "$PWD\gui_pkg\SoundNexus Pro\SoundNexus Pro.exe" -Out "$PWD\screenshot_voices.png" -Tag voices
+          $env:SNX_OPEN = ''
+          $env:SNX_FORCE_MOBILE = '1'
           .github\scripts\screenshot.ps1 -Exe "$PWD\gui_pkg\SoundNexus Pro\SoundNexus Pro.exe" -Out "$PWD\screenshot_tablet.png" -Tag tablet
 
       - uses: actions/upload-artifact@v4

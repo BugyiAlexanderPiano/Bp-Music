@@ -4,7 +4,9 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../model/project.dart';
+import 'als_button.dart';
 import 'color_picker.dart';
+import 'style_dialogs.dart';
 
 // ---------------------------------------------------------------------------
 // Téma és színek (élő előnézettel: minden változás azonnal látszik)
@@ -23,13 +25,20 @@ const _themePresets = [
   _Preset('Napnyugta', [Color(0xFF2B1B17), Color(0xFF9E3A12), Color(0xFFE0A100)], Color(0xFFFFB347), Color(0xFF231511)),
   _Preset('Szén', [Color(0xFF111111), Color(0xFF1F1F1F)], Color(0xFF9E9E9E), Color(0xFF1A1A1A)),
   _Preset('Smaragd', [Color(0xFF071A12), Color(0xFF14532D)], Color(0xFF34D399), Color(0xFF0C2018)),
+  _Preset('Aurora', [Color(0xFF0B1026), Color(0xFF1F6E8C), Color(0xFF7B2FF7)], Color(0xFF5EEAD4), Color(0xFF0E1630)),
+  _Preset('Neon', [Color(0xFF0A0012), Color(0xFFFF00A8), Color(0xFF00E5FF)], Color(0xFFFF4FD8), Color(0xFF14001F)),
+  _Preset('Arany', [Color(0xFF1A1206), Color(0xFF7A5A12), Color(0xFFE6B422)], Color(0xFFFFD166), Color(0xFF1C140A)),
+  _Preset('Jég', [Color(0xFF0B1A2A), Color(0xFF3A7BD5), Color(0xFF00D2FF)], Color(0xFF8FE3FF), Color(0xFF0D2236)),
+  _Preset('Láva', [Color(0xFF1A0500), Color(0xFFB31B1B), Color(0xFFFF7A00)], Color(0xFFFF9F43), Color(0xFF200806)),
+  _Preset('Levendula', [Color(0xFF1B1530), Color(0xFF6D5BBA), Color(0xFF8D58BF)], Color(0xFFC3A6FF), Color(0xFF1E1934)),
 ];
 
-Future<void> showThemeDialog(BuildContext context, ThemeSettings t, VoidCallback onChanged) =>
+Future<void> showThemeDialog(BuildContext context, Project project, VoidCallback onChanged) =>
     showDialog<void>(
       context: context,
       barrierColor: Colors.black26,
       builder: (ctx) => StatefulBuilder(builder: (ctx, setD) {
+        final t = project.theme;
         void upd(VoidCallback f) {
           f();
           setD(() {});
@@ -105,6 +114,26 @@ Future<void> showThemeDialog(BuildContext context, ThemeSettings t, VoidCallback
                     ),
                 ]),
                 if (t.mode == BackgroundMode.gradient) ...[
+                  SwitchListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: const Text('Mozgó színátmenet'),
+                    subtitle: const Text('Az átmenet lassan körbeforog'),
+                    value: t.animate,
+                    onChanged: (v) => upd(() => t.animate = v),
+                  ),
+                  if (t.animate) ...[
+                    Row(children: [
+                      const SizedBox(width: 130, child: Text('Egy kör ideje')),
+                      Expanded(child: Slider(value: t.animSeconds, min: 4, max: 60, divisions: 56, label: '${t.animSeconds.round()} s', onChanged: (v) => upd(() => t.animSeconds = v))),
+                      Text('${t.animSeconds.round()} s'),
+                    ]),
+                    SwitchListTile(
+                      contentPadding: EdgeInsets.zero,
+                      title: const Text('Színek körbeforgatása is'),
+                      value: t.animateHue,
+                      onChanged: (v) => upd(() => t.animateHue = v),
+                    ),
+                  ],
                   const SizedBox(height: 6),
                   const Text('Átmenet iránya'),
                   Wrap(spacing: 4, children: [
@@ -119,6 +148,56 @@ Future<void> showThemeDialog(BuildContext context, ThemeSettings t, VoidCallback
                         icon: Icon(ic),
                         onPressed: () => upd(() => t.gradientBegin = a),
                       ),
+                  ]),
+                ],
+                const SizedBox(height: 14),
+                const Text('Saját háttérkép', style: TextStyle(fontWeight: FontWeight.w600)),
+                const SizedBox(height: 6),
+                Row(children: [
+                  Container(
+                    width: 72,
+                    height: 46,
+                    decoration: BoxDecoration(
+                      color: Colors.black26,
+                      borderRadius: BorderRadius.circular(6),
+                      image: ImageStore.of(project, t.bgImage) == null
+                          ? null
+                          : DecorationImage(image: ImageStore.of(project, t.bgImage)!, fit: BoxFit.cover),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  OutlinedButton.icon(
+                    onPressed: () async {
+                      final id = await pickImageInto(ctx, project);
+                      if (id != null) upd(() => t.bgImage = id);
+                    },
+                    icon: const Icon(Icons.wallpaper),
+                    label: const Text('Kép betöltése'),
+                  ),
+                  if (t.bgImage != null) TextButton(onPressed: () => upd(() => t.bgImage = null), child: const Text('Eltávolítás')),
+                ]),
+                if (t.bgImage != null) ...[
+                  const SizedBox(height: 6),
+                  SegmentedButton<String>(
+                    segments: const [
+                      ButtonSegment(value: 'cover', label: Text('Kitöltés')),
+                      ButtonSegment(value: 'contain', label: Text('Teljes kép')),
+                      ButtonSegment(value: 'tile', label: Text('Mozaik')),
+                    ],
+                    selected: {t.bgFit},
+                    onSelectionChanged: (v) => upd(() => t.bgFit = v.first),
+                  ),
+                  Row(children: [
+                    const SizedBox(width: 130, child: Text('Láthatóság')),
+                    Expanded(child: Slider(value: t.bgOpacity, min: 0.1, max: 1, onChanged: (v) => upd(() => t.bgOpacity = v))),
+                  ]),
+                  Row(children: [
+                    const SizedBox(width: 130, child: Text('Elmosás')),
+                    Expanded(child: Slider(value: t.bgBlur, max: 30, onChanged: (v) => upd(() => t.bgBlur = v))),
+                  ]),
+                  Row(children: [
+                    const SizedBox(width: 130, child: Text('Sötétítés')),
+                    Expanded(child: Slider(value: t.bgDarken, max: 0.9, onChanged: (v) => upd(() => t.bgDarken = v))),
                   ]),
                 ],
                 const SizedBox(height: 14),

@@ -33,6 +33,9 @@ ALS_API int32_t als_style_stop(void);
 ALS_API int32_t als_section(int32_t code);         /* Yamaha szakaszkód, pl. 0x08 = Main A */
 ALS_API int32_t als_tempo(double bpm);
 
+/* Tetszőleges MIDI-üzenet(ek) küldése (pl. dal lejátszása a hangszeren) */
+ALS_API int32_t als_send_raw(const uint8_t* data, int32_t len);
+
 ALS_API int32_t als_set_zone(int32_t slot, int32_t enabled, int32_t low, int32_t high,
                              int32_t vel_low, int32_t vel_high, int32_t transpose,
                              float vel_curve, int32_t out_channel);

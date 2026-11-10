@@ -39,6 +39,8 @@ abstract class MidiBackend {
   void section(int code);
   void tempo(double bpm);
   void voice(int channel, int msb, int lsb, int program, int volume);
+  /// Nyers MIDI-üzenet (dal lejátszása)
+  void sendRaw(List<int> bytes);
   void setZone(int slot,
       {required bool enabled, required int low, required int high, required int velLow,
       required int transpose, required double velCurve, required int outChannel});
@@ -103,6 +105,10 @@ class DesktopMidiBackend implements MidiBackend {
   void tempo(double bpm) => core?.tempo(bpm);
   @override
   void voice(int channel, int msb, int lsb, int program, int volume) => core?.voice(channel, msb, lsb, program, volume);
+  @override
+  void sendRaw(List<int> bytes) {
+    if (_connected) core?.sendRaw(bytes);
+  }
   @override
   void setZone(int slot,
           {required bool enabled, required int low, required int high, required int velLow,
@@ -246,6 +252,9 @@ class MobileMidiBackend implements MidiBackend {
     final us = (60000000 / bpm).round();
     _send([0xF0, 0x43, 0x7E, 0x01, (us >> 21) & 0x7F, (us >> 14) & 0x7F, (us >> 7) & 0x7F, us & 0x7F, 0xF7]);
   }
+
+  @override
+  void sendRaw(List<int> bytes) => _send(bytes);
 
   @override
   void voice(int channel, int msb, int lsb, int program, int volume) {

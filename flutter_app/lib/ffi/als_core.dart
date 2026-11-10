@@ -28,6 +28,7 @@ class AlsCore {
         _setZone = lib.lookupFunction<
             Int32 Function(Int32, Int32, Int32, Int32, Int32, Int32, Int32, Float, Int32),
             int Function(int, int, int, int, int, int, int, double, int)>('als_set_zone'),
+        _sendRaw = lib.lookupFunction<Int32 Function(Pointer<Uint8>, Int32), int Function(Pointer<Uint8>, int)>('als_send_raw'),
         _voice = lib.lookupFunction<Int32 Function(Int32, Int32, Int32, Int32, Int32),
             int Function(int, int, int, int, int)>('als_voice'),
         _listPorts = lib.lookupFunction<Int32 Function(Pointer<Utf8>, Int32),
@@ -35,7 +36,13 @@ class AlsCore {
         _fileDialog = lib.lookupFunction<Int32 Function(Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, Int32),
             int Function(Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, int)>('als_open_file_dialog'),
         _trim = lib.lookupFunction<Int32 Function(Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, Int32),
-            int Function(Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, int)>('als_trim_wav');
+            int Function(Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, int)>('als_trim_wav'),
+        _trimEx = lib.lookupFunction<
+            Int32 Function(Pointer<Utf8>, Pointer<Utf8>, Double, Double, Int32, Int32, Int32, Pointer<Utf8>, Int32),
+            int Function(Pointer<Utf8>, Pointer<Utf8>, double, double, int, int, int, Pointer<Utf8>, int)>('als_trim_wav_ex'),
+        _loop = lib.lookupFunction<
+            Int32 Function(Pointer<Utf8>, Pointer<Utf8>, Double, Double, Int32, Pointer<Utf8>, Int32),
+            int Function(Pointer<Utf8>, Pointer<Utf8>, double, double, int, Pointer<Utf8>, int)>('als_loop_wav');
 
   /// A program mappájából tölti be a magot. Hiba esetén kivételt dob.
   factory AlsCore.load() {
@@ -61,9 +68,12 @@ class AlsCore {
   final int Function(double) _tempo;
   final int Function(int, int, int, int, int, int, int, double, int) _setZone;
   final int Function(int, int, int, int, int) _voice;
+  final int Function(Pointer<Uint8>, int) _sendRaw;
   final int Function(Pointer<Utf8>, int) _listPorts;
   final int Function(Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, int) _fileDialog;
   final int Function(Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, int) _trim;
+  final int Function(Pointer<Utf8>, Pointer<Utf8>, double, double, int, int, int, Pointer<Utf8>, int) _trimEx;
+  final int Function(Pointer<Utf8>, Pointer<Utf8>, double, double, int, Pointer<Utf8>, int) _loop;
   NativeCallable<_RealtimeNative>? _rtCallable;
 
   /// (bemenetek, kimenetek) a rendszer MIDI-portjairól
@@ -105,6 +115,17 @@ class AlsCore {
           int transpose = 0, double velCurve = 1.0, required int outChannel}) =>
       _setZone(slot, enabled ? 1 : 0, low, high, velLow, velHigh, transpose, velCurve, outChannel);
 
+  void sendRaw(List<int> bytes) {
+    if (bytes.isEmpty) return;
+    final buf = calloc<Uint8>(bytes.length);
+    try {
+      buf.asTypedList(bytes.length).setAll(0, bytes);
+      _sendRaw(buf, bytes.length);
+    } finally {
+      calloc.free(buf);
+    }
+  }
+
   void voice(int channel, int msb, int lsb, int program, int volume) =>
       _voice(channel, msb, lsb, program, volume);
 
@@ -139,6 +160,34 @@ class AlsCore {
       calloc.free(rep);
     }
   }
+
+  TrimResult _call(String inPath, String outPath, int Function(Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>) f) {
+    final i = inPath.toNativeUtf8(), o = outPath.toNativeUtf8();
+    final rep = calloc<Uint8>(2048).cast<Utf8>();
+    try {
+      final rc = f(i, o, rep);
+      Map<String, dynamic> json;
+      try {
+        json = jsonDecode(rep.toDartString()) as Map<String, dynamic>;
+      } catch (_) {
+        json = {'error': 'ismeretlen hiba ($rc)'};
+      }
+      return TrimResult(rc == 0, json);
+    } finally {
+      calloc.free(i);
+      calloc.free(o);
+      calloc.free(rep);
+    }
+  }
+
+  /// Paraméterezett, mintapontos vágás (Sample Studio)
+  TrimResult trimWavEx(String inPath, String outPath,
+          {double startDb = -60, double tailDb = -70, bool trimHead = true, bool trimTail = true, bool fadeTail = true}) =>
+      _call(inPath, outPath, (i, o, r) => _trimEx(i, o, startDb, tailDb, trimHead ? 1 : 0, trimTail ? 1 : 0, fadeTail ? 1 : 0, r, 2048));
+
+  /// Loop-pont keresés (Loop Studio); a kimenet smpl blokkal íródik
+  TrimResult loopWav(String inPath, String outPath, {double minLoopMs = 400, double crossfadeMs = 0, int unityNote = 60}) =>
+      _call(inPath, outPath, (i, o, r) => _loop(i, o, minLoopMs, crossfadeMs, unityNote, r, 2048));
 
   void close() {
     _setRt(nullptr);

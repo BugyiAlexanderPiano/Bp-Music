@@ -19,17 +19,22 @@ import '../midi/midi_backend.dart';
 import '../model/project.dart';
 import '../reader/teleprompter_controller.dart';
 import '../transfer/transfer.dart';
+import '../score/lead_sheet.dart';
+import '../score/midi_player.dart';
 import 'als_button.dart';
+import 'background.dart';
 import 'dialogs.dart';
+import 'panel_editors.dart';
+import 'studio_pages.dart';
 import 'style_dialogs.dart';
 import 'transfer_dialogs.dart';
 import 'song_editor.dart';
 import 'song_view.dart';
 
-/// PC = szerkesztő mód. (Teszteléshez az ALS_FORCE_MOBILE=1 környezeti változóval
+/// PC = szerkesztő mód. (Teszteléshez az SNX_FORCE_MOBILE=1 környezeti változóval
 /// a PC is elindítható fellépő módban.)
 bool get isDesktop =>
-    (Platform.isWindows || Platform.isMacOS || Platform.isLinux) && Platform.environment['ALS_FORCE_MOBILE'] != '1';
+    (Platform.isWindows || Platform.isMacOS || Platform.isLinux) && Platform.environment['SNX_FORCE_MOBILE'] != '1';
 
 class Section {
   const Section(this.label, this.code);
@@ -83,12 +88,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   bool locked = false;
   final _scrolls = <int, ScrollController>{};
   SongLayout? _layout;
+  LeadSheetLayout? _sheet;
+  final _scoreStrip = ScrollController();
+  late final player = MidiPlayer(midi);
   late TeleprompterController reader;
   late final Ticker _ticker;
   Duration _lastTick = Duration.zero;
 
   // Felület
-  bool editLayout = isDesktop && Platform.environment['ALS_EDIT_MODE'] == '1';
+  bool editLayout = isDesktop && Platform.environment['SNX_EDIT_MODE'] == '1';
   int? openGroup = 0;
   bool styleRunning = false;
   int currentMain = 0x08;
@@ -110,6 +118,21 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     currentPath = widget.initialPath;
     _rebuildReader();
     _ticker = createTicker(_onTick)..start();
+    // Teszteléshez (CI képernyőképek): SNX_OPEN=sample | loop | voices | rhythm | bottom
+    final open = isDesktop ? Platform.environment['SNX_OPEN'] : null;
+    if (open != null && open.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final page = switch (open) {
+          'sample' => SampleStudioPage(project: p) as Widget,
+          'loop' => LoopStudioPage(project: p),
+          'voices' => VoicePanelEditorPage(project: p, onChanged: _editorChanged),
+          'rhythm' => RhythmPanelEditorPage(project: p, onChanged: _editorChanged),
+          'bottom' => BottomBarEditorPage(project: p, onChanged: _editorChanged),
+          _ => null,
+        };
+        if (page != null) _openEditor(page);
+      });
+    }
     if (!isDesktop) {
       // Fellépő mód: az utoljára fogadott csomag betöltése
       loadShowOnDevice().then((show) {
@@ -139,7 +162,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     _ticker.dispose();
     _autosave?.cancel();
     _writeAutosave();
+    player.stop();
     midi.close();
+    _scoreStrip.dispose();
     pages.dispose();
     for (final c in _scrolls.values) {
       c.dispose();
@@ -180,8 +205,52 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       return;
     }
     _layout = SongLayout(s, p.theme);
+    _sheet = s.score == null ? null : LeadSheetLayout(s, p.theme);
     bpm = s.bpm;
-    reader = TeleprompterController(_layout!.anchors, beatsPerBar: s.beatsPerBar, lookAheadBars: 0, bpm: s.bpm);
+    final useScore = p.readerView == ReaderView.score && _sheet != null;
+    final anchors = useScore
+        ? [for (final a in _sheet!.anchors) Anchor(a.bar, a.y + SongLayout.headerHeight)]
+        : _layout!.anchors;
+    reader = TeleprompterController(anchors, beatsPerBar: s.beatsPerBar, lookAheadBars: 0, bpm: s.bpm);
+  }
+
+  void _setView(ReaderView v) {
+    setState(() {
+      p.readerView = v;
+      _rebuildReader();
+    });
+    if (isDesktop) _changed();
+  }
+
+  /// A dalhoz csatolt kotta (MIDI) lejátszása a hangszeren, a görgetéssel együtt
+  void _togglePlay() {
+    if (player.playing) {
+      player.stop();
+      reader.stop();
+      setState(() {});
+      log('Lejátszás leállítva.');
+      return;
+    }
+    final sc = song?.score;
+    if (sc?.midiB64 == null) {
+      log('Ehhez a dalhoz nincs csatolt MIDI. A PC-n: Dal szerkesztése → Kotta → MIDI importálása.');
+      return;
+    }
+    if (!connected) {
+      log('Előbb kapcsolódj a hangszerhez.');
+      return;
+    }
+    player.onFinished = () {
+      reader.stop();
+      if (mounted) setState(() {});
+    };
+    player.play(sc!, targetBpm: bpm);
+    reader
+      ..reset()
+      ..setBpm(bpm)
+      ..startInternal();
+    setState(() {});
+    log('Lejátszás a hangszeren: ${song!.title} (${bpm.round()} BPM)');
   }
 
   void _onTick(Duration elapsed) {
@@ -193,6 +262,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       final view = sc.position.viewportDimension;
       final target = (reader.scrollY - view * 0.30).clamp(0.0, sc.position.maxScrollExtent);
       if ((sc.offset - target).abs() > 0.5) sc.jumpTo(target);
+    }
+    final sheet = _sheet;
+    if (p.readerView == ReaderView.both && sheet != null && _scoreStrip.hasClients) {
+      final target = ((reader.currentBar / sheet.barsPerSystem).floor() * sheet.systemHeight)
+          .clamp(0.0, _scoreStrip.position.maxScrollExtent);
+      if ((_scoreStrip.offset - target).abs() > 0.5) _scoreStrip.jumpTo(target);
     }
   }
 
@@ -619,31 +694,14 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   }
 
   // ---- eszközök ----
-  Future<void> _trimWav() async {
-    final m = midi;
-    final c = m is DesktopMidiBackend ? m.core : null;
-    if (c == null) return;
-    final f = await openFile(acceptedTypeGroups: const [XTypeGroup(label: 'WAV', extensions: ['wav'])]);
-    if (f == null) return;
-    final path = f.path;
-    final dot = path.toLowerCase().lastIndexOf('.wav');
-    final out = '${dot > 0 ? path.substring(0, dot) : path}_vagott.wav';
-    final r = c.trimWav(path, out);
-    if (!mounted) return;
-    await showDialog<void>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(r.ok ? 'Sample levágva' : 'Hiba'),
-        content: Text(r.ok
-            ? 'Levágva az elejéről: ${(r.json['cutHeadMs'] as num).toStringAsFixed(2)} ms\n'
-                'Levágva a végéről: ${(r.json['cutTailMs'] as num).toStringAsFixed(2)} ms\n'
-                'Csúcsszint: ${(r.json['peakDb'] as num).toStringAsFixed(1)} dBFS\n'
-                '${r.json['needsReview'] == true ? '\nFigyelem: kézi ellenőrzés javasolt (lassú felfutás).\n' : ''}'
-                '\nMentve: $out'
-            : '${r.json['error']}'),
-        actions: [FilledButton(onPressed: () => Navigator.pop(ctx), child: const Text('OK'))],
-      ),
-    );
+  void _editorChanged() {
+    _changed(theme: true);
+    setState(_rebuildReader);
+  }
+
+  Future<void> _openEditor(Widget page) async {
+    await Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => page));
+    if (mounted) setState(_rebuildReader);
   }
 
   void _about() => showAboutDialog(
@@ -705,8 +763,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           backgroundColor: Colors.transparent,
           drawer: _phone ? Drawer(width: 300, child: SafeArea(child: _voicesPanel())) : null,
           endDrawer: _phone ? Drawer(width: 300, child: SafeArea(child: _rhythmPanel())) : null,
-          body: DecoratedBox(
-            decoration: t.backgroundDecoration,
+          body: AppBackground(
+            project: p,
             child: SafeArea(
               child: Column(children: [
                 if (isDesktop) _topBar(context) else _mobileTopBar(),
@@ -810,12 +868,18 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 item('Dal hátrébb', page < p.songs.length - 1 ? () => _moveSong(1) : null, icon: Icons.arrow_forward),
               ], child: const Text('Szerkesztés')),
               SubmenuButton(menuChildren: [
-                item('Téma és színek…', () => showThemeDialog(context, p.theme, () => _changed(theme: true)),
+                item('Téma és színek…', () => showThemeDialog(context, p, () => _changed(theme: true)),
                     icon: Icons.palette_outlined),
                 item('Betűtípus és szöveg…', () => showFontDialog(context, p.theme, () {
                       _changed(theme: true);
                       setState(_rebuildReader);
                     }), icon: Icons.text_fields),
+                item('Hangszín-panel szerkesztő…', () => _openEditor(VoicePanelEditorPage(project: p, onChanged: _editorChanged)),
+                    icon: Icons.piano),
+                item('Ritmus-panel szerkesztő…', () => _openEditor(RhythmPanelEditorPage(project: p, onChanged: _editorChanged)),
+                    icon: Icons.queue_music),
+                item('Alsó vezérlősáv szerkesztő…', () => _openEditor(BottomBarEditorPage(project: p, onChanged: _editorChanged)),
+                    icon: Icons.view_day),
                 SubmenuButton(menuChildren: [
                   for (final k in panelKeys)
                     item(panelNames[k]!, () => showPanelStyleDialog(context, p, k, () => _changed(theme: true)),
@@ -841,7 +905,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 item('Stílus Stop', _stop, icon: Icons.stop),
               ], child: const Text('Hangszer')),
               SubmenuButton(menuChildren: [
-                item('WAV sample vágása…', coreError != null ? null : _trimWav, icon: Icons.content_cut),
+                item('SoundNexus Sample Studio…', coreError != null ? null : () => _openEditor(SampleStudioPage(project: p)),
+                    icon: Icons.content_cut),
+                item('SoundNexus Loop Studio…', coreError != null ? null : () => _openEditor(LoopStudioPage(project: p)),
+                    icon: Icons.all_inclusive),
                 item('Hangerő-normalizálás…', () => showNormalizeDialog(context), icon: Icons.equalizer),
               ], child: const Text('Eszközök')),
               SubmenuButton(menuChildren: [
@@ -949,6 +1016,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 'a sávok sarkában lévő narancs ecsettel az egész sávot alakítod; a választóvonalak húzhatók.'),
           ),
           TextButton.icon(
+            onPressed: () => _openEditor(BottomBarEditorPage(project: p, onChanged: _editorChanged)),
+            icon: const Icon(Icons.view_day),
+            label: const Text('Alsó sáv…'),
+          ),
+          TextButton.icon(
             onPressed: () {
               setState(() => p.layout.swapSides = !p.layout.swapSides);
               _changed();
@@ -957,7 +1029,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             label: const Text('Oldalak cseréje'),
           ),
           TextButton.icon(
-            onPressed: () => showThemeDialog(context, p.theme, () => _changed(theme: true)),
+            onPressed: () => showThemeDialog(context, p, () => _changed(theme: true)),
             icon: const Icon(Icons.palette_outlined),
             label: const Text('Téma'),
           ),
@@ -1074,96 +1146,125 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   Widget _voicesPanel() {
     final edit = editLayout && _canEdit;
+    final groups = p.voiceGroups;
+    final cols = p.leftColumns.clamp(1, 3);
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      _title('Hangszínek'),
-      Padding(
-        padding: const EdgeInsets.fromLTRB(14, 0, 14, 8),
-        child: Text('Kattints egy csoportra, majd húzd vagy koppintsd a hangszínt a V1–V4 helyére.',
-            style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.6))),
-      ),
+      _title('Hangszínek',
+          trailing: _canEdit
+              ? IconButton(
+                  tooltip: 'Hangszín-panel szerkesztő',
+                  icon: const Icon(Icons.tune, size: 18),
+                  onPressed: () => _openEditor(VoicePanelEditorPage(project: p, onChanged: _editorChanged)),
+                )
+              : null),
       Expanded(
-        child: ListView(padding: const EdgeInsets.fromLTRB(8, 0, 8, 12), children: [
-          for (var g = 0; g < voiceGroups.length; g++) ...[
-            Padding(
+        child: LayoutBuilder(builder: (ctx, box) {
+          final w = (box.maxWidth - 16 - (cols - 1) * 6) / cols;
+          final rows = <Widget>[];
+          for (var r = 0; r < groups.length; r += cols) {
+            final row = [for (var g = r; g < r + cols && g < groups.length; g++) g];
+            rows.add(Padding(
               padding: const EdgeInsets.only(bottom: 6),
-              child: AlsButton(
-                project: p,
-                panel: 'left',
-                id: 'group:${voiceGroups[g].name}',
-                label: voiceGroups[g].name,
-                icon: voiceGroups[g].icon,
-                width: double.infinity,
-                height: 42,
-                alignLeft: true,
-                selected: openGroup == g,
-                editMode: edit,
-                onEdit: () => _editItem('group:${voiceGroups[g].name}', voiceGroups[g].name),
-                onTap: () => setState(() => openGroup = openGroup == g ? null : g),
-                trailing: Icon(openGroup == g ? Icons.expand_less : Icons.chevron_right, size: 18),
-              ),
-            ),
-            AnimatedSize(
-              duration: const Duration(milliseconds: 180),
-              child: openGroup != g
-                  ? const SizedBox(width: double.infinity)
-                  : Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 0, 4, 10),
-                      child: Wrap(spacing: 6, runSpacing: 6, children: [
-                        for (final v in voiceGroups[g].voices)
-                          Draggable<VoicePreset>(
-                            data: v,
-                            maxSimultaneousDrags: edit ? 0 : 1,
-                            feedback: Material(
-                              color: Colors.transparent,
-                              child: Chip(label: Text(v.name), backgroundColor: p.theme.accent),
-                            ),
-                            child: Builder(
-                              builder: (bctx) => AlsButton(
-                                project: p,
-                                panel: 'left',
-                                id: 'voice:${v.name}',
-                                label: v.name,
-                                height: 32,
-                                editMode: edit,
-                                onEdit: () => _editItem('voice:${v.name}', v.name),
-                                onTap: () => _voiceMenu(bctx, v),
-                              ),
-                            ),
-                          ),
-                      ]),
+              child: Row(children: [
+                for (final g in row)
+                  Padding(
+                    padding: EdgeInsets.only(right: g == row.last ? 0 : 6),
+                    child: AlsButton(
+                      project: p,
+                      panel: 'left',
+                      id: 'group:${groups[g].name}',
+                      label: groups[g].name,
+                      icon: groups[g].icon,
+                      width: w,
+                      height: 44,
+                      alignLeft: cols == 1,
+                      selected: openGroup == g,
+                      editMode: edit,
+                      onEdit: () => _editItem('group:${groups[g].name}', groups[g].name),
+                      onTap: () => setState(() => openGroup = openGroup == g ? null : g),
                     ),
-            ),
-          ],
-        ]),
+                  ),
+              ]),
+            ));
+            final open = openGroup;
+            if (open != null && row.contains(open) && open < groups.length) {
+              rows.add(Padding(
+                padding: const EdgeInsets.fromLTRB(4, 0, 0, 10),
+                child: Wrap(spacing: 6, runSpacing: 6, children: [
+                  for (final v in groups[open].voices)
+                    Draggable<VoicePreset>(
+                      data: v,
+                      maxSimultaneousDrags: edit ? 0 : 1,
+                      feedback: Material(color: Colors.transparent, child: Chip(label: Text(v.name), backgroundColor: p.theme.accent)),
+                      child: Builder(
+                        builder: (bctx) => AlsButton(
+                          project: p,
+                          panel: 'left',
+                          id: 'voice:${v.name}',
+                          label: v.name,
+                          width: w,
+                          height: 34,
+                          editMode: edit,
+                          onEdit: () => _editItem('voice:${v.name}', v.name),
+                          onTap: () => _voiceMenu(bctx, v),
+                        ),
+                      ),
+                    ),
+                ]),
+              ));
+            }
+          }
+          return ListView(padding: const EdgeInsets.fromLTRB(8, 0, 8, 12), children: rows);
+        }),
       ),
     ]);
   }
 
-  // ---- jobb: ritmus ----
+  /// Egy ritmusgomb felirata, művelete, kijelölt állapota és ikonja
+  (String, VoidCallback?, bool, IconData?) _rhythmAction(String k) {
+    (String, VoidCallback?, bool, IconData?) sec(String label, int code) =>
+        (label, () => _section(Section(label, code)), lastSection == code || (lastSection == null && code == currentMain), null);
+    return switch (k) {
+      'start' => ('Start', _start, styleRunning, Icons.play_arrow),
+      'stop' => ('Stop', _stop, false, Icons.stop),
+      'introA' => sec('Intro A', 0x00),
+      'introB' => sec('Intro B', 0x01),
+      'introC' => sec('Intro C', 0x02),
+      'mainA' => sec('Main A', 0x08),
+      'mainB' => sec('Main B', 0x09),
+      'mainC' => sec('Main C', 0x0A),
+      'mainD' => sec('Main D', 0x0B),
+      'break' => sec('Break', 0x18),
+      'endingA' => sec('Ending A', 0x20),
+      'endingB' => sec('Ending B', 0x21),
+      'endingC' => sec('Ending C', 0x22),
+      'fill' => ('Fill In', _fill, false, null),
+      'sync' => ('Szinkron', song == null ? null : _syncSong, false, Icons.sync),
+      'tap' => ('TAP', _tapTempo, false, Icons.touch_app),
+      'tempoDown' => ('Tempó −', () => _setTempo(bpm - 1), false, Icons.remove),
+      'tempoUp' => ('Tempó +', () => _setTempo(bpm + 1), false, Icons.add),
+      'playScore' => (player.playing ? 'Leállítás' : 'Dal lejátszása', _togglePlay, player.playing, player.playing ? Icons.stop_circle : Icons.play_circle),
+      'lock' => (locked ? 'Feloldás' : 'Lakat', () => setState(() => locked = !locked), locked, locked ? Icons.lock : Icons.lock_open),
+      _ => (k, null, false, null),
+    };
+  }
+
   Widget _rhythmPanel() {
     final t = p.theme;
     final edit = editLayout && _canEdit;
+    final cols = p.rhythmColumns.clamp(1, 3);
     return LayoutBuilder(builder: (ctx, box) {
-      final btnW = ((box.maxWidth.isFinite ? box.maxWidth : 280) - 28 - 8) / 2;
-      Widget btn(String id, String label, VoidCallback onTap, {bool sel = false, IconData? icon, double? w, double h = 40}) =>
-          AlsButton(
-            project: p,
-            panel: 'right',
-            id: id,
-            label: label,
-            icon: icon,
-            width: w ?? btnW,
-            height: h,
-            selected: sel,
-            editMode: edit,
-            onEdit: () => _editItem(id, label),
-            onTap: onTap,
-          );
-      Widget sec(Section s) => btn('sec:${s.code}', s.label, () => _section(s),
-          sel: lastSection == s.code || (lastSection == null && s.code == currentMain));
-
+      final avail = box.maxWidth.isFinite ? box.maxWidth : 280;
+      final btnW = (avail - 28 - (cols - 1) * 8) / cols;
       return ListView(padding: const EdgeInsets.only(bottom: 12), children: [
-        _title('Ritmus és stílus'),
+        _title('Ritmus és stílus',
+            trailing: _canEdit
+                ? IconButton(
+                    tooltip: 'Ritmus-panel szerkesztő',
+                    icon: const Icon(Icons.tune, size: 18),
+                    onPressed: () => _openEditor(RhythmPanelEditorPage(project: p, onChanged: _editorChanged)),
+                  )
+                : null),
         if (song != null && song!.style.isNotEmpty)
           Padding(
             padding: const EdgeInsets.fromLTRB(14, 0, 14, 10),
@@ -1176,19 +1277,24 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 14),
           child: Wrap(spacing: 8, runSpacing: 8, children: [
-            btn('btn:start', 'Start', _start, sel: styleRunning, icon: Icons.play_arrow, h: 54),
-            btn('btn:stop', 'Stop', _stop, icon: Icons.stop, h: 54),
-          ]),
-        ),
-        const SizedBox(height: 14),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 14),
-          child: Wrap(spacing: 8, runSpacing: 8, children: [
-            for (final s in intros) sec(s),
-            for (final s in mains) sec(s),
-            btn('btn:fill', 'Fill In', _fill),
-            sec(const Section('Break', 0x18)),
-            for (final s in endings) sec(s),
+            for (final k in p.rhythmItems)
+              Builder(builder: (_) {
+                final (label, onTap, sel, icon) = _rhythmAction(k);
+                final big = k == 'start' || k == 'stop';
+                return AlsButton(
+                  project: p,
+                  panel: 'right',
+                  id: 'r:$k',
+                  label: label,
+                  icon: icon,
+                  width: btnW,
+                  height: big ? 54 : 40,
+                  selected: sel,
+                  editMode: edit,
+                  onEdit: () => _editItem('r:$k', rhythmCatalog[k] ?? k),
+                  onTap: onTap,
+                );
+              }),
           ]),
         ),
         const SizedBox(height: 14),
@@ -1201,10 +1307,38 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     });
   }
 
-  // ---- közép: dal-oldalak ----
+  // ---- közép: dal-oldalak (szöveg / kotta / mindkettő) ----
+  Widget _songPage(int i) {
+    final t = p.theme;
+    final s = p.songs[i];
+    final current = i == page;
+    final layout = current && _layout != null ? _layout! : SongLayout(s, t);
+    final text = SongPage(song: s, layout: layout, theme: t, scroll: _scrollFor(i), reader: current ? reader : null);
+    if (s.score == null || p.readerView == ReaderView.text) return text;
+    final sheet = current && _sheet != null ? _sheet! : LeadSheetLayout(s, t);
+    if (p.readerView == ReaderView.score) {
+      return ScoreView(
+        layout: sheet,
+        scroll: _scrollFor(i),
+        reader: current ? reader : null,
+        header: SizedBox(height: SongLayout.headerHeight, child: SongHeader(song: s, theme: t)),
+      );
+    }
+    // mindkettő: fent a kotta aktuális sora, alatta a szöveg
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      SizedBox(
+        height: sheet.systemHeight * 1.6,
+        child: ScoreView(layout: sheet, scroll: current ? _scoreStrip : ScrollController(), reader: current ? reader : null),
+      ),
+      Divider(height: 1, color: Colors.white.withValues(alpha: 0.15)),
+      Expanded(child: text),
+    ]);
+  }
+
   Widget _centerPanel() {
     final t = p.theme;
     final n = p.songs.length;
+    final s = song;
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       Padding(
         padding: const EdgeInsets.fromLTRB(8, 6, 8, 2),
@@ -1221,35 +1355,57 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             icon: const Icon(Icons.chevron_right),
           ),
           const SizedBox(width: 4),
-          Flexible(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(children: [
-                for (var i = 0; i < n; i++)
-                  GestureDetector(
-                    onTap: locked ? null : () => _goToPage(i),
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 3),
-                      width: i == page ? 18 : 8,
-                      height: 8,
-                      decoration: BoxDecoration(
-                        color: i == page ? t.accent : Colors.white24,
-                        borderRadius: BorderRadius.circular(4),
+          if (!_phone)
+            Flexible(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(children: [
+                  for (var k = 0; k < n; k++)
+                    GestureDetector(
+                      onTap: locked ? null : () => _goToPage(k),
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 3),
+                        width: k == page ? 18 : 8,
+                        height: 8,
+                        decoration: BoxDecoration(color: k == page ? t.accent : Colors.white24, borderRadius: BorderRadius.circular(4)),
                       ),
                     ),
-                  ),
-              ]),
-            ),
-          ),
-          const Spacer(),
-          if (!_phone)
-            AnimatedBuilder(
-              animation: reader,
-              builder: (_, __) => Text(
-                'Ütem ${(reader.currentBar + 1).floor()} · ${reader.source == ClockSource.midi ? 'MIDI Clock' : 'belső óra'}',
-                style: TextStyle(color: Colors.white.withValues(alpha: 0.6), fontSize: 12),
+                ]),
               ),
             ),
+          const Spacer(),
+          // Nézet: szöveg / kotta / mindkettő (a tableten is választható)
+          PopupMenuButton<ReaderView>(
+            tooltip: 'Nézet: szöveg, kotta vagy mindkettő',
+            initialValue: p.readerView,
+            onSelected: _setView,
+            itemBuilder: (_) => const [
+              PopupMenuItem(value: ReaderView.text, child: Text('Szöveg és akkordok')),
+              PopupMenuItem(value: ReaderView.score, child: Text('Kotta (dallam + akkordok)')),
+              PopupMenuItem(value: ReaderView.both, child: Text('Kotta és szöveg együtt')),
+            ],
+            icon: Icon(switch (p.readerView) {
+              ReaderView.text => Icons.subject,
+              ReaderView.score => Icons.music_note,
+              ReaderView.both => Icons.view_agenda,
+            }),
+          ),
+          if (s != null && s.scores.length > 1)
+            PopupMenuButton<int>(
+              tooltip: 'Kotta-változat',
+              initialValue: s.activeScore,
+              onSelected: (v) => setState(() {
+                s.activeScore = v;
+                _rebuildReader();
+              }),
+              itemBuilder: (_) => [for (var k = 0; k < s.scores.length; k++) PopupMenuItem(value: k, child: Text(s.scores[k].name))],
+              icon: const Icon(Icons.library_music),
+            ),
+          IconButton(
+            tooltip: player.playing ? 'Lejátszás leállítása' : 'Dal lejátszása a hangszeren (csatolt MIDI)',
+            onPressed: s?.score?.midiB64 == null ? null : _togglePlay,
+            icon: Icon(player.playing ? Icons.stop_circle : Icons.play_circle_fill, color: player.playing ? Colors.greenAccent : null),
+          ),
           IconButton(
             tooltip: 'Elejére',
             onPressed: () => setState(() {
@@ -1278,7 +1434,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             icon: Icon(locked ? Icons.lock : Icons.lock_open),
           ),
           if (_canEdit) ...[
-            IconButton(tooltip: 'Dal szerkesztése (Ctrl+E)', onPressed: song == null ? null : _editSong, icon: const Icon(Icons.edit_note)),
+            IconButton(tooltip: 'Dal szerkesztése (Ctrl+E)', onPressed: s == null ? null : _editSong, icon: const Icon(Icons.edit_note)),
             IconButton(tooltip: 'Új dal', onPressed: _addSong, icon: const Icon(Icons.add_circle_outline)),
           ],
         ]),
@@ -1302,24 +1458,21 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   controller: pages,
                   physics: locked ? const NeverScrollableScrollPhysics() : const PageScrollPhysics(),
                   itemCount: n,
-                  onPageChanged: (i) => setState(() {
-                    page = i;
-                    _rebuildReader();
-                  }),
-                  itemBuilder: (ctx, i) => SongPage(
-                    song: p.songs[i],
-                    layout: i == page && _layout != null ? _layout! : SongLayout(p.songs[i], t),
-                    theme: t,
-                    scroll: _scrollFor(i),
-                    reader: i == page ? reader : null,
-                  ),
+                  onPageChanged: (k) {
+                    player.stop();
+                    setState(() {
+                      page = k;
+                      _rebuildReader();
+                    });
+                  },
+                  itemBuilder: (ctx, k) => _songPage(k),
                 ),
               ),
       ),
     ]);
   }
 
-  // ---- alsó vezérlősáv ----
+  // ---- alsó vezérlősáv (modulok a szerkesztett sorrendben) ----
   Widget _bottomBar() {
     final edit = editLayout && _canEdit;
     final compact = _compact || _phone;
@@ -1351,92 +1504,115 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         );
 
     final bank0 = bank.clamp(0, p.banks.length - 1);
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(children: [
-        group(
-          'Rétegek (V1–V4)',
-          compact
-              ? Column(children: [
-                  Row(children: [_slotTile(0), _slotTile(1)]),
-                  const SizedBox(height: 6),
-                  Row(children: [_slotTile(2), _slotTile(3)]),
-                ])
-              : Row(children: [for (var i = 0; i < p.slots.length; i++) _slotTile(i)]),
-        ),
-        sep(),
-        group(
-          compact ? 'OTS' : 'One Touch Settings',
-          SizedBox(
-            width: compact ? 88 : 196,
-            child: Wrap(spacing: 4, runSpacing: 4, children: [
-              for (var i = 1; i <= 4; i++)
-                Tooltip(
-                  message: 'OTS-hívás MIDI-n: a modell Data List-je alapján kerül be',
-                  child: btn('ots:$i', '$i', null, w: compact ? 40 : 44, h: compact ? 40 : 44),
-                ),
-            ]),
-          ),
-        ),
-        sep(),
-        group(
-          'Tempó',
-          Row(children: [
-            btn('btn:tempo-', '', () => _setTempo(bpm - 1), icon: Icons.remove, name: 'Tempó −'),
-            SizedBox(
-              width: 88,
-              child: Center(child: Text('${bpm.round()}', style: const TextStyle(fontSize: 32, fontWeight: FontWeight.w700))),
+    Widget? module(String k) => switch (k) {
+          'layers' => group(
+              'Rétegek (V1–V4)',
+              compact
+                  ? Column(children: [
+                      Row(children: [_slotTile(0), _slotTile(1)]),
+                      const SizedBox(height: 6),
+                      Row(children: [_slotTile(2), _slotTile(3)]),
+                    ])
+                  : Row(children: [for (var i = 0; i < p.slots.length; i++) _slotTile(i)]),
             ),
-            btn('btn:tempo+', '', () => _setTempo(bpm + 1), icon: Icons.add, name: 'Tempó +'),
-            const SizedBox(width: 6),
-            btn('btn:tap', 'TAP', _tapTempo, w: 60),
-          ]),
-        ),
-        sep(),
-        group(
-          'Regiszter bankok',
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(children: [
-              DropdownButton<int>(
-                value: bank0,
-                underline: const SizedBox(),
-                items: [for (var b = 0; b < p.banks.length; b++) DropdownMenuItem(value: b, child: Text(p.banks[b].name))],
-                onChanged: (v) => setState(() {
-                  bank = v!;
-                  activeReg = null;
-                }),
+          'ots' => group(
+              compact ? 'OTS' : 'One Touch Settings',
+              SizedBox(
+                width: compact ? 88 : 196,
+                child: Wrap(spacing: 4, runSpacing: 4, children: [
+                  for (var i = 1; i <= 4; i++)
+                    Tooltip(
+                      message: 'OTS-hívás MIDI-n: a modell Data List-je alapján kerül be',
+                      child: btn('ots:$i', '$i', null, w: compact ? 40 : 44, h: compact ? 40 : 44),
+                    ),
+                ]),
               ),
-              if (_canEdit) ...[
-                IconButton(
-                  tooltip: 'Új bank',
-                  onPressed: () {
-                    setState(() {
-                      p.banks.add(RegBank('Bank ${p.banks.length + 1}'));
-                      bank = p.banks.length - 1;
-                    });
-                    _changed();
-                  },
-                  icon: const Icon(Icons.add, size: 18),
+            ),
+          'tempo' => group(
+              'Tempó',
+              Row(children: [
+                btn('btn:tempo-', '', () => _setTempo(bpm - 1), icon: Icons.remove, name: 'Tempó −'),
+                SizedBox(
+                  width: 88,
+                  child: Center(child: Text('${bpm.round()}', style: const TextStyle(fontSize: 32, fontWeight: FontWeight.w700))),
                 ),
-                TextButton.icon(
-                  onPressed: () => setState(() => saveMode = !saveMode),
-                  icon: Icon(Icons.save, size: 18, color: saveMode ? Colors.orangeAccent : null),
-                  label: Text(saveMode ? 'Hová?' : 'Mentés'),
-                ),
-              ],
-            ]),
-            SizedBox(
-              width: compact ? 176 : 360,
-              child: Wrap(spacing: 4, runSpacing: 4, children: [
-                for (var i = 0; i < 8; i++)
-                  btn('reg:$i', '${i + 1}${p.banks[bank0].slots[i] != null ? '•' : ''}', () => _regButton(i),
-                      sel: activeReg == i, w: 40, h: 34),
+                btn('btn:tempo+', '', () => _setTempo(bpm + 1), icon: Icons.add, name: 'Tempó +'),
+                const SizedBox(width: 6),
+                btn('btn:tap', 'TAP', _tapTempo, w: 60),
               ]),
             ),
-          ]),
-        ),
-      ]),
-    );
+          'regs' => group(
+              'Regiszter bankok',
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Row(children: [
+                  DropdownButton<int>(
+                    value: bank0,
+                    underline: const SizedBox(),
+                    items: [for (var b = 0; b < p.banks.length; b++) DropdownMenuItem(value: b, child: Text(p.banks[b].name))],
+                    onChanged: (v) => setState(() {
+                      bank = v!;
+                      activeReg = null;
+                    }),
+                  ),
+                  if (_canEdit) ...[
+                    IconButton(
+                      tooltip: 'Új bank',
+                      onPressed: () {
+                        setState(() {
+                          p.banks.add(RegBank('Bank ${p.banks.length + 1}'));
+                          bank = p.banks.length - 1;
+                        });
+                        _changed();
+                      },
+                      icon: const Icon(Icons.add, size: 18),
+                    ),
+                    TextButton.icon(
+                      onPressed: () => setState(() => saveMode = !saveMode),
+                      icon: Icon(Icons.save, size: 18, color: saveMode ? Colors.orangeAccent : null),
+                      label: Text(saveMode ? 'Hová?' : 'Mentés'),
+                    ),
+                  ],
+                ]),
+                SizedBox(
+                  width: compact ? 176 : 360,
+                  child: Wrap(spacing: 4, runSpacing: 4, children: [
+                    for (var i = 0; i < 8; i++)
+                      btn('reg:$i', '${i + 1}${p.banks[bank0].slots[i] != null ? '•' : ''}', () => _regButton(i),
+                          sel: activeReg == i, w: 40, h: 34),
+                  ]),
+                ),
+              ]),
+            ),
+          'startStop' => group('Stílus', Row(children: [
+              btn('btn:start', 'Start', _start, sel: styleRunning, icon: Icons.play_arrow, w: 96),
+              const SizedBox(width: 6),
+              btn('btn:stop', 'Stop', _stop, icon: Icons.stop, w: 96),
+            ])),
+          'mains' => group('Main', Row(children: [
+              for (final m in mains)
+                Padding(
+                  padding: const EdgeInsets.only(right: 4),
+                  child: btn('btn:${m.label}', m.label.replaceAll('Main ', ''), () => _section(m),
+                      sel: lastSection == m.code || (lastSection == null && m.code == currentMain), name: m.label),
+                ),
+            ])),
+          'sync' => group('Hangszer', btn('btn:sync', 'Szinkron', song == null ? null : _syncSong, icon: Icons.sync, w: 130)),
+          'playScore' => group('Dal', btn('btn:play', player.playing ? 'Leállítás' : 'Lejátszás', _togglePlay,
+              sel: player.playing, icon: player.playing ? Icons.stop_circle : Icons.play_circle, w: 140)),
+          'lock' => group('Oldal', btn('btn:lock', locked ? 'Feloldás' : 'Lakat', () => setState(() => locked = !locked),
+              sel: locked, icon: locked ? Icons.lock : Icons.lock_open, w: 120)),
+          'spacer' => const SizedBox(width: 40),
+          _ => null,
+        };
+
+    final widgets = <Widget>[];
+    for (final k in p.bottomModules) {
+      final w = module(k);
+      if (w == null) continue;
+      if (widgets.isNotEmpty && k != 'spacer') widgets.add(sep());
+      widgets.add(w);
+    }
+    return SingleChildScrollView(scrollDirection: Axis.horizontal, child: Row(children: widgets));
   }
 
   Widget _slotTile(int i) {

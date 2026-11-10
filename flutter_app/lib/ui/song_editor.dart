@@ -3,8 +3,14 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import 'dart:convert';
+
+import 'package:file_selector/file_selector.dart';
+
 import '../model/chordpro.dart';
 import '../model/project.dart';
+import '../score/lead_sheet.dart';
+import '../score/midi_file.dart';
 import 'song_view.dart';
 
 const keyChoices = [
@@ -59,6 +65,91 @@ class _SongEditorState extends State<_SongEditor> {
   late final bpmCtrl = TextEditingController(text: song.bpm.round().toString());
   late final bodyCtrl = TextEditingController(text: song.body);
   final previewScroll = ScrollController();
+  bool previewScore = false;
+
+  /// MIDI import: sáv- és rácsválasztás, majd kotta létrehozása
+  Future<void> _importMidi() async {
+    final f = await openFile(acceptedTypeGroups: const [XTypeGroup(label: 'MIDI', extensions: ['mid', 'midi', 'kar'])]);
+    if (f == null) return;
+    final bytes = await f.readAsBytes();
+    MidiFile mf;
+    try {
+      mf = MidiFile.parse(bytes);
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('A MIDI fájl nem olvasható: $e')));
+      }
+      return;
+    }
+    var track = mf.guessMelodyTrack();
+    var grid = 0.5;
+    var takeTempo = true;
+    if (!mounted) return;
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setD) => AlertDialog(
+          title: Text('Kotta: ${f.name}'),
+          content: SizedBox(
+            width: 480,
+            child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+              const Text('Melyik sáv a dallam?'),
+              DropdownButton<int>(
+                isExpanded: true,
+                value: track,
+                items: [
+                  for (final t in mf.tracks)
+                    if (t.noteCount > 0) DropdownMenuItem(value: t.index, child: Text(t.label)),
+                ],
+                onChanged: (v) => setD(() => track = v!),
+              ),
+              const SizedBox(height: 10),
+              const Text('Ritmikai rács (kvantálás):'),
+              SegmentedButton<double>(
+                segments: const [
+                  ButtonSegment(value: 0.5, label: Text('Nyolcad')),
+                  ButtonSegment(value: 0.25, label: Text('Tizenhatod')),
+                ],
+                selected: {grid},
+                onSelectionChanged: (v) => setD(() => grid = v.first),
+              ),
+              CheckboxListTile(
+                contentPadding: EdgeInsets.zero,
+                title: Text('Tempó és ütemmutató átvétele (${mf.firstBpm.round()} BPM, ${mf.beatsPerBar}/4)'),
+                value: takeTempo,
+                onChanged: (v) => setD(() => takeTempo = v ?? true),
+              ),
+              Text('A teljes MIDI a dalhoz csatolódik: a tableten a „Dal lejátszása” gomb ezt játssza le a hangszeren.',
+                  style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.6))),
+            ]),
+          ),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Mégse')),
+            FilledButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('Kotta létrehozása')),
+          ],
+        ),
+      ),
+    );
+    if (ok != true) return;
+    setState(() {
+      song.scores.add(SongScore(
+        name: f.name.replaceAll(RegExp(r'\.(mid|midi|kar)$', caseSensitive: false), ''),
+        midiB64: base64Encode(bytes),
+        melodyTrack: track,
+        notes: mf.melody(track, grid: grid),
+        beatsPerBar: mf.beatsPerBar,
+        bpm: mf.firstBpm,
+      ));
+      song.activeScore = song.scores.length - 1;
+      if (takeTempo) {
+        song.bpm = mf.firstBpm.roundToDouble();
+        bpmCtrl.text = song.bpm.round().toString();
+        song.timeSig = '${mf.beatsPerBar}/4';
+        if (!timeChoices.contains(song.timeSig)) song.timeSig = '4/4';
+      }
+      previewScore = true;
+    });
+  }
 
   @override
   void dispose() {
@@ -221,6 +312,33 @@ class _SongEditorState extends State<_SongEditor> {
               ),
           ])),
         ),
+        // Kották
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 6, 20, 0),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(children: [
+              const Text('Kotta: ', style: TextStyle(fontSize: 12)),
+              for (var k = 0; k < song.scores.length; k++)
+                Padding(
+                  padding: const EdgeInsets.only(right: 4),
+                  child: InputChip(
+                    selected: k == song.activeScore,
+                    label: Text('${song.scores[k].name} (${song.scores[k].notes.length} hang)'),
+                    onPressed: () => setState(() => song.activeScore = k),
+                    onDeleted: () => setState(() {
+                      song.scores.removeAt(k);
+                      song.activeScore = 0;
+                    }),
+                  ),
+                ),
+              ActionChip(avatar: const Icon(Icons.library_music, size: 16), label: const Text('MIDI importálása…'), onPressed: _importMidi),
+              const SizedBox(width: 12),
+              Text('Automatikus kottázás MP3/MP4-ből: B. szakasz',
+                  style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.45))),
+            ]),
+          ),
+        ),
         const SizedBox(height: 8),
         Expanded(
           child: Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
@@ -244,19 +362,37 @@ class _SongEditorState extends State<_SongEditor> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(10, 0, 20, 20),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: DecoratedBox(
-                    decoration: widget.theme.backgroundDecoration,
-                    child: SongPage(
-                      song: song,
-                      layout: SongLayout(song, widget.theme),
-                      theme: widget.theme,
-                      scroll: previewScroll,
-                      reader: null,
+                child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                  if (song.score != null)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 6),
+                      child: SegmentedButton<bool>(
+                        segments: const [
+                          ButtonSegment(value: false, label: Text('Előnézet: szöveg')),
+                          ButtonSegment(value: true, label: Text('Előnézet: kotta')),
+                        ],
+                        selected: {previewScore},
+                        onSelectionChanged: (v) => setState(() => previewScore = v.first),
+                      ),
+                    ),
+                  Expanded(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: DecoratedBox(
+                        decoration: widget.theme.backgroundDecoration,
+                        child: previewScore && song.score != null
+                            ? ScoreView(layout: LeadSheetLayout(song, widget.theme), scroll: previewScroll)
+                            : SongPage(
+                                song: song,
+                                layout: SongLayout(song, widget.theme),
+                                theme: widget.theme,
+                                scroll: previewScroll,
+                                reader: null,
+                              ),
+                      ),
                     ),
                   ),
-                ),
+                ]),
               ),
             ),
           ]),
